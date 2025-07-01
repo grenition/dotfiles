@@ -18,3 +18,7 @@ nnoremap <Down> 10j
 nnoremap <Left> 20h
 nnoremap <Right> 20l
 
+nnoremap <M-h> 20h
+nnoremap <M-j> 10j
+nnoremap <M-k> 10k
+nnoremap <M-l> 20l
