@@ -1,7 +1,8 @@
-#!/usr/bin/env bash
+#!/bin/bash
 
-set -euo pipefail
-REPO_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+SOURCE_DIR="./home"
+TARGET_DIR="$HOME"
 
-bash "$REPO_DIR/setup/common/vim.sh"
-echo "Dotfiles setup done."
+cp -a "$SOURCE_DIR/." "$TARGET_DIR"
+
+echo "Dotfiles from '$SOURCE_DIR' copied to '$TARGET_DIR'"
