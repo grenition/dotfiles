@@ -23,6 +23,11 @@ nnoremap <M-j> 10j
 nnoremap <M-k> 10k
 nnoremap <M-l> 20l
 
+nnoremap H 20h
+nnoremap J 10j
+nnoremap K 10k
+nnoremap L 20l
+
 nnoremap d "_d
 nnoremap D "_D
 nnoremap x "_x
