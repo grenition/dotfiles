@@ -48,3 +48,9 @@ xnoremap x "_x
 xnoremap X "_X
 xnoremap c "_c
 xnoremap C "_C
+
+nnoremap <Tab> :tabn<CR>
+vnoremap <Tab> :tabn<CR>
+
+nnoremap <S-Tab> :tabp<CR>
+vnoremap <S-Tab> :tabp<CR>
