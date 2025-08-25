@@ -37,17 +37,8 @@ nnoremap C "_C
 
 vnoremap d "_d
 vnoremap D "_D
-vnoremap x "_x
-vnoremap X "_X
 vnoremap c "_c
 vnoremap C "_C
-
-xnoremap d "_d
-xnoremap D "_D
-xnoremap x "_x
-xnoremap X "_X
-xnoremap c "_c
-xnoremap C "_C
 
 nnoremap <Tab> :tabn<CR>
 vnoremap <Tab> :tabn<CR>
