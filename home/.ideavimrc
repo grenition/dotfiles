@@ -1,83 +1,14 @@
-" .ideavimrc is a configuration file for IdeaVim plugin. It uses
-"   the same commands as the original .vimrc configuration.
-" You can find a list of commands here: https://jb.gg/h38q75
-" Find more examples here: https://jb.gg/share-ideavimrc
+" shared (source of truth)
+source ~/.vimrc
 
-
-"" -- Suggested options --
-" Show a few lines of context around the cursor. Note that this makes the
-" text scroll if you mouse-click near the start or end of the window.
+" IDEA specific
 set scrolloff=5
+set ideajoin
+set ideastatusicon=keep
+set ideamarks
 
-" Do incremental searching.
-set incsearch
-
-" Don't use Ex mode, use Q for formatting.
-map Q gq
-
-" --- Enable IdeaVim plugins https://jb.gg/ideavim-plugins
-
-" Highlight copied text
 Plug 'machakann/vim-highlightedyank'
-" Commentary plugin
 Plug 'tpope/vim-commentary'
 
-
-"" -- Map IDE actions to IdeaVim -- https://jb.gg/abva4t
-"" Map \r to the Reformat Code action
-"map \r <Action>(ReformatCode)
-
-"" Map <leader>d to start debug
-"map <leader>d <Action>(Debug)
-
-"" Map \b to toggle the breakpoint on the current line
-"map \b <Action>(ToggleLineBreakpoint)
-
-
-set number
-set relativenumber
-set tabstop=4
-set shiftwidth=4
-set expandtab
-set ruler
-syntax on
-set mouse=a
-set ignorecase
-set smartcase
-set incsearch
-set selectmode=
-set keymodel=
-
-nnoremap U <C-r>
-nnoremap <Up> 10k
-nnoremap <Down> 10j
-nnoremap <Left> 20h
-nnoremap <Right> 20l
-
-nnoremap <M-h> 20h
-nnoremap <M-j> 10j
-nnoremap <M-k> 10k
-nnoremap <M-l> 20l
-
-nnoremap H 20h
-nnoremap J 10j
-nnoremap K 10k
-nnoremap L 20l
-
-nnoremap d "_d
-nnoremap D "_D
-nnoremap x "_x
-nnoremap X "_X
-nnoremap c "_c
-nnoremap C "_C
-
-vnoremap d "_d
-vnoremap D "_D
-vnoremap c "_c
-vnoremap C "_C
-
-nnoremap <Tab> :tabn<CR>
-vnoremap <Tab> :tabn<CR>
-
-nnoremap <S-Tab> :tabp<CR>
-vnoremap <S-Tab> :tabp<CR>
+nnoremap <Tab> <Action>(NextTab)
+nnoremap <S-Tab> <Action>(PreviousTab)
