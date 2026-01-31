@@ -7,8 +7,34 @@ set ideajoin
 set ideastatusicon=keep
 set ideamarks
 
-Plug 'machakann/vim-highlightedyank'
-Plug 'tpope/vim-commentary'
+" Plugins
+set highlightedyank
+set NERDTree
 
-nnoremap <Tab> <Action>(NextTab)
-nnoremap <S-Tab> <Action>(PreviousTab)
+" need to install Which-Key plugin
+set which-key
+set notimeout
+set timeoutlen=5000
+
+" Mappings
+
+map <leader>e <Action>(ActivateProjectToolWindow)
+
+" LSP
+
+map gD <Action>(GotoTypeDeclaration)
+map gd <Action>(GotoDeclaration)
+map gi <Action>(GotoImplementation)
+map gr <Action>(GotoDeclaration)
+map <leader>rn <Action>(RenameElement)
+
+map <leader>oc <Action>(ReformatCode)
+map <leader>oi <Action>(OptimizeImports)
+map <leader>oa <Action>(ReformatCode)<Action>(OptimizeImports)
+
+map <leader>k <Action>(QuickJavaDoc)
+map <leader>i <Action>(QuickImplementations)
+imap <C-s> <Action>(ParameterInfo)
+map <C-s> <Action>(ParameterInfo)
+
+map <leader>a <Action>(ShowIntentionActions)
