@@ -37,6 +37,7 @@ map <leader>ff <Action>(GotoFile)
 map <leader>fd <Action>(HelpDiagnosticTools)
 map <leader>fg <Action>(FindInPath)
 map <leader>ft <Action>(ActivateTODOToolWindow)
+map <leader>fr <Action>(RecentFiles)
 
 " Test
 map <leader>ot <Action>(GotoTest)
