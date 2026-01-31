@@ -20,6 +20,31 @@ set timeoutlen=5000
 
 map <leader>e <Action>(ActivateProjectToolWindow)
 
+map <C-h> <C-w>h
+map <C-l> <C-w>l
+map <C-j> <C-w>j
+map <C-k> <C-w>k
+
+map <leader>v <Action>(SplitVertically)
+map <leader>h <Action>(SplitHorizontally)
+
+map <leader>x <Action>(CloseContent)
+
+
+" Search
+map <FindInPath>fc <Action>(FindInPath)
+map <leader>ff <Action>(GotoFile)
+map <leader>fd <Action>(HelpDiagnosticTools)
+map <leader>fg <Action>(FindInPath)
+map <leader>ft <Action>(ActivateTODOToolWindow)
+
+" Test
+map <leader>ot <Action>(GotoTest)
+map <leader>T <Action>(RunClass)
+
+" Completion
+imap <C-space> <Action>(CodeCompletion)
+
 " LSP
 
 map gD <Action>(GotoTypeDeclaration)
@@ -38,3 +63,7 @@ imap <C-s> <Action>(ParameterInfo)
 map <C-s> <Action>(ParameterInfo)
 
 map <leader>a <Action>(ShowIntentionActions)
+
+" Outline
+
+map <leader>0 <Action>(FileStructurePopup)

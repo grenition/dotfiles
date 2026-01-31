@@ -10,6 +10,8 @@ if not vim.uv.fs_stat(lazypath) then
 end
 
 vim.opt.rtp:prepend(lazypath)
+vim.env.DOTNET_ROOT = "/usr/local/share/dotnet"
+vim.env.PATH = "/usr/local/share/dotnet:" .. vim.env.PATH
 
 local lazy_config = require "configs.lazy"
 
