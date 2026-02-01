@@ -20,13 +20,14 @@ set timeoutlen=5000
 
 map <leader>e <Action>(ActivateProjectToolWindow)
 
-map <C-h> <C-w>h
-map <C-l> <C-w>l
-map <C-j> <C-w>j
-map <C-k> <C-w>k
+map <D-h> <C-w>h
+map <D-l> <C-w>l
+map <D-j> <C-w>j
+map <D-k> <C-w>k
 
 map <leader>v <Action>(SplitVertically)
 map <leader>h <Action>(SplitHorizontally)
+map <C-h> <Action>(MoveEditorToOppositeTabGroup)
 
 map <leader>x <Action>(CloseContent)
 
@@ -38,6 +39,7 @@ map <leader>fd <Action>(HelpDiagnosticTools)
 map <leader>fg <Action>(FindInPath)
 map <leader>ft <Action>(ActivateTODOToolWindow)
 map <leader>fr <Action>(RecentFiles)
+map <leader><leader> <Action>(SearchEverywhere)
 
 " Test
 map <leader>ot <Action>(GotoTest)
@@ -48,10 +50,12 @@ imap <C-space> <Action>(CodeCompletion)
 
 " LSP
 
-map gD <Action>(GotoTypeDeclaration)
 map gd <Action>(GotoDeclaration)
-map gi <Action>(GotoImplementation)
 map gr <Action>(GotoDeclaration)
+map <D-b> <Action>(Back)
+
+map gD <Action>(GotoTypeDeclaration)
+map gi <Action>(GotoImplementation)
 map <leader>rn <Action>(RenameElement)
 
 map <leader>oc <Action>(ReformatCode)
