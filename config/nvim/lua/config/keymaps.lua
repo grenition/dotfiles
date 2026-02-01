@@ -1,206 +1,160 @@
--- Keymaps are automatically loaded on the VeryLazy event
--- Default keymaps that are always set: https://github.com/LazyVim/LazyVim/blob/main/lua/lazyvim/config/keymaps.lua
--- Add any additional keymaps here
-
--- This file is automatically loaded by lazyvim.config.init
-
--- DO NOT USE `LazyVim.safe_keymap_set` IN YOUR OWN CONFIG!!
--- use `vim.keymap.set` instead
 local map = vim.keymap.set
 
--- Move to window using the <ctrl> hjkl keys
-map("n", "<C-h>", "<C-w>h", { desc = "Go to Left Window", remap = true })
-map("n", "<C-j>", "<C-w>j", { desc = "Go to Lower Window", remap = true })
-map("n", "<C-k>", "<C-w>k", { desc = "Go to Upper Window", remap = true })
-map("n", "<C-l>", "<C-w>l", { desc = "Go to Right Window", remap = true })
+map("n", "<leader>e", "<cmd>Neotree toggle<cr>", { silent = true })
 
--- Resize window using <ctrl> arrow keys
-map("n", "<C-Up>", "<cmd>resize +2<cr>", { desc = "Increase Window Height" })
-map("n", "<C-Down>", "<cmd>resize -2<cr>", { desc = "Decrease Window Height" })
-map("n", "<C-Left>", "<cmd>vertical resize -2<cr>", { desc = "Decrease Window Width" })
-map("n", "<C-Right>", "<cmd>vertical resize +2<cr>", { desc = "Increase Window Width" })
+map("n", "<C-h>", "<C-w>h", { silent = true })
+map("n", "<C-l>", "<C-w>l", { silent = true })
+map("n", "<C-j>", "<C-w>j", { silent = true })
+map("n", "<C-k>", "<C-w>k", { silent = true })
 
--- Move Lines
-map("n", "<A-j>", "<cmd>execute 'move .+' . v:count1<cr>==", { desc = "Move Down" })
-map("n", "<A-k>", "<cmd>execute 'move .-' . (v:count1 + 1)<cr>==", { desc = "Move Up" })
-map("i", "<A-j>", "<esc><cmd>m .+1<cr>==gi", { desc = "Move Down" })
-map("i", "<A-k>", "<esc><cmd>m .-2<cr>==gi", { desc = "Move Up" })
-map("v", "<A-j>", ":<C-u>execute \"'<,'>move '>+\" . v:count1<cr>gv=gv", { desc = "Move Down" })
-map("v", "<A-k>", ":<C-u>execute \"'<,'>move '<-\" . (v:count1 + 1)<cr>gv=gv", { desc = "Move Up" })
+map("n", "<D-h>", "<C-w>h", { silent = true })
+map("n", "<D-l>", "<C-w>l", { silent = true })
+map("n", "<D-j>", "<C-w>j", { silent = true })
+map("n", "<D-k>", "<C-w>k", { silent = true })
 
--- buffers
-map("n", "<S-Tab>", "<cmd>bprevious<cr>", { desc = "Prev Buffer" })
-map("n", "<Tab>", "<cmd>bnext<cr>", { desc = "Next Buffer" })
-map("n", "<leader>x", function()
-  Snacks.bufdelete()
-end, { desc = "Delete Buffer" })
-map("n", "<leader>bq", function()
-  Snacks.bufdelete.other()
-end, { desc = "Delete Other Buffers" })
-map("n", "<leader>bD", "<cmd>:bd<cr>", { desc = "Delete Buffer and Window" })
+map("n", "<leader>v", "<C-w>v", { silent = true })
+map("n", "<leader>h", "<C-w>s", { silent = true })
+map("n", "<D-o>", "<C-w>r", { silent = true })
 
--- Clear search and stop snippet on escape
-map({ "i", "n", "s" }, "<esc>", function()
-  vim.cmd("noh")
-  LazyVim.cmp.actions.snippet_stop()
-  return "<esc>"
-end, { expr = true, desc = "Escape and Clear hlsearch" })
+map("n", "<leader>x", "<cmd>close<cr>", { silent = true })
+map("n", "<leader>w", "<cmd>w<cr>", { silent = true })
 
--- Clear search, diff update and redraw
--- taken from runtime/lua/_editor.lua
-map(
-  "n",
-  "<leader>ur",
-  "<Cmd>nohlsearch<Bar>diffupdate<Bar>normal! <C-L><CR>",
-  { desc = "Redraw / Clear hlsearch / Diff Update" }
-)
+map("n", "<leader>bp", "<cmd>BufferLineTogglePin<cr>", { silent = true })
+map("n", "<leader>bq", "<cmd>BufferLineCloseOther<cr>", { silent = true })
 
--- https://github.com/mhinz/vim-galore#saner-behavior-of-n-and-n
-map("n", "n", "'Nn'[v:searchforward].'zv'", { expr = true, desc = "Next Search Result" })
-map("x", "n", "'Nn'[v:searchforward]", { expr = true, desc = "Next Search Result" })
-map("o", "n", "'Nn'[v:searchforward]", { expr = true, desc = "Next Search Result" })
-map("n", "N", "'nN'[v:searchforward].'zv'", { expr = true, desc = "Prev Search Result" })
-map("x", "N", "'nN'[v:searchforward]", { expr = true, desc = "Prev Search Result" })
-map("o", "N", "'nN'[v:searchforward]", { expr = true, desc = "Prev Search Result" })
+map("n", "<leader>ff", "<cmd>Telescope find_files<cr>", { silent = true })
+map("n", "<leader>fd", vim.diagnostic.open_float, { silent = true })
+map("n", "<leader>fg", "<cmd>Telescope live_grep<cr>", { silent = true })
+map("n", "<leader>ft", "<cmd>TodoTelescope<cr>", { silent = true })
+map("n", "<leader>fr", "<cmd>Telescope oldfiles<cr>", { silent = true })
+map("n", "<leader><leader>", "<cmd>Telescope builtin<cr>", { silent = true })
 
--- Add undo break-points
-map("i", ",", ",<c-g>u")
-map("i", ".", ".<c-g>u")
-map("i", ";", ";<c-g>u")
+map("n", "<leader>ot", "<cmd>Neotest jump<cr>", { silent = true })
+map("n", "<leader>T", "<cmd>Neotest run file<cr>", { silent = true })
 
--- save file
-map({ "i", "x", "n", "s" }, "<C-s>", "<cmd>w<cr><esc>", { desc = "Save File" })
+map("i", "<C-Space>", "<C-x><C-o>")
+map("i", "<C-@>", "<C-x><C-o>")
 
---keywordprg
-map("n", "<leader>K", "<cmd>norm! K<cr>", { desc = "Keywordprg" })
+map("n", "gd", vim.lsp.buf.declaration, { silent = true })
+map("n", "gr", "<cmd>Telescope lsp_references<cr>", { silent = true })
+map("n", "gD", vim.lsp.buf.type_definition, { silent = true })
+map("n", "gi", vim.lsp.buf.implementation, { silent = true })
+map("n", "<BS>", "<C-o>", { silent = true })
 
--- better indenting
-map("x", "<", "<gv")
-map("x", ">", ">gv")
+map("n", "<leader>rr", vim.lsp.buf.rename, { silent = true })
 
--- commenting
-map("n", "gco", "o<esc>Vcx<esc><cmd>normal gcc<cr>fxa<bs>", { desc = "Add Comment Below" })
-map("n", "gcO", "O<esc>Vcx<esc><cmd>normal gcc<cr>fxa<bs>", { desc = "Add Comment Above" })
+map("n", "<leader>oc", function()
+  vim.lsp.buf.format({ async = true })
+end, { silent = true })
+map("n", "<leader>oi", function()
+  vim.lsp.buf.format({ async = true })
+end, { silent = true })
+map("n", "<leader>oa", function()
+  vim.lsp.buf.format({ async = true })
+end, { silent = true })
 
--- lazy
-map("n", "<leader>l", "<cmd>Lazy<cr>", { desc = "Lazy" })
+map("n", "<leader>k", vim.lsp.buf.hover, { silent = true })
+map("n", "<leader>i", vim.lsp.buf.signature_help, { silent = true })
+map("n", "<leader>u", "<cmd>Telescope lsp_references<cr>", { silent = true })
 
--- new file
-map("n", "<leader>fn", "<cmd>enew<cr>", { desc = "New File" })
+map({ "i", "n" }, "<C-s>", function()
+  vim.lsp.buf.signature_help()
+end, { silent = true })
 
--- location list
-map("n", "<leader>xl", function()
-  local success, err = pcall(vim.fn.getloclist(0, { winid = 0 }).winid ~= 0 and vim.cmd.lclose or vim.cmd.lopen)
-  if not success and err then
-    vim.notify(err, vim.log.levels.ERROR)
-  end
-end, { desc = "Location List" })
+map("n", "<leader>a", vim.lsp.buf.code_action, { silent = true })
 
--- quickfix list
-map("n", "<leader>xq", function()
-  local success, err = pcall(vim.fn.getqflist({ winid = 0 }).winid ~= 0 and vim.cmd.cclose or vim.cmd.copen)
-  if not success and err then
-    vim.notify(err, vim.log.levels.ERROR)
-  end
-end, { desc = "Quickfix List" })
+map("n", "<leader>0", "<cmd>Telescope lsp_document_symbols<cr>", { silent = true })
 
-map("n", "[q", vim.cmd.cprev, { desc = "Previous Quickfix" })
-map("n", "]q", vim.cmd.cnext, { desc = "Next Quickfix" })
+map({ "n", "x", "o" }, "й", "q")
+map({ "n", "x", "o" }, "ц", "w")
+map({ "n", "x", "o" }, "у", "e")
+map({ "n", "x", "o" }, "к", "r")
+map({ "n", "x", "o" }, "е", "t")
+map({ "n", "x", "o" }, "н", "y")
+map({ "n", "x", "o" }, "г", "u")
+map({ "n", "x", "o" }, "ш", "i")
+map({ "n", "x", "o" }, "щ", "o")
+map({ "n", "x", "o" }, "з", "p")
+map({ "n", "x", "o" }, "х", "[")
+map({ "n", "x", "o" }, "ъ", "]")
 
--- formatting
-map({ "n", "x" }, "<leader>cf", function()
-  LazyVim.format({ force = true })
-end, { desc = "Format" })
+map({ "n", "x", "o" }, "Й", "Q")
+map({ "n", "x", "o" }, "Ц", "W")
+map({ "n", "x", "o" }, "У", "E")
+map({ "n", "x", "o" }, "К", "R")
+map({ "n", "x", "o" }, "Е", "T")
+map({ "n", "x", "o" }, "Н", "Y")
+map({ "n", "x", "o" }, "Г", "U")
+map({ "n", "x", "o" }, "Ш", "I")
+map({ "n", "x", "o" }, "Щ", "O")
+map({ "n", "x", "o" }, "З", "P")
+map({ "n", "x", "o" }, "Х", "{")
+map({ "n", "x", "o" }, "Ъ", "}")
 
--- diagnostic
-local diagnostic_goto = function(next, severity)
-  return function()
-    vim.diagnostic.jump({
-      count = (next and 1 or -1) * vim.v.count1,
-      severity = severity and vim.diagnostic.severity[severity] or nil,
-      float = true,
-    })
-  end
-end
-map("n", "<leader>cd", vim.diagnostic.open_float, { desc = "Line Diagnostics" })
-map("n", "]d", diagnostic_goto(true), { desc = "Next Diagnostic" })
-map("n", "[d", diagnostic_goto(false), { desc = "Prev Diagnostic" })
-map("n", "]e", diagnostic_goto(true, "ERROR"), { desc = "Next Error" })
-map("n", "[e", diagnostic_goto(false, "ERROR"), { desc = "Prev Error" })
-map("n", "]w", diagnostic_goto(true, "WARN"), { desc = "Next Warning" })
-map("n", "[w", diagnostic_goto(false, "WARN"), { desc = "Prev Warning" })
+map({ "n", "x", "o" }, "ф", "a")
+map({ "n", "x", "o" }, "ы", "s")
+map({ "n", "x", "o" }, "в", "d")
+map({ "n", "x", "o" }, "а", "f")
+map({ "n", "x", "o" }, "п", "g")
+map({ "n", "x", "o" }, "р", "h")
+map({ "n", "x", "o" }, "о", "j")
+map({ "n", "x", "o" }, "л", "k")
+map({ "n", "x", "o" }, "д", "l")
+map({ "n", "x", "o" }, "ж", ";")
+map({ "n", "x", "o" }, "э", "'")
 
--- stylua: ignore start
+map({ "n", "x", "o" }, "Ф", "A")
+map({ "n", "x", "o" }, "Ы", "S")
+map({ "n", "x", "o" }, "В", "D")
+map({ "n", "x", "o" }, "А", "F")
+map({ "n", "x", "o" }, "П", "G")
+map({ "n", "x", "o" }, "Р", "H")
+map({ "n", "x", "o" }, "О", "J")
+map({ "n", "x", "o" }, "Л", "K")
+map({ "n", "x", "o" }, "Д", "L")
+map({ "n", "x", "o" }, "Ж", ":")
+map({ "n", "x", "o" }, "Э", '"')
 
--- toggle options
-LazyVim.format.snacks_toggle():map("<leader>uf")
-LazyVim.format.snacks_toggle(true):map("<leader>uF")
-Snacks.toggle.option("spell", { name = "Spelling" }):map("<leader>us")
-Snacks.toggle.option("wrap", { name = "Wrap" }):map("<leader>uw")
-Snacks.toggle.option("relativenumber", { name = "Relative Number" }):map("<leader>uL")
-Snacks.toggle.diagnostics():map("<leader>ud")
-Snacks.toggle.line_number():map("<leader>ul")
-Snacks.toggle.option("conceallevel", { off = 0, on = vim.o.conceallevel > 0 and vim.o.conceallevel or 2, name = "Conceal Level" }):map("<leader>uc")
-Snacks.toggle.option("showtabline", { off = 0, on = vim.o.showtabline > 0 and vim.o.showtabline or 2, name = "Tabline" }):map("<leader>uA")
-Snacks.toggle.treesitter():map("<leader>uT")
-Snacks.toggle.option("background", { off = "light", on = "dark" , name = "Dark Background" }):map("<leader>ub")
-Snacks.toggle.dim():map("<leader>uD")
-Snacks.toggle.animate():map("<leader>ua")
-Snacks.toggle.indent():map("<leader>ug")
-Snacks.toggle.scroll():map("<leader>uS")
-Snacks.toggle.profiler():map("<leader>dpp")
-Snacks.toggle.profiler_highlights():map("<leader>dph")
+map({ "n", "x", "o" }, "я", "z")
+map({ "n", "x", "o" }, "ч", "x")
+map({ "n", "x", "o" }, "с", "c")
+map({ "n", "x", "o" }, "м", "v")
+map({ "n", "x", "o" }, "и", "b")
+map({ "n", "x", "o" }, "т", "n")
+map({ "n", "x", "o" }, "ь", "m")
+map({ "n", "x", "o" }, "б", ",")
+map({ "n", "x", "o" }, "ю", ".")
 
-if vim.lsp.inlay_hint then
-  Snacks.toggle.inlay_hints():map("<leader>uh")
-end
+map({ "n", "x", "o" }, "Я", "Z")
+map({ "n", "x", "o" }, "Ч", "X")
+map({ "n", "x", "o" }, "С", "C")
+map({ "n", "x", "o" }, "М", "V")
+map({ "n", "x", "o" }, "И", "B")
+map({ "n", "x", "o" }, "Т", "N")
+map({ "n", "x", "o" }, "Ь", "M")
+map({ "n", "x", "o" }, "Б", "<")
+map({ "n", "x", "o" }, "Ю", ">")
 
--- lazygit
-if vim.fn.executable("lazygit") == 1 then
-  map("n", "<leader>gg", function() Snacks.lazygit( { cwd = LazyVim.root.git() }) end, { desc = "Lazygit (Root Dir)" })
-  map("n", "<leader>gG", function() Snacks.lazygit() end, { desc = "Lazygit (cwd)" })
-end
+-- vimrc
 
-map("n", "<leader>gL", function() Snacks.picker.git_log() end, { desc = "Git Log (cwd)" })
-map("n", "<leader>gb", function() Snacks.picker.git_log_line() end, { desc = "Git Blame Line" })
-map("n", "<leader>gf", function() Snacks.picker.git_log_file() end, { desc = "Git Current File History" })
-map("n", "<leader>gl", function() Snacks.picker.git_log({ cwd = LazyVim.root.git() }) end, { desc = "Git Log" })
-map({ "n", "x" }, "<leader>gB", function() Snacks.gitbrowse() end, { desc = "Git Browse (open)" })
-map({"n", "x" }, "<leader>gY", function()
-  Snacks.gitbrowse({ open = function(url) vim.fn.setreg("+", url) end, notify = false })
-end, { desc = "Git Browse (copy)" })
+map("n", "U", "<C-r>", { noremap = true, silent = true })
 
--- quit
-map("n", "<leader>qq", "<cmd>qa<cr>", { desc = "Quit All" })
+map("n", "<M-h>", "20h", { noremap = true, silent = true })
+map("n", "<M-j>", "10j", { noremap = true, silent = true })
+map("n", "<M-k>", "10k", { noremap = true, silent = true })
+map("n", "<M-l>", "20l", { noremap = true, silent = true })
 
--- highlights under cursor
-map("n", "<leader>ui", vim.show_pos, { desc = "Inspect Pos" })
-map("n", "<leader>uI", function() vim.treesitter.inspect_tree() vim.api.nvim_input("I") end, { desc = "Inspect Tree" })
-
--- LazyVim Changelog
-map("n", "<leader>L", function() LazyVim.news.changelog() end, { desc = "LazyVim Changelog" })
-
--- floating terminal
-map("n", "<leader>fT", function() Snacks.terminal() end, { desc = "Terminal (cwd)" })
-map("n", "<leader>ft", function() Snacks.terminal(nil, { cwd = LazyVim.root() }) end, { desc = "Terminal (Root Dir)" })
-map({"n","t"}, "<c-/>",function() Snacks.terminal(nil, { cwd = LazyVim.root() }) end, { desc = "Terminal (Root Dir)" })
-map({"n","t"}, "<c-_>",function() Snacks.terminal(nil, { cwd = LazyVim.root() }) end, { desc = "which_key_ignore" })
-
--- windows
-map("n", "<leader>-", "<C-W>s", { desc = "Split Window Below", remap = true })
-map("n", "<leader>|", "<C-W>v", { desc = "Split Window Right", remap = true })
-map("n", "<leader>wd", "<C-W>c", { desc = "Delete Window", remap = true })
-Snacks.toggle.zoom():map("<leader>wm"):map("<leader>uZ")
-Snacks.toggle.zen():map("<leader>uz")
-
--- tabs
-map("n", "<leader><tab>l", "<cmd>tablast<cr>", { desc = "Last Tab" })
-map("n", "<leader><tab>o", "<cmd>tabonly<cr>", { desc = "Close Other Tabs" })
-map("n", "<leader><tab>f", "<cmd>tabfirst<cr>", { desc = "First Tab" })
-map("n", "<leader><tab><tab>", "<cmd>tabnew<cr>", { desc = "New Tab" })
-map("n", "<leader><tab>]", "<cmd>tabnext<cr>", { desc = "Next Tab" })
-map("n", "<leader><tab>d", "<cmd>tabclose<cr>", { desc = "Close Tab" })
-map("n", "<leader><tab>[", "<cmd>tabprevious<cr>", { desc = "Previous Tab" })
-
-map("n", "<S-j>", "10j", { noremap = true, silent = true })
+map("n", "H", "20h", { noremap = true, silent = true })
+map("n", "J", "10j", { noremap = true, silent = true })
 map("n", "K", "10k", { noremap = true, silent = true })
+map("n", "L", "20l", { noremap = true, silent = true })
+
+map({ "n", "v" }, "d", '"_d', { noremap = true, silent = true })
+map({ "n", "v" }, "D", '"_D', { noremap = true, silent = true })
+map("n", "x", '"_x', { noremap = true, silent = true })
+map("n", "X", '"_X', { noremap = true, silent = true })
+map({ "n", "v" }, "c", '"_c', { noremap = true, silent = true })
+map({ "n", "v" }, "C", '"_C', { noremap = true, silent = true })
+
+map({ "n", "v" }, "<Tab>", "<cmd>tabnext<cr>", { noremap = true, silent = true })
+map({ "n", "v" }, "<S-Tab>", "<cmd>tabprevious<cr>", { noremap = true, silent = true })

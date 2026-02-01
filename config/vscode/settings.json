@@ -17,8 +17,7 @@
   "editor.rulers": [120],
   "editor.formatOnSave": false,
   "editor.formatOnPaste": false,
-  "editor.mouseWheelZoom": true,
-  "editor.minimap.enabled": false,
+"editor.mouseWheelZoom": true,
   "editor.minimap.renderCharacters": false,
   "editor.bracketPairColorization.enabled": true, "editor.guides.bracketPairs": "active",
 
@@ -27,10 +26,7 @@
 
   // diff
   "diffEditor.useInlineViewWhenSpaceIsLimited": false,
-  "diffEditor.experimental.useTrueInlineView": true,
-
-  // workbench
-  "workbench.colorTheme": "Monokai",
+"diffEditor.experimental.useTrueInlineView": true,
   "workbench.iconTheme": "vscode-icons",
   "workbench.activityBar.location": "bottom",
   "workbench.editor.highlightModifiedTabs": true,
@@ -98,17 +94,26 @@
   "vim.incsearch": true,
   "vim.ignorecase": true,
   "vim.smartcase": true,
-  "vim.statusBarColorControl": true,
+
+   "vim.normalModeKeyBindingsNonRecursive": [
+    {
+      "before": ["<BS>"],
+      "commands": ["extension.vim_ctrl+o"],
+      "silent": true
+    }
+  ], "vim.statusBarColorControl": true,
 
   // vim features
   "vim.easymotion": true,
   "vim.sneak": true,
   "vim.surround": true,
-"vim.highlightedyank.enable": true,
+  "vim.highlightedyank.enable": true,
+  "vim.scrolloff": 5,
 "extensions.experimental.affinity": {
     "asvetliakov.vscode-neovim": 1
 },
-"editor.cursorHeight": 1,
-"editor.cursorStyle": "block",
-"editor.cursorWidth": 1
+"editor.minimap.enabled": false,
+"editor.scrollbar.verticalScrollbarSize": 4,
+"editor.scrollbar.horizontalScrollbarSize": 4,
+"editor.cursorSurroundingLines": 5
 }
