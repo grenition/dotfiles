@@ -281,7 +281,7 @@
   // LSP Navigation bindings moved to settings.json
   // ==== Rider / VS-style navigation ====
   // Go to definition: Cmd + =
-{
+  {
     "key": "cmd+r cmd+r",
     "command": "editor.action.rename",
     "when": "editorTextFocus"
@@ -325,16 +325,16 @@
     "key": "cmd+p",
     "command": "workbench.action.quickTextSearch"
   },
-//   {
-//     "key": "cmd+-",
-//     "command": "extension.vim_ctrl+o",
-//     "when": "editorTextFocus && vim.active && vim.use<C-o> && !inDebugRepl"
-//   },
-//   {
-//     "key": "cmd+-",
-//     "command": "extension.vim_ctrl+o",
-//     "when": "editorTextFocus && vim.active && vim.use<C-o> && !inDebugRepl"
-//   },
+  //   {
+  //     "key": "cmd+-",
+  //     "command": "extension.vim_ctrl+o",
+  //     "when": "editorTextFocus && vim.active && vim.use<C-o> && !inDebugRepl"
+  //   },
+  //   {
+  //     "key": "cmd+-",
+  //     "command": "extension.vim_ctrl+o",
+  //     "when": "editorTextFocus && vim.active && vim.use<C-o> && !inDebugRepl"
+  //   },
   {
     "key": "cmd+k cmd+p",
     "command": "workbench.action.pinEditor",
@@ -358,20 +358,20 @@
     "command": "workbench.explorer.fileView.focus"
   },
   // Test navigation bindings moved to settings.json
-{
+  {
     "key": "cmd+=",
     "command": "editor.action.fontZoomIn"
-},
-{
+  },
+  {
     "key": "cmd+-",
     "command": "-workbench.action.zoomOut"
-},
-{
+  },
+  {
     "key": "cmd+=",
     "command": "-workbench.action.zoomIn"
-},
-{
+  },
+  {
     "key": "cmd+-",
     "command": "editor.action.fontZoomOut"
-}
+  }
 ]
