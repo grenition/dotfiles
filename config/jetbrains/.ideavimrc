@@ -20,20 +20,22 @@ set timeoutlen=5000
 
 map <leader>e <Action>(ActivateProjectToolWindow)
 
-map <D-h> <C-w>h
-map <D-l> <C-w>l
-map <D-j> <C-w>j
-map <D-k> <C-w>k
+map <C-h> <C-w>h
+map <C-l> <C-w>l
+map <C-j> <C-w>j
+map <C-k> <C-w>k
 
 map <leader>v <Action>(SplitVertically)
 map <leader>h <Action>(SplitHorizontally)
-map <C-h> <Action>(MoveEditorToOppositeTabGroup)
+map <D-o> <Action>(MoveEditorToOppositeTabGroup)
 
 map <leader>x <Action>(CloseContent)
+map <leader>w <Action>(SaveDocument)
 
 " Buffers
 
 map <leader>bp <Action>(PinActiveEditorTab)
+map <leader>bq <Action>(CloseAllEditorsButActive)
 
 " Search
 map <FindInPath>fc <Action>(FindInPath)
@@ -54,12 +56,12 @@ imap <C-space> <Action>(CodeCompletion)
 " LSP
 
 map gd <Action>(GotoDeclaration)
-map gr <Action>(GotoDeclaration)
-map <D-b> <Action>(Back)
-
+map gr <Action>(FindUsages)
 map gD <Action>(GotoTypeDeclaration)
 map gi <Action>(GotoImplementation)
-map <leader>rn <Action>(RenameElement)
+map <BS> <Action>(Back)
+
+map <leader>rr <Action>(RenameElement)
 
 map <leader>oc <Action>(ReformatCode)
 map <leader>oi <Action>(OptimizeImports)
@@ -67,6 +69,8 @@ map <leader>oa <Action>(ReformatCode)<Action>(OptimizeImports)
 
 map <leader>k <Action>(QuickJavaDoc)
 map <leader>i <Action>(QuickImplementations)
+map <leader>u <Action>(ShowUsages)
+
 imap <C-s> <Action>(ParameterInfo)
 map <C-s> <Action>(ParameterInfo)
 
