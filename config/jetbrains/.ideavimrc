@@ -31,6 +31,9 @@ map <C-h> <Action>(MoveEditorToOppositeTabGroup)
 
 map <leader>x <Action>(CloseContent)
 
+" Buffers
+
+map <leader>bp <Action>(PinActiveEditorTab)
 
 " Search
 map <FindInPath>fc <Action>(FindInPath)

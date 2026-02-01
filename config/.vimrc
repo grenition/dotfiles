@@ -16,10 +16,6 @@ set selectmode=
 set keymodel=
 
 nnoremap U <C-r>
-nnoremap <Up> 10k
-nnoremap <Down> 10j
-nnoremap <Left> 20h
-nnoremap <Right> 20l
 
 nnoremap <M-h> 20h
 nnoremap <M-j> 10j
