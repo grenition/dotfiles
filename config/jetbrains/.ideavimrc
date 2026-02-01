@@ -25,6 +25,11 @@ map <C-l> <C-w>l
 map <C-j> <C-w>j
 map <C-k> <C-w>k
 
+map <D-h> <C-w>h
+map <D-l> <C-w>l
+map <D-j> <C-w>j
+map <D-k> <C-w>k
+
 map <leader>v <Action>(SplitVertically)
 map <leader>h <Action>(SplitHorizontally)
 map <D-o> <Action>(MoveEditorToOppositeTabGroup)
