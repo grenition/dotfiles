@@ -107,5 +107,8 @@
 "vim.highlightedyank.enable": true,
 "extensions.experimental.affinity": {
     "asvetliakov.vscode-neovim": 1
-}
+},
+"editor.cursorHeight": 1,
+"editor.cursorStyle": "block",
+"editor.cursorWidth": 1
 }
