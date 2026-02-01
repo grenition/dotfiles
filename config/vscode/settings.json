@@ -95,13 +95,180 @@
   "vim.ignorecase": true,
   "vim.smartcase": true,
 
-   "vim.normalModeKeyBindingsNonRecursive": [
+  "vim.normalModeKeyBindingsNonRecursive": [
     {
       "before": ["<BS>"],
       "commands": ["extension.vim_ctrl+o"],
       "silent": true
+    },
+    // Buffer navigation
+    {
+      "before": ["<Tab>"],
+      "commands": [{"command": "workbench.action.nextEditorInGroup"}]
+    },
+    {
+      "before": ["<S-Tab>"],
+      "commands": [{"command": "workbench.action.previousEditorInGroup"}]
+    },
+    // Save and format
+    {
+      "before": ["<leader>", "w"],
+      "commands": [{"command": "workbench.action.files.save"}]
+    },
+    {
+      "before": ["<leader>", "o", "i"],
+      "commands": [{"command": "editor.action.organizeImports"}]
+    },
+    {
+      "before": ["<leader>", "o", "a"],
+      "commands": [
+        {"command": "editor.action.formatDocument"},
+        {"command": "editor.action.organizeImports"}
+      ]
+    },
+    {
+      "before": ["<leader>", "o", "c"],
+      "commands": [{"command": "editor.action.formatDocument"}]
+    },
+    // Redo
+    {
+      "before": ["U"],
+      "commands": [{"command": "redo"}]
+    },
+    // Split windows
+    {
+      "before": ["<leader>", "v"],
+      "commands": [{"command": "workbench.action.splitEditorRight"}]
+    },
+    {
+      "before": ["<leader>", "h"],
+      "commands": [{"command": "workbench.action.splitEditorDown"}]
+    },
+    // File explorer
+    {
+      "before": ["<leader>", "e"],
+      "commands": [{"command": "workbench.files.action.focusFilesExplorer"}]
+    },
+    // Quick fix
+    {
+      "before": ["<leader>", "a"],
+      "commands": [{"command": "editor.action.quickFix"}]
+    },
+    // Hover
+    {
+      "before": ["<leader>", "k"],
+      "commands": [{"command": "editor.action.showHover"}]
+    },
+    // Navigate back
+    {
+      "before": ["<C-b>"],
+      "commands": [{"command": "workbench.action.navigateBack"}]
+    },
+    // Rename
+    {
+      "before": ["<leader>", "r", "r"],
+      "commands": [{"command": "editor.action.rename"}]
+    },
+    {
+      "before": ["<leader>", "r", "n"],
+      "commands": [{"command": "editor.action.rename"}]
+    },
+    // File structure
+    {
+      "before": ["<leader>", "0"],
+      "commands": [{"command": "workbench.action.gotoSymbol"}]
+    },
+    // Close
+    {
+      "before": ["<leader>", "x"],
+      "commands": [{"command": "workbench.action.closeActivePinnedEditor"}]
+    },
+    // Buffer management
+    {
+      "before": ["<leader>", "b", "p"],
+      "commands": [{"command": "workbench.action.pinEditor"}]
+    },
+    {
+      "before": ["<leader>", "b", "u"],
+      "commands": [{"command": "workbench.action.unpinEditor"}]
+    },
+    {
+      "before": ["<leader>", "b", "q"],
+      "commands": [{"command": "workbench.action.closeOtherEditors"}]
+    },
+    // Search
+    {
+      "before": ["<leader>", "f", "f"],
+      "commands": [{"command": "workbench.action.quickOpen"}]
+    },
+    {
+      "before": ["<leader>", "f", "g"],
+      "commands": [{"command": "workbench.action.findInFiles"}]
+    },
+    {
+      "before": ["<leader>", "f", "t"],
+      "commands": [{"command": "workbench.action.showCommands"}]
+    },
+    {
+      "before": ["<leader>", "f", "r"],
+      "commands": [{"command": "workbench.action.openRecent"}]
+    },
+    {
+      "before": ["<leader>", "<leader>"],
+      "commands": [{"command": "workbench.action.quickTextSearch"}]
+    },
+    // LSP Navigation
+    {
+      "before": ["g", "d"],
+      "commands": [{"command": "editor.action.revealDefinition"}]
+    },
+    {
+      "before": ["g", "r"],
+      "commands": [{"command": "references-view.find"}]
+    },
+    {
+      "before": ["g", "D"],
+      "commands": [{"command": "editor.action.revealDeclaration"}]
+    },
+    {
+      "before": ["g", "i"],
+      "commands": [{"command": "editor.action.goToImplementation"}]
+    },
+    {
+      "before": ["<leader>", "u"],
+      "commands": [{"command": "references-view.find"}]
+    },
+    {
+      "before": ["<leader>", "i"],
+      "commands": [{"command": "editor.action.goToImplementation"}]
+    },
+    // Test navigation
+    {
+      "before": ["<leader>", "o", "t"],
+      "commands": [{"command": "workbench.action.gotoSymbol"}]
+    },
+    {
+      "before": ["<leader>", "T"],
+      "commands": [{"command": "workbench.action.debug.run"}]
     }
-  ], "vim.statusBarColorControl": true,
+  ],
+  "vim.visualModeKeyBindingsNonRecursive": [
+    {
+      "before": ["<Tab>"],
+      "commands": [{"command": "workbench.action.nextEditorInGroup"}]
+    },
+    {
+      "before": ["<S-Tab>"],
+      "commands": [{"command": "workbench.action.previousEditorInGroup"}]
+    }
+  ],
+  "vim.insertModeKeyBindings": [
+    {
+      "before": ["<C-s>"],
+      "commands": [{"command": "editor.action.triggerParameterHints"}]
+    }
+  ],
+  "vim.statusBarColorControl": true,
 
   // vim features
   "vim.easymotion": true,

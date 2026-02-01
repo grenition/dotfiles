@@ -82,22 +82,7 @@
     "command": "workbench.action.navigateUp",
     "when": "vim.mode == 'Normal' && (editorTextFocus || !inputFocus)"
   },
-  // buffers navigation
-    // {
-    //   "key": "space ,",
-    //   "command": "workbench.action.showAllEditors",
-    //   "when": "vim.mode == 'Normal' && (editorTextFocus || !inputFocus)"
-    // },
-  {
-    "key": "tab",
-    "command": "workbench.action.nextEditorInGroup",
-    "when": "(vim.mode == 'Normal' || vim.mode == 'Visual') && (editorTextFocus || !inputFocus)"
-  },
-  {
-    "key": "shift-tab",
-    "command": "workbench.action.previousEditorInGroup",
-    "when": "(vim.mode == 'Normal' || vim.mode == 'Visual') && (editorTextFocus || !inputFocus)"
-  },
+  // buffers navigation (vim bindings moved to settings.json)
   //sidebar
   //   {
   //     "key": "cmd+shift+e",
@@ -126,141 +111,16 @@
     "when": "editorTextFocus && suggestWidgetVisible"
   },
   {
-    "key": "space w",
-    "command": "workbench.action.files.save",
-    "when": "vim.mode == 'Normal' && editorTextFocus"
-  },
-    {
-      "key": "space o i",
-      "command": "editor.action.organizeImports",
-      "when": "vim.mode == 'Normal' && editorTextFocus"
-    },
-    {
-      "key": "space o a",
-      "command": "runCommands",
-      "when": "vim.mode == 'Normal' && editorTextFocus",
-      "args": {
-        "commands": [
-          "editor.action.formatDocument",
-          "editor.action.organizeImports"
-        ]
-      }
-    },
-  {
-    "key": "shift+u",
-    "command": "redo",
-    "when": "vim.mode == 'Normal' && editorTextFocus"
-  },
-  {
-    "key": "space v",
-    "command": "workbench.action.splitEditorRight",
-    "when": "vim.mode == 'Normal' && editorTextFocus"
-  },
-  {
-    "key": "space e",
-    "command": "workbench.files.action.focusFilesExplorer",
-    "when": "vim.mode == 'Normal' && editorTextFocus"
-  },
-  {
-    "key": "space h",
-    "command": "workbench.action.splitEditorDown",
-    "when": "vim.mode == 'Normal' && editorTextFocus"
-  },
-  {
     "key": "cmd-o",
     "command": "workbench.action.moveEditorToOppositeGroup",
     "when": "editorTextFocus"
   },
   {
-    "key": "space a",
-    "command": "editor.action.quickFix",
-    "when": "vim.mode == 'Normal' && editorTextFocus"
+    "key": "cmd-0",
+    "command": "workbench.action.gotoSymbol",
+    "when": "editorTextFocus"
   },
-  {
-    "key": "space o c",
-    "command": "editor.action.formatDocument",
-    "when": "vim.mode == 'Normal' && editorTextFocus"
-  },
-    {
-      "key": "space k",
-      "command": "editor.action.showHover",
-      "when": "vim.mode == 'Normal' && editorTextFocus"
-    },
-    {
-      "key": "cmd-b",
-      "command": "workbench.action.navigateBack",
-      "when": "vim.mode == 'Normal' && editorTextFocus"
-    },
-    {
-      "key": "space r r",
-      "command": "editor.action.rename",
-      "when": "vim.mode == 'Normal' && editorTextFocus"
-    },
-    {
-      "key": "space r n",
-      "command": "editor.action.rename",
-      "when": "vim.mode == 'Normal' && editorTextFocus"
-    },
-    {
-      "key": "cmd-0",
-      "command": "workbench.action.gotoSymbol",
-      "when": "vim.mode == 'Normal' && editorTextFocus"
-    },
-    {
-      "key": "space 0",
-      "command": "workbench.action.gotoSymbol",
-      "when": "vim.mode == 'Normal' && editorTextFocus"
-    },
-    {
-      "key": "space x",
-      "command": "workbench.action.closeActivePinnedEditor",
-      "when": "vim.mode == 'Normal' && editorTextFocus"
-    },
-    {
-      "key": "space b p",
-      "command": "workbench.action.pinEditor",
-      "when": "vim.mode == 'Normal' && editorTextFocus"
-    },
-    {
-      "key": "space b u",
-      "command": "workbench.action.unpinEditor",
-      "when": "vim.mode == 'Normal' && editorTextFocus"
-    },
-    {
-      "key": "space b q",
-      "command": "workbench.action.closeOtherEditors",
-      "when": "vim.mode == 'Normal' && editorTextFocus"
-    },
-  //   {
-  //     "key": "space b k",
-  //     "command": "workbench.action.keepEditor",
-  //     "when": "vim.mode == 'Normal' && editorTextFocus"
-  //   },
-    {
-      "key": "space f f",
-      "command": "workbench.action.quickOpen",
-      "when": "vim.mode == 'Normal' && (editorTextFocus || !inputFocus)"
-    },
-    {
-      "key": "space f g",
-      "command": "workbench.action.findInFiles",
-      "when": "vim.mode == 'Normal' && (editorTextFocus || !inputFocus)"
-    },
-    {
-      "key": "space f t",
-      "command": "workbench.action.showCommands",
-      "when": "vim.mode == 'Normal' && (editorTextFocus || !inputFocus)"
-    },
-    {
-      "key": "space f r",
-      "command": "workbench.action.openRecent",
-      "when": "vim.mode == 'Normal' && (editorTextFocus || !inputFocus)"
-    },
-    {
-      "key": "space space",
-      "command": "workbench.action.quickTextSearch",
-      "when": "(vim.mode == 'Normal' && (editorTextFocus || !inputFocus)"
-    },
+  // vim-specific bindings moved to settings.json
   //   {
   //     "key": "space /",
   //     "command": "workbench.action.showCommands",
@@ -314,7 +174,7 @@
   {
     "key": "cmd-n",
     "command": "editor.action.addSelectionToNextFindMatch",
-    "when": "(vim.mode == 'Normal' || vim.mode == 'Visual') && (editorTextFocus || !inputFocus)"
+    "when": "editorTextFocus"
   },
   {
     "key": "cmd+alt+k",
@@ -418,47 +278,7 @@
   //     "command": "rest-client.request",
   //     "when": "vim.mode == 'Normal' && editorTextFocus"
   //   },
-  // ==== LSP Navigation (JetBrains-style) ====
-  {
-    "key": "gd",
-    "command": "editor.action.revealDefinition",
-    "when": "vim.mode == 'Normal' && editorTextFocus"
-  },
-  {
-    "key": "gr",
-    "command": "references-view.find",
-    "when": "vim.mode == 'Normal' && editorTextFocus"
-  },
-  {
-    "key": "gD",
-    "command": "editor.action.revealDeclaration",
-    "when": "vim.mode == 'Normal' && editorTextFocus"
-  },
-  {
-    "key": "gi",
-    "command": "editor.action.goToImplementation",
-    "when": "vim.mode == 'Normal' && editorTextFocus"
-  },
-//   {
-//     "key": "backspace",
-//     "command": "extension.vim_ctrl+o",
-//     "when": "vim.mode != 'Insert' && editorTextFocus && vim.active && vim.use<C-o> && !inDebugRepl"
-//   },
-  {
-    "key": "space u",
-    "command": "references-view.find",
-    "when": "vim.mode == 'Normal' && editorTextFocus"
-  },
-  {
-    "key": "space i",
-    "command": "editor.action.goToImplementation",
-    "when": "vim.mode == 'Normal' && editorTextFocus"
-  },
-  {
-    "key": "ctrl-s",
-    "command": "editor.action.triggerParameterHints",
-    "when": "editorTextFocus"
-  },
+  // LSP Navigation bindings moved to settings.json
   // ==== Rider / VS-style navigation ====
   // Go to definition: Cmd + =
 {
@@ -537,17 +357,7 @@
     "key": "cmd+1",
     "command": "workbench.explorer.fileView.focus"
   },
-  // Test navigation
-  {
-    "key": "space o t",
-    "command": "workbench.action.gotoSymbol",
-    "when": "vim.mode == 'Normal' && editorTextFocus"
-  },
-  {
-    "key": "space shift+t",
-    "command": "workbench.action.debug.run",
-    "when": "vim.mode == 'Normal' && editorTextFocus"
-},
+  // Test navigation bindings moved to settings.json
 {
     "key": "cmd+=",
     "command": "editor.action.fontZoomIn"
