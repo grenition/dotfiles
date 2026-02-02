@@ -17,6 +17,11 @@ set keymodel=
 
 nnoremap U <C-r>
 
+map <C-h> <C-w>h
+map <C-l> <C-w>l
+map <C-j> <C-w>j
+map <C-k> <C-w>k
+
 nnoremap <M-h> 20h
 nnoremap <M-j> 10j
 nnoremap <M-k> 10k

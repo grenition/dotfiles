@@ -20,11 +20,6 @@ set timeoutlen=5000
 
 map <leader>e <Action>(ActivateProjectToolWindow)
 
-map <C-h> <C-w>h
-map <C-l> <C-w>l
-map <C-j> <C-w>j
-map <C-k> <C-w>k
-
 map <D-h> <C-w>h
 map <D-l> <C-w>l
 map <D-j> <C-w>j
