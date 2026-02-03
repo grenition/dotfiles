@@ -25,8 +25,8 @@ map <D-l> <C-w>l
 map <D-j> <C-w>j
 map <D-k> <C-w>k
 
-map <leader>v <Action>(SplitVertically)
-map <leader>h <Action>(SplitHorizontally)
+map <leader>v <Action>(MoveTabRight)
+map <leader>h <Action>(MoveTabDown)
 map <D-o> <Action>(MoveEditorToOppositeTabGroup)
 
 map <leader>x <Action>(CloseContent)
@@ -36,6 +36,7 @@ map <leader>w <Action>(SaveDocument)
 
 map <leader>bp <Action>(PinActiveEditorTab)
 map <leader>bq <Action>(CloseAllEditorsButActive)
+map <leader>ba <Action>(CloseAllUnpinnedEditors)
 
 " Search
 map <FindInPath>fc <Action>(FindInPath)
@@ -48,7 +49,7 @@ map <leader><leader> <Action>(SearchEverywhere)
 
 " Test
 map <leader>ot <Action>(GotoTest)
-map <leader>T <Action>(RunClass)
+map <leader>T <Action>(RiderUnitTestRunContextAction)
 
 " Completion
 imap <C-space> <Action>(CodeCompletion)
@@ -59,6 +60,7 @@ map gd <Action>(GotoDeclaration)
 map gr <Action>(FindUsages)
 map gD <Action>(GotoTypeDeclaration)
 map gi <Action>(GotoImplementation)
+map gp <Action>(SelectInProjectView)
 map <BS> <Action>(Back)
 
 map <leader>rr <Action>(RenameElement)
@@ -75,6 +77,10 @@ imap <C-s> <Action>(ParameterInfo)
 map <C-s> <Action>(ParameterInfo)
 
 map <leader>a <Action>(ShowIntentionActions)
+
+" UI
+map <leader>uH <Action>(ShowAllInSolutionExplorer)
+map <leader>ut <Action>(VimFindActionIdAction)
 
 " Outline
 

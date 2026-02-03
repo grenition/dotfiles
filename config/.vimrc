@@ -22,6 +22,12 @@ map <C-l> <C-w>l
 map <C-j> <C-w>j
 map <C-k> <C-w>k
 
+map <C-=> <C-w>=
+map <C-+> <C-w>+
+map <C--> <C-w>-
+map <C->> <C-w>>
+map <C-<> <C-w><
+
 nnoremap <M-h> 20h
 nnoremap <M-j> 10j
 nnoremap <M-k> 10k
