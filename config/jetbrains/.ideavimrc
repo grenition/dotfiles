@@ -19,6 +19,7 @@ set timeoutlen=5000
 " Mappings
 
 map <leader>e <Action>(ActivateProjectToolWindow)
+map <leader>t <Action>(ActivateTerminalToolWindow)
 
 map <D-h> <C-w>h
 map <D-l> <C-w>l
@@ -31,6 +32,8 @@ map <D-o> <Action>(MoveEditorToOppositeTabGroup)
 
 map <leader>x <Action>(CloseContent)
 map <leader>w <Action>(SaveDocument)
+
+map q <C-^>
 
 " Buffers
 
@@ -61,6 +64,7 @@ map gr <Action>(FindUsages)
 map gD <Action>(GotoTypeDeclaration)
 map gi <Action>(GotoImplementation)
 map gp <Action>(SelectInProjectView)
+map gg <Action>(VcsGroups)
 map <BS> <Action>(Back)
 
 map <leader>rr <Action>(RenameElement)
@@ -79,8 +83,8 @@ map <C-s> <Action>(ParameterInfo)
 map <leader>a <Action>(ShowIntentionActions)
 
 " UI
-map <leader>uH <Action>(ShowAllInSolutionExplorer)
-map <leader>ut <Action>(VimFindActionIdAction)
+map <leader>nH <Action>(ShowAllInSolutionExplorer)
+map <leader>nt <Action>(VimFindActionIdAction)
 
 " Outline
 

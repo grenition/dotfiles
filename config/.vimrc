@@ -28,15 +28,15 @@ map <C--> <C-w>-
 map <C->> <C-w>>
 map <C-<> <C-w><
 
-nnoremap <M-h> 20h
-nnoremap <M-j> 10j
-nnoremap <M-k> 10k
-nnoremap <M-l> 20l
-
 nnoremap H 20h
 nnoremap J 10j
 nnoremap K 10k
 nnoremap L 20l
+
+vnoremap H 20h
+vnoremap J 10j
+vnoremap K 10k
+vnoremap L 20l
 
 nnoremap d "_d
 nnoremap D "_D
