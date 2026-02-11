@@ -20,15 +20,11 @@ set timeoutlen=5000
 
 map <leader>e <Action>(ActivateProjectToolWindow)
 map <leader>t <Action>(ActivateTerminalToolWindow)
-
-map <D-h> <C-w>h
-map <D-l> <C-w>l
-map <D-j> <C-w>j
-map <D-k> <C-w>k
+map <leader>gg <Action>(CheckinProject)
 
 map <leader>v <Action>(MoveTabRight)
 map <leader>h <Action>(MoveTabDown)
-map <D-o> <Action>(MoveEditorToOppositeTabGroup)
+map <C-o> <Action>(MoveEditorToOppositeTabGroup)
 
 map <leader>x <Action>(CloseContent)
 map <leader>w <Action>(SaveDocument)
@@ -64,7 +60,6 @@ map gr <Action>(FindUsages)
 map gD <Action>(GotoTypeDeclaration)
 map gi <Action>(GotoImplementation)
 map gp <Action>(SelectInProjectView)
-map gg <Action>(VcsGroups)
 map <BS> <Action>(Back)
 
 map <leader>rr <Action>(RenameElement)
