@@ -29,8 +29,6 @@ map <C-o> <Action>(MoveEditorToOppositeTabGroup)
 map <leader>x <Action>(CloseContent)
 map <leader>w <Action>(SaveDocument)
 
-map q <C-^>
-
 " Buffers
 
 map <leader>bp <Action>(PinActiveEditorTab)
@@ -44,7 +42,7 @@ map <leader>fd <Action>(HelpDiagnosticTools)
 map <leader>fg <Action>(FindInPath)
 map <leader>ft <Action>(ActivateTODOToolWindow)
 map <leader>fr <Action>(RecentFiles)
-map <leader><leader> <Action>(SearchEverywhere)
+map <leader><leader> <Action>(RecentFiles)
 
 " Test
 map <leader>ot <Action>(GotoTest)
@@ -61,6 +59,7 @@ map gD <Action>(GotoTypeDeclaration)
 map gi <Action>(GotoImplementation)
 map gp <Action>(SelectInProjectView)
 map <BS> <Action>(Back)
+map <S-BS> <Action>(Forward)
 
 map <leader>rr <Action>(RenameElement)
 
@@ -84,3 +83,5 @@ map <leader>nt <Action>(VimFindActionIdAction)
 " Outline
 
 map <leader>0 <Action>(FileStructurePopup)
+map <M-k> <Action>(FileStructurePopup)
+map <M-j> <Action>(FileStructurePopup)
