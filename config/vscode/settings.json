@@ -104,5 +104,8 @@
 "vim.highlightedyank.enable": true,
 "extensions.experimental.affinity": {
     "asvetliakov.vscode-neovim": 1
-}
+},
+"workbench.colorTheme": "Visual Studio Light",
+"window.autoDetectColorScheme": true,
+"makefile.configureOnOpen": false
 }

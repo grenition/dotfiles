@@ -20,6 +20,7 @@ set timeoutlen=5000
 
 map <leader>e <Action>(ActivateProjectToolWindow)
 map <leader>t <Action>(ActivateTerminalToolWindow)
+map <leader>d <Action>(ActivateDatabaseToolWindow)
 map <leader>gg <Action>(CheckinProject)
 
 map <leader>v <Action>(MoveTabRight)
@@ -58,6 +59,7 @@ map gr <Action>(FindUsages)
 map gD <Action>(GotoTypeDeclaration)
 map gi <Action>(GotoImplementation)
 map gp <Action>(SelectInProjectView)
+map gu <Action>(ShowUsages)
 map <BS> <Action>(Back)
 map <S-BS> <Action>(Forward)
 
@@ -66,6 +68,7 @@ map <leader>rr <Action>(RenameElement)
 map <leader>oc <Action>(ReformatCode)
 map <leader>oi <Action>(OptimizeImports)
 map <leader>oa <Action>(ReformatCode)<Action>(OptimizeImports)
+map <leader>oe <Action>(Nestor.FloatingMenuEditCodeAction)
 
 map <leader>k <Action>(QuickJavaDoc)
 map <leader>i <Action>(QuickImplementations)
