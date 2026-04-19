@@ -107,5 +107,7 @@
 },
 "workbench.colorTheme": "Visual Studio Light",
 "window.autoDetectColorScheme": true,
-"makefile.configureOnOpen": false
+"makefile.configureOnOpen": false,
+"update.mode": "none",
+"extensions.autoUpdate": false
 }
