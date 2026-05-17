@@ -61,3 +61,5 @@ vnoremap <Tab> :tabn<CR>
 nnoremap <S-Tab> :tabp<CR>
 vnoremap <S-Tab> :tabp<CR>
 
+autocmd FileType make setlocal noexpandtab
+autocmd BufRead,BufNewFile Makefile,makefile,*.mk setlocal noexpandtab
