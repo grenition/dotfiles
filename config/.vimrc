@@ -50,6 +50,9 @@ nnoremap X "_X
 nnoremap c "_c
 nnoremap C "_C
 
+xnoremap p "_dP
+xnoremap P "_dP
+
 vnoremap d "_d
 vnoremap D "_D
 vnoremap c "_c
