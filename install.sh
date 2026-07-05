@@ -7,6 +7,7 @@ SRC="$REPO_DIR/config"
 mkdir -p "$HOME/.config"
 
 ln -sfn "$SRC/.vimrc" "$HOME/.vimrc"
+ln -sfn "$SRC/tmux/tmux.conf" "$HOME/.tmux.conf"
 ln -sfn "$SRC/jetbrains/.ideavimrc" "$HOME/.ideavimrc"
 ln -sfn "$SRC/nvim" "$HOME/.config/nvim"
 
