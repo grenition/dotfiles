@@ -38,6 +38,9 @@ vnoremap J 10j
 vnoremap K 10k
 vnoremap L 20l
 
+xnoremap < <gv
+xnoremap > >gv
+
 nnoremap dH 20dh
 nnoremap dJ 10dj
 nnoremap dK 10dk
@@ -49,6 +52,9 @@ nnoremap x "_x
 nnoremap X "_X
 nnoremap c "_c
 nnoremap C "_C
+
+xnoremap p "_dP
+xnoremap P "_dP
 
 vnoremap d "_d
 vnoremap D "_D
