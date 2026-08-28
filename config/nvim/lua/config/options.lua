@@ -4,6 +4,16 @@
 
 vim.opt.scrolloff = 5
 
+-- Let the terminal own the palette. With true color disabled, Neovim uses the
+-- terminal's ANSI colors instead of rendering a separate GUI colorscheme.
+vim.opt.termguicolors = false
+vim.opt.winblend = 0
+vim.opt.pumblend = 0
+
+-- Keep every movement and UI transition immediate.
+vim.opt.smoothscroll = false
+vim.g.snacks_animate = false
+
 -- IDEA-only options removed:
 -- ideajoin, ideastatusicon, ideamarks, highlightedyank, NERDTree, which-key
 -- timeout behavior (у тебя было set notimeout + timeoutlen=5000)
