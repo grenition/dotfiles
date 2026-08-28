@@ -23,6 +23,7 @@
 | New window | `M-t` | `M-е` |
 | Close window | `M-w` | `M-ц` |
 | Popup shell | `M-p` | `M-з` |
+| Enter copy mode | `M-v` | `M-м` |
 | Select pane left/down/up/right | `M-h/j/k/l` | `M-р/о/л/д` |
 
 ## Window closing
