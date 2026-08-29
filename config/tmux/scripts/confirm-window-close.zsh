@@ -11,7 +11,7 @@ if [[ -z "$window_id" ]]; then
 fi
 
 case "$response" in
-  y|н)
+  y)
     tmux kill-window -t "$window_id"
     ;;
 esac

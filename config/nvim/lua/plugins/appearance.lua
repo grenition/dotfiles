@@ -1,8 +1,16 @@
-local function picker_keys(modes)
+local function picker_keys(modes, escape_action)
   return {
-    ["<Esc>"] = { "rider_focus_editor", mode = modes },
+    ["<Esc>"] = { escape_action, mode = modes },
     ["<C-Esc>"] = { "rider_close_tool", mode = modes },
     ["<C-S-Esc>"] = { "rider_close_all_tools", mode = modes },
+  }
+end
+
+local function picker_windows(escape_action)
+  return {
+    input = { keys = picker_keys({ "i", "n" }, escape_action) },
+    list = { keys = picker_keys({ "n", "x" }, escape_action) },
+    preview = { keys = picker_keys({ "n", "x" }, escape_action) },
   }
 end
 
@@ -42,10 +50,11 @@ return {
             end)
           end,
         },
-        win = {
-          input = { keys = picker_keys({ "i", "n" }) },
-          list = { keys = picker_keys({ "n", "x" }) },
-          preview = { keys = picker_keys({ "n", "x" }) },
+        win = picker_windows("rider_close_tool"),
+        sources = {
+          explorer = {
+            win = picker_windows("rider_focus_editor"),
+          },
         },
       },
     },

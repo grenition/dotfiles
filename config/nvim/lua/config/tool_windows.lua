@@ -2,6 +2,11 @@ local M = {}
 
 local state = {}
 
+local persistent_tool_filetypes = {
+  ["neo-tree"] = true,
+  netrw = true,
+}
+
 local tool_filetypes = {
   ["neo-tree"] = true,
   netrw = true,
@@ -18,6 +23,36 @@ local function valid_window(win)
   return win and vim.api.nvim_win_is_valid(win)
 end
 
+local function picker_for_window(win)
+  if not valid_window(win) or not Snacks or not Snacks.picker then
+    return
+  end
+
+  local ok, pickers = pcall(Snacks.picker.get)
+  if not ok then
+    return
+  end
+
+  for _, picker in ipairs(pickers) do
+    local windows = {
+      picker.input and picker.input.win,
+      picker.list and picker.list.win,
+      picker.preview and picker.preview.win,
+      picker.layout and picker.layout.root,
+    }
+    if picker.layout then
+      vim.list_extend(windows, vim.tbl_values(picker.layout.wins or {}))
+      vim.list_extend(windows, picker.layout.box_wins or {})
+    end
+
+    for _, candidate in ipairs(windows) do
+      if candidate and candidate.win == win then
+        return picker
+      end
+    end
+  end
+end
+
 function M.is_editor(win)
   if not valid_window(win) or vim.api.nvim_win_get_config(win).relative ~= "" then
     return false
@@ -26,6 +61,34 @@ function M.is_editor(win)
   local buf = vim.api.nvim_win_get_buf(win)
   local filetype = vim.bo[buf].filetype
   return vim.bo[buf].buftype == "" and not tool_filetypes[filetype] and not filetype:match("^snacks_")
+end
+
+local function tool_kind(win)
+  if M.is_editor(win) then
+    return "editor"
+  end
+
+  local picker = picker_for_window(win)
+  if picker then
+    return picker.opts.source == "explorer" and "persistent" or "transient"
+  end
+
+  if not valid_window(win) then
+    return
+  end
+
+  local buf = vim.api.nvim_win_get_buf(win)
+  local filetype = vim.bo[buf].filetype
+  if persistent_tool_filetypes[filetype] then
+    return "persistent"
+  end
+
+  if vim.bo[buf].buftype == "terminal" then
+    local terminal = vim.b[buf].snacks_terminal
+    return type(terminal) == "table" and terminal.cmd ~= nil and "transient" or "persistent"
+  end
+
+  return "transient"
 end
 
 local function track(win)
@@ -70,6 +133,42 @@ local function last_tool_window(tab)
   end
 end
 
+local function last_transient_window(tab)
+  local tools = tab_state(tab).tools
+  for index = #tools, 1, -1 do
+    local win = tools[index]
+    if valid_window(win) and tool_kind(win) == "transient" then
+      return win
+    end
+    if not valid_window(win) then
+      table.remove(tools, index)
+    end
+  end
+end
+
+local function close_window(win)
+  local picker = picker_for_window(win)
+  if picker then
+    picker:close()
+    return true
+  end
+
+  local buf = valid_window(win) and vim.api.nvim_win_get_buf(win) or nil
+  if buf and vim.bo[buf].buftype == "terminal" then
+    local terminal = vim.b[buf].snacks_terminal
+    if type(terminal) == "table" and terminal.cmd ~= nil and Snacks and Snacks.terminal then
+      for _, candidate in ipairs(Snacks.terminal.list()) do
+        if candidate.buf == buf then
+          candidate:close()
+          return true
+        end
+      end
+    end
+  end
+
+  return pcall(vim.api.nvim_win_close, win, false)
+end
+
 function M.focus_editor()
   local current = vim.api.nvim_get_current_win()
   if M.is_editor(current) then
@@ -94,7 +193,22 @@ function M.close_tool_window()
   end
 
   pcall(vim.cmd.stopinsert)
-  local closed = pcall(vim.api.nvim_win_close, target, false)
+  local closed = close_window(target)
+  M.focus_editor()
+  return closed
+end
+
+function M.close_transient_window()
+  local tab = vim.api.nvim_get_current_tabpage()
+  local current = vim.api.nvim_get_current_win()
+  local target = tool_kind(current) == "transient" and current or last_transient_window(tab)
+
+  if not target then
+    return false
+  end
+
+  pcall(vim.cmd.stopinsert)
+  local closed = close_window(target)
   M.focus_editor()
   return closed
 end
@@ -110,7 +224,7 @@ function M.close_all_tool_windows()
   vim.api.nvim_set_current_win(editor)
   for _, win in ipairs(vim.api.nvim_tabpage_list_wins(tab)) do
     if valid_window(win) and not M.is_editor(win) then
-      pcall(vim.api.nvim_win_close, win, false)
+      pcall(close_window, win)
     end
   end
   return true
@@ -118,7 +232,12 @@ end
 
 local function escape()
   vim.schedule(function()
-    M.focus_editor()
+    local current = vim.api.nvim_get_current_win()
+    if tool_kind(current) == "persistent" then
+      M.focus_editor()
+    else
+      M.close_transient_window()
+    end
     vim.cmd.nohlsearch()
     LazyVim.cmp.actions.snippet_stop()
   end)
@@ -128,7 +247,12 @@ end
 local function terminal_escape()
   vim.schedule(function()
     pcall(vim.cmd.stopinsert)
-    M.focus_editor()
+    local current = vim.api.nvim_get_current_win()
+    if tool_kind(current) == "persistent" then
+      M.focus_editor()
+    else
+      M.close_transient_window()
+    end
   end)
 end
 
@@ -152,10 +276,15 @@ local function set_keymaps(buffer)
     escape,
     vim.tbl_extend("force", opts, {
       expr = true,
-      desc = "Focus Editor",
+      desc = "Close Transient Tool / Focus Editor",
     })
   )
-  vim.keymap.set("t", "<Esc>", terminal_escape, vim.tbl_extend("force", opts, { desc = "Focus Editor" }))
+  vim.keymap.set(
+    "t",
+    "<Esc>",
+    terminal_escape,
+    vim.tbl_extend("force", opts, { desc = "Close Transient Tool / Focus Editor" })
+  )
   vim.keymap.set(
     { "i", "n", "s", "t", "x" },
     "<C-Esc>",
