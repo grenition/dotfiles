@@ -17,6 +17,10 @@ vim.opt.pumblend = 0
 vim.opt.smoothscroll = false
 vim.g.snacks_animate = false
 
+-- The built-in matchparen plugin can spend up to 300 ms searching for a pair
+-- on large or minified lines. Disable it to keep cursor movement immediate.
+vim.g.loaded_matchparen = 1
+
 -- IDEA-only options removed:
 -- ideajoin, ideastatusicon, ideamarks, highlightedyank, NERDTree, which-key
 -- timeout behavior (у тебя было set notimeout + timeoutlen=5000)
