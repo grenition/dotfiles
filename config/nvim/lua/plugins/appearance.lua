@@ -14,6 +14,25 @@ local function picker_windows(escape_action)
   }
 end
 
+local function explorer_windows()
+  local windows = picker_windows("rider_focus_editor")
+  windows.list.keys.x = "rider_explorer_cut"
+  windows.list.keys.y = { "rider_explorer_move_or_yank", mode = { "n", "x" } }
+  windows.list.keys.p = "rider_explorer_move_or_paste"
+  return windows
+end
+
+local function explorer_move_or(fallback)
+  return function(picker)
+    local actions = require("snacks.explorer.actions").actions
+    if #picker:selected() > 0 then
+      actions.explorer_move(picker)
+    else
+      actions[fallback](picker)
+    end
+  end
+end
+
 return {
   {
     "LazyVim/LazyVim",
@@ -49,11 +68,18 @@ return {
               require("config.tool_windows").close_all_tool_windows()
             end)
           end,
+          rider_explorer_cut = function(picker)
+            picker.list:select()
+            local count = #picker:selected()
+            Snacks.notify.info(count == 0 and "Move selection cleared" or ("Marked %d item(s) to move"):format(count))
+          end,
+          rider_explorer_move_or_yank = explorer_move_or("explorer_yank"),
+          rider_explorer_move_or_paste = explorer_move_or("explorer_paste"),
         },
         win = picker_windows("rider_close_tool"),
         sources = {
           explorer = {
-            win = picker_windows("rider_focus_editor"),
+            win = explorer_windows(),
           },
         },
       },
