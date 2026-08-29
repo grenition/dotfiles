@@ -10,6 +10,18 @@ A small, modular Neovim configuration with no distribution and no general-purpos
 
 Start Neovim once to let `lazy.nvim` install the declared plugins. Run `:Mason` to inspect language servers.
 
+## Kubernetes manifests
+
+Kubernetes YAML files in `k8s/`, `kubernetes/`, or `manifests/` (and files ending
+in `.k8s.yaml` or `.kubernetes.yaml`) receive Kubernetes schema completion and
+validation from `yaml-language-server`, including schemas for known CRDs.
+
+Mason installs `yamlfmt` and `kube-linter`. Use `<Space>oc` to format a manifest;
+after each save, `kube-linter` reports best-practice diagnostics for YAML documents
+that contain both `apiVersion` and `kind`. Kubernetes YAML has a blue icon, while
+the statusline shows `K8S` plus `E`/`W` diagnostic counts. In neo-tree, `+` means
+an untracked file (rather than an error).
+
 ## Plugins
 
 | Plugin | Responsibility |
@@ -24,6 +36,7 @@ Start Neovim once to let `lazy.nvim` install the declared plugins. Run `:Mason` 
 | `nvim-treesitter-textobjects` | Select functions, classes, and blocks (`af`, `if`, `ac`, `ic`, `ab`, `ib`) |
 | `gitsigns.nvim` | Git changes in the sign column |
 | `conform.nvim` | Formatting |
+| `nvim-lint` | Kubernetes manifest linting via `kube-linter` |
 | `bufferline.nvim` | Open-buffer tabs |
 | `which-key.nvim` | Keybinding hints |
 

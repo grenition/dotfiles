@@ -1,7 +1,13 @@
 return {
   {
     "nvim-tree/nvim-web-devicons",
-    lazy = true,
+    lazy = false,
+    opts = {
+      override_by_extension = {
+        yaml = { icon = "󱃾", color = "#326CE5", cterm_color = "33", name = "KubernetesYaml" },
+        yml = { icon = "󱃾", color = "#326CE5", cterm_color = "33", name = "KubernetesYaml" },
+      },
+    },
   },
   {
     "akinsho/bufferline.nvim",
@@ -10,6 +16,10 @@ return {
     opts = {
       options = {
         diagnostics = "nvim_lsp",
+        diagnostics_indicator = function(count, level)
+          local icon = level:match("error") and "" or ""
+          return string.format(" %s %d", icon, count)
+        end,
         show_buffer_close_icons = false,
         show_close_icon = false,
         separator_style = "thin",

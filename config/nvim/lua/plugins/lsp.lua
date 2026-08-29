@@ -31,6 +31,32 @@ return {
           },
         },
       })
+      vim.lsp.config("yamlls", {
+        settings = {
+          yaml = {
+            -- Let yamlfmt handle formatting so formatting is consistent between
+            -- Neovim and CI.  yamlls still provides completion and validation.
+            format = { enable = false },
+            keyOrdering = false,
+            kubernetesCRDStore = { enable = true },
+            schemaStore = { enable = true },
+            schemas = {
+              kubernetes = {
+                "k8s/**/*.yaml",
+                "k8s/**/*.yml",
+                "kubernetes/**/*.yaml",
+                "kubernetes/**/*.yml",
+                "manifests/**/*.yaml",
+                "manifests/**/*.yml",
+                "*.k8s.yaml",
+                "*.k8s.yml",
+                "*.kubernetes.yaml",
+                "*.kubernetes.yml",
+              },
+            },
+          },
+        },
+      })
 
       require("mason-lspconfig").setup({
         ensure_installed = { "lua_ls", "jsonls", "yamlls", "taplo" },

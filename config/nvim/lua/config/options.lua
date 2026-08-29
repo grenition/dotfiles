@@ -15,7 +15,7 @@ opt.incsearch = true
 opt.signcolumn = "yes:1"
 opt.numberwidth = 2
 opt.updatetime = 250
-opt.timeoutlen = 300
+opt.timeoutlen = 100
 opt.splitright = true
 opt.splitbelow = true
 opt.scrolloff = 5
@@ -27,6 +27,28 @@ opt.fillchars:append({ eob = " " })
 opt.termguicolors = false
 opt.selectmode = ""
 opt.keymodel = ""
+
+vim.diagnostic.config({
+  severity_sort = true,
+  underline = true,
+  virtual_text = {
+    prefix = "●",
+    source = "if_many",
+    spacing = 2,
+    format = function(diagnostic)
+      return diagnostic.code and tostring(diagnostic.code) or diagnostic.message
+    end,
+  },
+  float = { border = "rounded", source = "if_many" },
+  signs = {
+    text = {
+      [vim.diagnostic.severity.ERROR] = "",
+      [vim.diagnostic.severity.WARN] = "",
+      [vim.diagnostic.severity.INFO] = "",
+      [vim.diagnostic.severity.HINT] = "󰌵",
+    },
+  },
+})
 
 -- Keep movement and UI transitions immediate.
 opt.smoothscroll = false

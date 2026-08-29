@@ -9,6 +9,21 @@ return {
   },
   opts = {
     close_if_last_window = true,
+    default_component_configs = {
+      git_status = {
+        symbols = {
+          added = "+",
+          deleted = "-",
+          modified = "~",
+          renamed = "→",
+          untracked = "+",
+          ignored = "○",
+          unstaged = "~",
+          staged = "✓",
+          conflict = "!",
+        },
+      },
+    },
     filesystem = {
       follow_current_file = { enabled = true },
       hijack_netrw_behavior = "open_default",
