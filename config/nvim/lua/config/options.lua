@@ -3,6 +3,9 @@
 -- Add any additional options here
 
 vim.opt.scrolloff = 5
+vim.opt.tabstop = 4
+vim.opt.shiftwidth = 4
+vim.opt.expandtab = true
 
 -- Let the terminal own the palette. With true color disabled, Neovim uses the
 -- terminal's ANSI colors instead of rendering a separate GUI colorscheme.
