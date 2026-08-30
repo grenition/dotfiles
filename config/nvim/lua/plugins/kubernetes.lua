@@ -1,10 +1,16 @@
+local tools = { "kube-linter", "yamlfmt" }
+
+if vim.fn.executable("dotnet") == 1 then
+  vim.list_extend(tools, { "csharp-language-server", "csharpier" })
+end
+
 return {
   {
     "WhoIsSethDaniel/mason-tool-installer.nvim",
     event = "VeryLazy",
     dependencies = { "mason-org/mason.nvim" },
     opts = {
-      ensure_installed = { "kube-linter", "yamlfmt" },
+      ensure_installed = tools,
       run_on_start = true,
     },
   },

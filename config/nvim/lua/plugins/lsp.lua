@@ -21,6 +21,7 @@ return {
     },
     config = function()
       local capabilities = require("blink.cmp").get_lsp_capabilities()
+      local dotnet = require("config.dotnet")
 
       vim.lsp.config("*", { capabilities = capabilities })
       vim.lsp.config("lua_ls", {
@@ -31,6 +32,22 @@ return {
           },
         },
       })
+      if vim.fn.executable("dotnet") == 1 then
+        vim.lsp.config("csharp_ls", {
+          cmd_env = dotnet.env(),
+          root_dir = function(bufnr, on_dir)
+            local root = vim.fs.root(bufnr, function(name)
+              local extension = vim.fs.ext(name)
+              return extension == "csproj" or extension == "sln" or extension == "slnx"
+            end)
+
+            if root then
+              on_dir(root)
+            end
+          end,
+        })
+        vim.lsp.enable("csharp_ls")
+      end
       vim.lsp.config("yamlls", {
         settings = {
           yaml = {
