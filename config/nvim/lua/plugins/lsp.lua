@@ -22,6 +22,7 @@ return {
     config = function()
       local capabilities = require("blink.cmp").get_lsp_capabilities()
       local dotnet = require("config.dotnet")
+      local lsp_ui = require("config.lsp_ui")
 
       local function roslyn_command()
         local registry = require("mason-registry")
@@ -70,11 +71,11 @@ return {
           end
 
           if client.server_capabilities.inlayHintProvider then
-            vim.lsp.inlay_hint.enable(true, { bufnr = args.buf })
+            lsp_ui.apply_inlay_hints(args.buf)
           end
 
           if client.server_capabilities.codeLensProvider then
-            vim.lsp.codelens.enable(true, { bufnr = args.buf })
+            lsp_ui.apply_code_lenses(args.buf)
           end
         end,
       })

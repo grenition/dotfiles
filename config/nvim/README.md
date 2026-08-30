@@ -21,6 +21,10 @@ installed. Open a `.cs` file inside a directory containing a `.sln`, `.slnx`, or
 is optional: when the .NET SDK is absent, it is not installed or started; standalone
 `.cs` files retain syntax highlighting only.
 
+Use `<Space>uh` to choose whether LSP inlay hints are shown and `<Space>ul` to do
+the same for CodeLens reference counts. Both preferences are saved in the config and
+apply to every language server that supports the corresponding feature.
+
 ## Kubernetes manifests
 
 Kubernetes YAML files in `k8s/`, `kubernetes/`, or `manifests/` (and files ending

@@ -94,6 +94,8 @@ map("n", "<M-j>", function() require("fzf-lua").lsp_document_symbols() end, { de
 map("n", "<M-k>", function() require("fzf-lua").lsp_document_symbols() end, { desc = "File structure" })
 map("n", "<leader>ud", function() require("config.theme").pick("light") end, { desc = "Choose light UI theme" })
 map("n", "<leader>un", function() require("config.theme").pick("dark") end, { desc = "Choose dark UI theme" })
+map("n", "<leader>uh", function() require("config.lsp_ui").pick("inlay_hints") end, { desc = "Configure inlay hints" })
+map("n", "<leader>ul", function() require("config.lsp_ui").pick("code_lens") end, { desc = "Configure CodeLens references" })
 
 -- LSP
 map("n", "gd", function()
