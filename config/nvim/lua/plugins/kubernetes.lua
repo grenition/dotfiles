@@ -1,7 +1,7 @@
 local tools = { "kube-linter", "yamlfmt" }
 
 if vim.fn.executable("dotnet") == 1 then
-  vim.list_extend(tools, { "csharp-language-server", "csharpier" })
+  vim.list_extend(tools, { "roslyn-language-server", "csharpier" })
 end
 
 return {

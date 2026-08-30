@@ -12,12 +12,14 @@ Start Neovim once to let `lazy.nvim` install the declared plugins. Run `:Mason` 
 
 ## C#
 
-The configuration installs `csharp-language-server` for diagnostics, completion,
-and refactors, plus `csharpier` for formatting. The C# Treesitter parser is also
+The configuration installs the official `roslyn-language-server` for diagnostics,
+completion, refactors, inlay hints, CodeLens reference counts, and metadata-as-source
+decompilation, plus `csharpier` for formatting. The C# Treesitter parser is also
 installed. Open a `.cs` file inside a directory containing a `.sln`, `.slnx`, or
-`.csproj`; use `<Space>oc` to format, `<Space>oi` to organize imports, and
-`<Space>oa` for both. C# tooling is optional: when the .NET SDK is absent, it is
-not installed or started; standalone `.cs` files retain syntax highlighting only.
+`.csproj`; use `<Space>oc` to format, `<Space>oi` to organize imports,
+`<Space>oa` for both, and `<Space>ol` to run the CodeLens at the cursor. C# tooling
+is optional: when the .NET SDK is absent, it is not installed or started; standalone
+`.cs` files retain syntax highlighting only.
 
 ## Kubernetes manifests
 

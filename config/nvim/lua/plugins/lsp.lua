@@ -23,6 +23,24 @@ return {
       local capabilities = require("blink.cmp").get_lsp_capabilities()
       local dotnet = require("config.dotnet")
 
+      local function roslyn_command()
+        local registry = require("mason-registry")
+        local package = registry.get_package("roslyn-language-server")
+        if not package:is_installed() then
+          return nil
+        end
+
+        -- Mason's global-tool launcher misdetects Homebrew's DOTNET_ROOT on macOS.
+        -- Launch the server binary inside the package instead.
+        local executable = vim.fs.find("Microsoft.CodeAnalysis.LanguageServer", {
+          path = package:get_install_path(),
+          limit = 1,
+        })[1]
+        if executable and vim.fn.executable(executable) == 1 then
+          return { executable, "--stdio" }
+        end
+      end
+
       vim.lsp.config("*", { capabilities = capabilities })
       vim.lsp.config("lua_ls", {
         settings = {
@@ -33,21 +51,33 @@ return {
         },
       })
       if vim.fn.executable("dotnet") == 1 then
-        vim.lsp.config("csharp_ls", {
-          cmd_env = dotnet.env(),
-          root_dir = function(bufnr, on_dir)
-            local root = vim.fs.root(bufnr, function(name)
-              local extension = vim.fs.ext(name)
-              return extension == "csproj" or extension == "sln" or extension == "slnx"
-            end)
-
-            if root then
-              on_dir(root)
-            end
-          end,
-        })
-        vim.lsp.enable("csharp_ls")
+        local command = roslyn_command()
+        if command then
+          vim.lsp.config("roslyn_ls", {
+            cmd = command,
+            cmd_env = dotnet.env(),
+          })
+          vim.lsp.enable("roslyn_ls")
+        end
       end
+
+      vim.api.nvim_create_autocmd("LspAttach", {
+        group = vim.api.nvim_create_augroup("roslyn_ide_features", { clear = true }),
+        callback = function(args)
+          local client = vim.lsp.get_client_by_id(args.data.client_id)
+          if not client or client.name ~= "roslyn_ls" then
+            return
+          end
+
+          if client.server_capabilities.inlayHintProvider then
+            vim.lsp.inlay_hint.enable(true, { bufnr = args.buf })
+          end
+
+          if client.server_capabilities.codeLensProvider then
+            vim.lsp.codelens.enable(true, { bufnr = args.buf })
+          end
+        end,
+      })
       vim.lsp.config("yamlls", {
         settings = {
           yaml = {

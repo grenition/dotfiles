@@ -96,7 +96,13 @@ map("n", "<leader>ud", function() require("config.theme").pick("light") end, { d
 map("n", "<leader>un", function() require("config.theme").pick("dark") end, { desc = "Choose dark UI theme" })
 
 -- LSP
-map("n", "gd", function() require("fzf-lua").lsp_definitions() end, { desc = "Definition" })
+map("n", "gd", function()
+  if vim.lsp.get_clients({ bufnr = 0, name = "roslyn_ls" })[1] then
+    vim.lsp.buf.definition()
+  else
+    require("fzf-lua").lsp_definitions()
+  end
+end, { desc = "Definition" })
 map("n", "gr", function() require("fzf-lua").lsp_references() end, { desc = "References" })
 map("n", "gD", function() require("fzf-lua").lsp_typedefs() end, { desc = "Type definition" })
 map("n", "gi", function() require("fzf-lua").lsp_implementations() end, { desc = "Implementations" })
@@ -110,6 +116,7 @@ map("n", "<leader>ur", function() require("fzf-lua").lsp_references() end, { des
 map({ "n", "i" }, "<C-s>", vim.lsp.buf.signature_help, { desc = "Signature help" })
 map({ "n", "x" }, "<leader>a", vim.lsp.buf.code_action, { desc = "Code actions" })
 map({ "n", "x" }, "<leader>oe", vim.lsp.buf.code_action, { desc = "Code actions" })
+map("n", "<leader>ol", vim.lsp.codelens.run, { desc = "Run code lens" })
 map("n", "<leader>oc", function() require("conform").format({ lsp_format = "fallback" }) end, { desc = "Format" })
 map("n", "<leader>oi", organize_imports, { desc = "Organize imports" })
 map("n", "<leader>oa", function()
