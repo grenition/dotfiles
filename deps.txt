@@ -1,0 +1,12 @@
+# Common external tools this dotfiles repo assumes are on PATH.
+# Names here should match package names across package managers where possible.
+# Format: "pkg" or "pkg:binary" when the installed binary name differs from
+# the package name (checked to skip installing what's already on PATH).
+# Platform-specific installers (install-deps-*.sh) read this file and then
+# handle anything special for that platform on top of it.
+
+neovim:nvim
+git
+ripgrep:rg
+fzf
+tmux

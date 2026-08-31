@@ -4,9 +4,9 @@ A small, modular Neovim configuration with no distribution and no general-purpos
 
 ## Requirements
 
-- Neovim 0.11+
-- `git`, `rg`, and `fzf`
-- A compiler for Treesitter parsers
+On macOS, run `./install-deps-osx.sh` from the repo root to install `neovim`,
+`git`, `rg`, `fzf`, and `tmux` via Homebrew (see `deps.txt`). A C compiler is
+also needed for Treesitter parsers (comes with Xcode Command Line Tools).
 
 Start Neovim once to let `lazy.nvim` install the declared plugins. Run `:Mason` to inspect language servers.
 

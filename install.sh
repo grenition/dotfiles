@@ -15,3 +15,5 @@ ln -sfn "$SRC/vscode/settings.json" "$HOME/Library/Application Support/Code/User
 ln -sfn "$SRC/vscode/keybindings.json" "$HOME/Library/Application Support/Code/User/keybindings.json"
 
 echo "Symlinked dotfiles from $SRC"
+echo "Run ./install-deps-osx.sh to install required tools via Homebrew (see deps.txt)."
+
