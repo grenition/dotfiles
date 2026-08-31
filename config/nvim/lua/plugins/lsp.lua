@@ -1,3 +1,10 @@
+local default_servers = { "lua_ls", "jsonls", "yamlls", "taplo" }
+local installed_servers = vim.deepcopy(default_servers)
+
+if vim.fn.executable("dotnet") == 1 then
+  table.insert(installed_servers, "roslyn_ls")
+end
+
 return {
   {
     "mason-org/mason.nvim",
@@ -6,11 +13,7 @@ return {
   },
   {
     "mason-org/mason-lspconfig.nvim",
-    dependencies = { "mason-org/mason.nvim", "neovim/nvim-lspconfig" },
-    opts = {
-      ensure_installed = { "lua_ls", "jsonls", "yamlls", "taplo" },
-      automatic_enable = { "lua_ls", "jsonls", "yamlls", "taplo" },
-    },
+    dependencies = { "mason-org/mason.nvim" },
   },
   {
     "neovim/nvim-lspconfig",
@@ -32,14 +35,35 @@ return {
         end
 
         -- Mason's global-tool launcher misdetects Homebrew's DOTNET_ROOT on macOS.
-        -- Launch the server binary inside the package instead.
+        -- Launch the server binary inside the package instead. Mason 2 removed
+        -- Package:get_install_path(), so resolve its default package directory.
         local executable = vim.fs.find("Microsoft.CodeAnalysis.LanguageServer", {
-          path = package:get_install_path(),
+          path = vim.fs.joinpath(vim.fn.stdpath("data"), "mason", "packages", package.name),
           limit = 1,
         })[1]
         if executable and vim.fn.executable(executable) == 1 then
-          return { executable, "--stdio" }
+          return {
+            executable,
+            "--logLevel",
+            "Information",
+            "--extensionLogDirectory",
+            vim.fs.joinpath(vim.fn.stdpath("cache"), "roslyn_ls", "logs"),
+            "--stdio",
+          }
         end
+      end
+
+      local function enable_roslyn()
+        local command = roslyn_command()
+        if not command then
+          return
+        end
+
+        vim.lsp.config("roslyn_ls", {
+          cmd = command,
+          cmd_env = dotnet.env(),
+        })
+        vim.lsp.enable("roslyn_ls")
       end
 
       vim.lsp.config("*", { capabilities = capabilities })
@@ -51,15 +75,33 @@ return {
           },
         },
       })
+      if vim.fn.executable("gitlab-ci-ls") == 1 then
+        local cache_dir = vim.fs.joinpath(vim.fn.stdpath("cache"), "gitlab-ci-ls")
+        local log_dir = vim.fs.joinpath(cache_dir, "log")
+        vim.fn.mkdir(log_dir, "p")
+        vim.fn.mkdir(vim.fs.joinpath(cache_dir, "base"), "p")
+        vim.lsp.config("gitlab_ci_ls", {
+          init_options = {
+            -- gitlab-ci-ls 1.4 uses `cache`; keep `cache_path` for older
+            -- releases supported by nvim-lspconfig.
+            cache = cache_dir .. "/",
+            cache_path = cache_dir .. "/",
+            log_path = vim.fs.joinpath(log_dir, "gitlab-ci-ls.log"),
+          },
+        })
+        vim.lsp.enable("gitlab_ci_ls")
+      end
       if vim.fn.executable("dotnet") == 1 then
-        local command = roslyn_command()
-        if command then
-          vim.lsp.config("roslyn_ls", {
-            cmd = command,
-            cmd_env = dotnet.env(),
-          })
-          vim.lsp.enable("roslyn_ls")
-        end
+        enable_roslyn()
+
+        -- mason-lspconfig installs Roslyn asynchronously on the first start.
+        -- Enable it as soon as that installation finishes, without requiring a
+        -- second Neovim restart.
+        require("mason-registry"):on("package:install:success", function(package)
+          if package.name == "roslyn-language-server" then
+            vim.schedule(enable_roslyn)
+          end
+        end)
       end
 
       vim.api.nvim_create_autocmd("LspAttach", {
@@ -101,14 +143,28 @@ return {
                 "*.kubernetes.yaml",
                 "*.kubernetes.yml",
               },
+              ["https://gitlab.com/gitlab-org/gitlab/-/raw/master/app/assets/javascripts/editor/schema/ci.json"] = {
+                ".gitlab-ci.yml",
+                ".gitlab-ci.yaml",
+                "**/.gitlab-ci.yml",
+                "**/.gitlab-ci.yaml",
+                ".gitlab/ci/**/*.yml",
+                ".gitlab/ci/**/*.yaml",
+                "**/.gitlab/ci/**/*.yml",
+                "**/.gitlab/ci/**/*.yaml",
+                "gitlab/ci/**/*.yml",
+                "gitlab/ci/**/*.yaml",
+                "**/gitlab/ci/**/*.yml",
+                "**/gitlab/ci/**/*.yaml",
+              },
             },
           },
         },
       })
 
       require("mason-lspconfig").setup({
-        ensure_installed = { "lua_ls", "jsonls", "yamlls", "taplo" },
-        automatic_enable = { "lua_ls", "jsonls", "yamlls", "taplo" },
+        ensure_installed = vim.env.NVIM_CONFIG_CHECK == "1" and {} or installed_servers,
+        automatic_enable = default_servers,
       })
     end,
   },

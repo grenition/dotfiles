@@ -36,13 +36,9 @@ local function organize_imports()
 end
 
 local function close_unpinned_buffers()
-  local state = require("bufferline.state")
-  local groups = require("bufferline.groups")
-  for _, item in ipairs(state.components) do
-    if not groups._is_pinned(item) then
-      pcall(vim.api.nvim_buf_delete, item.id, {})
-    end
-  end
+  require("bufferline").groups.action("ungrouped", function(buffer)
+    pcall(vim.api.nvim_buf_delete, buffer.id, {})
+  end)
 end
 
 -- Windows and buffers

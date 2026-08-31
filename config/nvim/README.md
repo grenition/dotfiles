@@ -6,7 +6,8 @@ A small, modular Neovim configuration with no distribution and no general-purpos
 
 On macOS, run `./install-deps-osx.sh` from the repo root to install `neovim`,
 `git`, `rg`, `fzf`, and `tmux` via Homebrew (see `deps.txt`). A C compiler is
-also needed for Treesitter parsers (comes with Xcode Command Line Tools).
+also needed for Treesitter parsers (comes with Xcode Command Line Tools), along
+with `tree-sitter-cli` 0.26.1 or newer.
 
 Start Neovim once to let `lazy.nvim` install the declared plugins. Run `:Mason` to inspect language servers.
 
@@ -33,9 +34,23 @@ validation from `yaml-language-server`, including schemas for known CRDs.
 
 Mason installs `yamlfmt` and `kube-linter`. Use `<Space>oc` to format a manifest;
 after each save, `kube-linter` reports best-practice diagnostics for YAML documents
-that contain both `apiVersion` and `kind`. Kubernetes YAML has a blue icon, while
-the statusline shows `K8S` plus `E`/`W` diagnostic counts. In neo-tree, `+` means
-an untracked file (rather than an error).
+that contain both `apiVersion` and `kind`. The statusline marks matched manifests
+as `K8S` and shows `E`/`W` diagnostic counts. Other YAML files retain their generic
+icon, while `.gitlab-ci.yml`, `.gitlab/ci/`, and `gitlab/ci/` templates receive
+explicit GitLab CI schema completion and validation. The main `.gitlab-ci.yml`
+also uses the GitLab icon. In neo-tree, `+` means an untracked file (rather than
+an error).
+
+`gitlab-ci-ls` runs alongside `yaml-language-server` on those files and adds
+GitLab-aware navigation, references, completion, hover, diagnostics, and job
+renaming. On macOS, `install-deps-osx.sh` installs its Homebrew package. Template
+repositories whose entry points do not use the conventional `.gitlab-ci.yml`
+name need a `.gitlab-ci-ls.yml` file listing their `root_files`.
+
+The current `gitlab-ci-ls` release is useful for jobs, `extends`, `needs`, and
+stages, but it is not feature-equivalent to the JetBrains GitLab integration. In
+particular, variable navigation inside `rules:if` and GitLab's built-in
+`include:template` form are not implemented upstream yet.
 
 ## Plugins
 
@@ -60,3 +75,10 @@ Terminals, the compact statusline, and buffer switching use built-in Neovim feat
 Use `<Space>ud` and `<Space>un` to select persisted light and dark themes.
 Neovim applies the matching macOS appearance on startup and focus. `terminal`
 is a regular no-background theme in both selectors.
+
+## Development
+
+Run `./scripts/check.sh` after every config change. It checks Lua syntax and
+formatting when the corresponding tools are available, then starts the real
+configuration headlessly with isolated cache and state directories. Repository
+maintenance rules for coding agents live in `AGENTS.md`.

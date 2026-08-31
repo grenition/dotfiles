@@ -1,15 +1,5 @@
 return {
   {
-    "nvim-tree/nvim-web-devicons",
-    lazy = false,
-    opts = {
-      override_by_extension = {
-        yaml = { icon = "󱃾", color = "#326CE5", cterm_color = "33", name = "KubernetesYaml" },
-        yml = { icon = "󱃾", color = "#326CE5", cterm_color = "33", name = "KubernetesYaml" },
-      },
-    },
-  },
-  {
     "akinsho/bufferline.nvim",
     lazy = false,
     dependencies = { "nvim-tree/nvim-web-devicons" },
@@ -35,7 +25,7 @@ return {
   },
   {
     "folke/which-key.nvim",
-    lazy = false,
+    event = "VeryLazy",
     opts = {
       delay = 400,
     },

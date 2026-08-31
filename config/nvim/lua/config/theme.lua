@@ -158,18 +158,14 @@ selection_stamp = selection_file_stamp()
 vim.schedule(M.refresh)
 
 -- macOS does not expose appearance-change notifications to a terminal app.
--- Polling this tiny preference keeps the currently open editor in sync too.
-local appearance_timer = vim.uv.new_timer()
-appearance_timer:start(5000, 5000, vim.schedule_wrap(M.refresh))
-local selection_timer = vim.uv.new_timer()
-selection_timer:start(1000, 1000, vim.schedule_wrap(M.refresh))
+-- One low-frequency timer also picks up selections saved by another instance.
+local refresh_timer = vim.uv.new_timer()
+refresh_timer:start(5000, 5000, vim.schedule_wrap(M.refresh))
 vim.api.nvim_create_autocmd("VimLeavePre", {
   group = group,
   callback = function()
-    appearance_timer:stop()
-    appearance_timer:close()
-    selection_timer:stop()
-    selection_timer:close()
+    refresh_timer:stop()
+    refresh_timer:close()
   end,
 })
 

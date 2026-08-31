@@ -1,7 +1,7 @@
 local tools = { "kube-linter", "yamlfmt" }
 
 if vim.fn.executable("dotnet") == 1 then
-  vim.list_extend(tools, { "roslyn-language-server", "csharpier" })
+  table.insert(tools, "csharpier")
 end
 
 return {
@@ -11,7 +11,7 @@ return {
     dependencies = { "mason-org/mason.nvim" },
     opts = {
       ensure_installed = tools,
-      run_on_start = true,
+      run_on_start = vim.env.NVIM_CONFIG_CHECK ~= "1",
     },
   },
   {

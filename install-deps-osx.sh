@@ -18,6 +18,12 @@ while IFS=: read -r pkg bin; do
   fi
 done < "$REPO_DIR/deps.txt"
 
+if command -v gitlab-ci-ls >/dev/null 2>&1; then
+  echo "gitlab-ci-ls already on PATH, skipping"
+else
+  brew install alesbrelih/gitlab-ci-ls/gitlab-ci-ls
+fi
+
 # macOS-only extras, not in deps.txt since they have no common cross-platform name.
 # Uncomment if you work on .NET projects (needed for the C# tooling in config/nvim).
 # brew install --cask dotnet-sdk

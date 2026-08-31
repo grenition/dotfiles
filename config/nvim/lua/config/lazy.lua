@@ -24,7 +24,7 @@ require("lazy").setup({
   spec = { { import = "plugins" } },
   defaults = { lazy = true, version = false },
   install = { colorscheme = { "default" } },
-  checker = { enabled = true, notify = false },
+  checker = { enabled = vim.env.NVIM_CONFIG_CHECK ~= "1", notify = false },
   change_detection = { notify = false },
   performance = {
     rtp = {

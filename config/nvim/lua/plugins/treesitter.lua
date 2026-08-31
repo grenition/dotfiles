@@ -8,7 +8,7 @@ return {
   "nvim-treesitter/nvim-treesitter",
   branch = "main",
   lazy = false,
-  build = ":TSUpdate",
+  build = vim.fn.executable("tree-sitter") == 1 and ":TSUpdate" or nil,
   opts = {
     install_dir = vim.fn.stdpath("data") .. "/site",
     ensure_installed = parsers,
@@ -16,7 +16,9 @@ return {
   config = function(_, opts)
     local ts = require("nvim-treesitter")
     ts.setup({ install_dir = opts.install_dir })
-    ts.install(opts.ensure_installed)
+    if vim.env.NVIM_CONFIG_CHECK ~= "1" and vim.fn.executable("tree-sitter") == 1 then
+      ts.install(opts.ensure_installed)
+    end
 
     vim.api.nvim_create_autocmd("FileType", {
       callback = function(args)

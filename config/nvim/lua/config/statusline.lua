@@ -48,6 +48,21 @@ local function diagnostic_status()
   return #parts > 0 and table.concat(parts, " ") .. " " or ""
 end
 
+local function lsp_status()
+  local names = {}
+
+  for _, client in ipairs(vim.lsp.get_clients({ bufnr = 0 })) do
+    table.insert(names, client.name)
+  end
+
+  if #names == 0 then
+    return ""
+  end
+
+  table.sort(names)
+  return string.format("%%#DiagnosticInfo# %s%%#StatusLine# ", table.concat(names, ","))
+end
+
 function _G.clean_statusline()
   local mode = modes[vim.api.nvim_get_mode().mode] or "NORMAL"
   local branch = vim.b.gitsigns_head and ("   " .. vim.b.gitsigns_head) or ""
@@ -57,7 +72,7 @@ function _G.clean_statusline()
   end
   local modified = vim.bo.modified and " [+]" or ""
   local readonly = vim.bo.readonly and " [RO]" or ""
-  local diagnostics = diagnostic_status()
+  local language_tools = lsp_status() .. diagnostic_status()
 
   return string.format(
     " %%#StatusLineMode#%s%%#StatusLine#%s  %%<%s%s%s %%= %s%%y  %%l:%%c ",
@@ -66,7 +81,7 @@ function _G.clean_statusline()
     filename,
     modified,
     readonly,
-    diagnostics
+    language_tools
   )
 end
 
