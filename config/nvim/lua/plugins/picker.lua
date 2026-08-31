@@ -14,8 +14,12 @@ local function setup_modal_navigation(event)
   vim.keymap.set("n", "k", send_to_fzf("\27[A"), opts)
   vim.keymap.set("n", "l", send_to_fzf("\27[C"), opts)
   vim.keymap.set("n", "<CR>", send_to_fzf("\r"), opts)
-  vim.keymap.set("n", "<Esc>", send_to_fzf("\27"), opts)
-  vim.keymap.set("n", "q", send_to_fzf("\27"), opts)
+  -- Abort with Ctrl-C rather than Escape.  Both are bound to fzf's `abort`,
+  -- but a lone Escape byte makes fzf wait out its escape delay to see whether
+  -- an escape sequence follows, which shows up as a lag before the window
+  -- closes.  Ctrl-C is unambiguous, so the picker closes at once.
+  vim.keymap.set("n", "<Esc>", send_to_fzf("\3"), opts)
+  vim.keymap.set("n", "q", send_to_fzf("\3"), opts)
   vim.keymap.set("n", "i", function() vim.cmd.startinsert() end, opts)
   vim.keymap.set("t", "<Esc>", [[<C-\><C-n>]], opts)
 

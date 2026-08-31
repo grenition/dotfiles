@@ -1,5 +1,7 @@
 local M = {}
 
+local escape_desc = "Close transient tool or focus editor"
+
 local persistent_filetypes = {
   ["neo-tree"] = true,
 }
@@ -84,12 +86,37 @@ local function terminal_escape()
   vim.schedule(M.focus_editor)
 end
 
+local function install_escape(buffer)
+  vim.keymap.set({ "n", "s", "x" }, "<Esc>", escape, {
+    buffer = buffer,
+    desc = escape_desc,
+    expr = true,
+    silent = true,
+  })
+end
+
+-- A terminal window drives Escape through the process it hosts: fzf-lua
+-- forwards it to fzf so the picker actually closes.  Overwriting that mapping
+-- leaves the window open with the focus somewhere else, so keep out of the way.
+local function owns_escape(buffer)
+  if vim.bo[buffer].buftype ~= "terminal" then
+    return false
+  end
+  for _, keymap in ipairs(vim.api.nvim_buf_get_keymap(buffer, "n")) do
+    local lhs = keymap.lhsraw or keymap.lhs or ""
+    if (lhs == "\27" or lhs:lower() == "<esc>") and keymap.desc ~= escape_desc then
+      return true
+    end
+  end
+  return false
+end
+
 function M.setup()
   -- Do not intercept Insert-mode Escape.  In a terminal Option+Backspace is
   -- commonly encoded as Escape followed by Backspace, so an Insert mapping
   -- here turns deletion into a mode/window action.
   vim.keymap.set({ "n", "s", "x" }, "<Esc>", escape, {
-    desc = "Close transient tool or focus editor",
+    desc = escape_desc,
     expr = true,
     silent = true,
   })
@@ -104,16 +131,30 @@ function M.setup()
   })
 
   local group = vim.api.nvim_create_augroup("tool_window_keymaps", { clear = true })
-  vim.api.nvim_create_autocmd({ "BufWinEnter", "FileType", "TermOpen", "WinEnter" }, {
+
+  -- Buffer-local mappings live on the buffer, so these three events are enough
+  -- to cover every buffer once; WinEnter would only repeat the same work.
+  vim.api.nvim_create_autocmd({ "BufWinEnter", "FileType", "TermOpen" }, {
     group = group,
     callback = function(event)
       local buffer = event.buf
-      vim.keymap.set({ "n", "s", "x" }, "<Esc>", escape, {
-        buffer = buffer,
-        desc = "Close transient tool or focus editor",
-        expr = true,
-        silent = true,
-      })
+      if vim.api.nvim_buf_is_valid(buffer) and not owns_escape(buffer) then
+        install_escape(buffer)
+      end
+    end,
+  })
+
+  -- Neo-tree maps <Esc> itself and re-applies its mappings when it re-renders.
+  -- The window stays open either way, so keep Escape meaning "focus the editor"
+  -- there.  Cheap enough to redo on entry: one table lookup for every other
+  -- buffer.
+  vim.api.nvim_create_autocmd("WinEnter", {
+    group = group,
+    callback = function(event)
+      local buffer = event.buf
+      if vim.api.nvim_buf_is_valid(buffer) and persistent_filetypes[vim.bo[buffer].filetype] then
+        install_escape(buffer)
+      end
     end,
   })
 end
