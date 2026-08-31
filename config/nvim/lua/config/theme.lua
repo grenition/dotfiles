@@ -19,15 +19,21 @@ function M.apply_ui_highlights()
   vim.api.nvim_set_hl(0, "NavigableTarget", { underline = true })
 
   if vim.g.colors_name == "vscode" and vim.o.background == "light" then
-    local sidebar = "#F3F3F3"
-    vim.api.nvim_set_hl(0, "NeoTreeNormal", { fg = "#343434", bg = sidebar })
-    vim.api.nvim_set_hl(0, "NeoTreeNormalNC", { fg = "#343434", bg = sidebar })
-    vim.api.nvim_set_hl(0, "NeoTreeSignColumn", { bg = sidebar })
-    vim.api.nvim_set_hl(0, "NeoTreeEndOfBuffer", { bg = sidebar })
-    vim.api.nvim_set_hl(0, "NeoTreeCursorLine", { bg = "#E4E6F1" })
-    vim.api.nvim_set_hl(0, "NeoTreeWinSeparator", { fg = "#E5E5E5", bg = sidebar })
-    vim.api.nvim_set_hl(0, "NeoTreeIndentMarker", { fg = "#D2D2D2" })
-    vim.api.nvim_set_hl(0, "NeoTreeExpander", { fg = "#6F6F6F" })
+    -- Clear overrides from the earlier sidebar treatment. These groups are
+    -- intentionally empty in vscode.nvim, so neo-tree inherits the editor UI.
+    for _, group in ipairs({
+      "NeoTreeNormal",
+      "NeoTreeNormalNC",
+      "NeoTreeSignColumn",
+      "NeoTreeEndOfBuffer",
+      "NeoTreeWinSeparator",
+      "NeoTreeIndentMarker",
+      "NeoTreeExpander",
+    }) do
+      vim.api.nvim_set_hl(0, group, {})
+    end
+    vim.api.nvim_set_hl(0, "NeoTreeCursorLine", { bg = "#E5E5E5" })
+    vim.api.nvim_set_hl(0, "NeoTreeDirectoryIcon", { fg = "#8E8E90" })
   end
 end
 

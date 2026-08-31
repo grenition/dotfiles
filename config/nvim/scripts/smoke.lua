@@ -11,8 +11,20 @@ local theme = require("config.theme")
 vim.o.background = "light"
 theme.apply("vscode")
 assert(
-  vim.api.nvim_get_hl(0, { name = "NeoTreeNormal", link = false }).bg == 0xF3F3F3,
-  "VS Code Light+ neo-tree background did not load"
+  vim.api.nvim_get_hl(0, { name = "NeoTreeNormal", link = false }).bg == nil,
+  "VS Code Light+ neo-tree background must match the editor"
+)
+assert(
+  next(vim.api.nvim_get_hl(0, { name = "NeoTreeIndentMarker", link = false })) == nil,
+  "VS Code Light+ neo-tree indentation must use the default style"
+)
+assert(
+  vim.api.nvim_get_hl(0, { name = "NeoTreeCursorLine", link = false }).bg == 0xE5E5E5,
+  "VS Code Light+ neo-tree cursor line did not reset"
+)
+assert(
+  vim.api.nvim_get_hl(0, { name = "NeoTreeDirectoryIcon", link = false }).fg == 0x8E8E90,
+  "VS Code Light+ neo-tree directory icon color did not load"
 )
 
 local visiting = {}
