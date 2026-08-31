@@ -2,7 +2,6 @@ local formatters_by_ft = {
   json = { "prettierd", "prettier", stop_after_first = true },
   lua = { "stylua" },
   yaml = { "yamlfmt" },
-  ["yaml.gitlab"] = { "yamlfmt" },
 }
 
 if vim.fn.executable("dotnet") == 1 then

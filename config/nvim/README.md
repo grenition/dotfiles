@@ -36,16 +36,22 @@ Mason installs `yamlfmt` and `kube-linter`. Use `<Space>oc` to format a manifest
 after each save, `kube-linter` reports best-practice diagnostics for YAML documents
 that contain both `apiVersion` and `kind`. The statusline marks matched manifests
 as `K8S` and shows `E`/`W` diagnostic counts. Other YAML files retain their generic
-icon, while `.gitlab-ci.yml`, `.gitlab/ci/`, and `gitlab/ci/` templates receive
-explicit GitLab CI schema completion and validation. The main `.gitlab-ci.yml`
-also uses the GitLab icon. In neo-tree, `+` means an untracked file (rather than
-an error).
+icon. SchemaStore detects conventional `.gitlab-ci.yml` files. Repositories made
+entirely of arbitrarily named GitLab templates can opt in with one
+`.gitlab-ci-ls.yml` project marker instead of maintaining filename patterns. In
+neo-tree, `+` means an untracked file (rather than an error).
 
 `gitlab-ci-ls` runs alongside `yaml-language-server` on those files and adds
 GitLab-aware navigation, references, completion, hover, diagnostics, and job
-renaming. On macOS, `install-deps-osx.sh` installs its Homebrew package. Template
-repositories whose entry points do not use the conventional `.gitlab-ci.yml`
-name need a `.gitlab-ci-ls.yml` file listing their `root_files`.
+renaming. On macOS, `install-deps-osx.sh` installs its Homebrew package. The same
+`.gitlab-ci-ls.yml` marker lists the entry points of template repositories.
+Files covered by that marker use the GitLab icon in neo-tree and the bufferline.
+
+`gd` first opens an HTTP(S) URL or an existing local path under the cursor. Local
+paths are resolved relative to the current file and then the project root; a
+leading `/` also supports GitLab's project-root-relative include convention. If
+there is no file or URL under the cursor, `gd` falls back to LSP definition.
+Navigable URLs and paths are underlined while the cursor is on them.
 
 The current `gitlab-ci-ls` release is useful for jobs, `extends`, `needs`, and
 stages, but it is not feature-equivalent to the JetBrains GitLab integration. In
@@ -69,12 +75,15 @@ particular, variable navigation inside `rules:if` and GitLab's built-in
 | `nvim-lint` | Kubernetes manifest linting via `kube-linter` |
 | `bufferline.nvim` | Open-buffer tabs |
 | `which-key.nvim` | Keybinding hints |
+| `vscode.nvim` | Visual Studio Code Light+ and Dark+ theme |
 
 Terminals, the compact statusline, and buffer switching use built-in Neovim features.
 
 Use `<Space>ud` and `<Space>un` to select persisted light and dark themes.
-Neovim applies the matching macOS appearance on startup and focus. `terminal`
-is a regular no-background theme in both selectors.
+Neovim applies the matching macOS appearance on startup and focus. The default
+is the Visual Studio Code-inspired `vscode` theme: it automatically selects
+Light+ or Dark+ from Neovim's `background` setting. `terminal` is a regular
+no-background theme in both selectors.
 
 ## Development
 

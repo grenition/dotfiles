@@ -94,13 +94,7 @@ map("n", "<leader>uh", function() require("config.lsp_ui").pick("inlay_hints") e
 map("n", "<leader>ul", function() require("config.lsp_ui").pick("code_lens") end, { desc = "Configure CodeLens references" })
 
 -- LSP
-map("n", "gd", function()
-  if vim.lsp.get_clients({ bufnr = 0, name = "roslyn_ls" })[1] then
-    vim.lsp.buf.definition()
-  else
-    require("fzf-lua").lsp_definitions()
-  end
-end, { desc = "Definition" })
+map("n", "gd", require("config.navigation").goto_definition, { desc = "Definition, file, or URL" })
 map("n", "gr", function() require("fzf-lua").lsp_references() end, { desc = "References" })
 map("n", "gD", function() require("fzf-lua").lsp_typedefs() end, { desc = "Type definition" })
 map("n", "gi", function() require("fzf-lua").lsp_implementations() end, { desc = "Implementations" })

@@ -16,6 +16,19 @@ function M.apply_ui_highlights()
   vim.cmd("highlight BufferLineSeparator cterm=NONE ctermfg=8 ctermbg=NONE")
   vim.cmd("highlight BufferLineSeparatorSelected cterm=NONE ctermfg=8 ctermbg=NONE")
   vim.cmd("highlight BufferLineIndicatorSelected cterm=NONE ctermfg=6 ctermbg=NONE")
+  vim.api.nvim_set_hl(0, "NavigableTarget", { underline = true })
+
+  if vim.g.colors_name == "vscode" and vim.o.background == "light" then
+    local sidebar = "#F3F3F3"
+    vim.api.nvim_set_hl(0, "NeoTreeNormal", { fg = "#343434", bg = sidebar })
+    vim.api.nvim_set_hl(0, "NeoTreeNormalNC", { fg = "#343434", bg = sidebar })
+    vim.api.nvim_set_hl(0, "NeoTreeSignColumn", { bg = sidebar })
+    vim.api.nvim_set_hl(0, "NeoTreeEndOfBuffer", { bg = sidebar })
+    vim.api.nvim_set_hl(0, "NeoTreeCursorLine", { bg = "#E4E6F1" })
+    vim.api.nvim_set_hl(0, "NeoTreeWinSeparator", { fg = "#E5E5E5", bg = sidebar })
+    vim.api.nvim_set_hl(0, "NeoTreeIndentMarker", { fg = "#D2D2D2" })
+    vim.api.nvim_set_hl(0, "NeoTreeExpander", { fg = "#6F6F6F" })
+  end
 end
 
 function M.apply(name)

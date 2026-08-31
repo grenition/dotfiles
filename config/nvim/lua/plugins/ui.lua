@@ -1,10 +1,23 @@
 return {
   {
+    "Mofiqul/vscode.nvim",
+    lazy = false,
+    priority = 1000,
+    opts = {
+      terminal_colors = true,
+    },
+  },
+  {
     "akinsho/bufferline.nvim",
     lazy = false,
     dependencies = { "nvim-tree/nvim-web-devicons" },
     opts = {
       options = {
+        get_element_icon = function(element)
+          if not element.directory and require("config.gitlab").is_ci_file(element.path) then
+            return require("nvim-web-devicons").get_icon(".gitlab-ci.yml")
+          end
+        end,
         diagnostics = "nvim_lsp",
         diagnostics_indicator = function(count, level)
           local icon = level:match("error") and "" or ""

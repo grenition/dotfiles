@@ -81,6 +81,21 @@ return {
         vim.fn.mkdir(log_dir, "p")
         vim.fn.mkdir(vim.fs.joinpath(cache_dir, "base"), "p")
         vim.lsp.config("gitlab_ci_ls", {
+          -- A project marker is more reliable than guessing a YAML dialect
+          -- from arbitrary template filenames such as AndroidTemplate.yml.
+          filetypes = { "yaml", "yaml.gitlab" },
+          root_dir = function(bufnr, on_dir)
+            local template_root = vim.fs.root(bufnr, { ".gitlab-ci-ls.yml" })
+            if template_root then
+              on_dir(template_root)
+              return
+            end
+
+            local filename = vim.fs.basename(vim.api.nvim_buf_get_name(bufnr))
+            if filename == ".gitlab-ci.yml" or filename == ".gitlab-ci.yaml" then
+              on_dir(vim.fs.root(bufnr, { ".git" }) or vim.fs.dirname(vim.api.nvim_buf_get_name(bufnr)))
+            end
+          end,
           init_options = {
             -- gitlab-ci-ls 1.4 uses `cache`; keep `cache_path` for older
             -- releases supported by nvim-lspconfig.
@@ -122,6 +137,25 @@ return {
         end,
       })
       vim.lsp.config("yamlls", {
+        on_init = function(client)
+          local root = client.root_dir
+          if not root or not vim.uv.fs_stat(vim.fs.joinpath(root, ".gitlab-ci-ls.yml")) then
+            return
+          end
+
+          -- Every YAML document in an explicitly marked template repository is
+          -- GitLab CI. Standard .gitlab-ci.yml files are detected by SchemaStore.
+          client.settings = vim.tbl_deep_extend("force", client.settings or {}, {
+            yaml = {
+              schemas = {
+                ["https://gitlab.com/gitlab-org/gitlab/-/raw/master/app/assets/javascripts/editor/schema/ci.json"] = {
+                  "**/*.yml",
+                  "**/*.yaml",
+                },
+              },
+            },
+          })
+        end,
         settings = {
           yaml = {
             -- Let yamlfmt handle formatting so formatting is consistent between
@@ -142,20 +176,6 @@ return {
                 "*.k8s.yml",
                 "*.kubernetes.yaml",
                 "*.kubernetes.yml",
-              },
-              ["https://gitlab.com/gitlab-org/gitlab/-/raw/master/app/assets/javascripts/editor/schema/ci.json"] = {
-                ".gitlab-ci.yml",
-                ".gitlab-ci.yaml",
-                "**/.gitlab-ci.yml",
-                "**/.gitlab-ci.yaml",
-                ".gitlab/ci/**/*.yml",
-                ".gitlab/ci/**/*.yaml",
-                "**/.gitlab/ci/**/*.yml",
-                "**/.gitlab/ci/**/*.yaml",
-                "gitlab/ci/**/*.yml",
-                "gitlab/ci/**/*.yaml",
-                "**/gitlab/ci/**/*.yml",
-                "**/gitlab/ci/**/*.yaml",
               },
             },
           },

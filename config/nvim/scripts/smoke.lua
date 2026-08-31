@@ -5,6 +5,15 @@ assert(type(require("bufferline").groups.action) == "function", "bufferline grou
 
 local plugins = require("lazy.core.config").plugins
 assert(plugins["nvim-lspconfig"]._.loaded, "LSP config did not load")
+assert(plugins["vscode.nvim"]._.loaded, "VS Code theme did not load")
+
+local theme = require("config.theme")
+vim.o.background = "light"
+theme.apply("vscode")
+assert(
+  vim.api.nvim_get_hl(0, { name = "NeoTreeNormal", link = false }).bg == 0xF3F3F3,
+  "VS Code Light+ neo-tree background did not load"
+)
 
 local visiting = {}
 local visited = {}

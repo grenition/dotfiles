@@ -37,6 +37,22 @@ return {
       },
     },
     default_component_configs = {
+      icon = {
+        provider = function(icon, node)
+          if node.type ~= "file" and node.type ~= "terminal" then
+            return
+          end
+
+          local name = node.type == "terminal" and "terminal" or node.name
+          if node.type == "file" and require("config.gitlab").is_ci_file(node.path) then
+            name = ".gitlab-ci.yml"
+          end
+
+          local devicon, highlight = require("nvim-web-devicons").get_icon(name)
+          icon.text = devicon or icon.text
+          icon.highlight = highlight or icon.highlight
+        end,
+      },
       git_status = {
         symbols = {
           added = "+",

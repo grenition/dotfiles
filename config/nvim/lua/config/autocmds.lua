@@ -1,22 +1,6 @@
 local group = vim.api.nvim_create_augroup("user_config", { clear = true })
 
--- gitlab-ci-ls intentionally attaches only to yaml.gitlab. Keep yamlls on the
--- same buffers for YAML syntax/schema support while enabling GitLab-aware
--- navigation and refactors for both conventional pipelines and template repos.
-vim.filetype.add({
-  filename = {
-    [".gitlab-ci.yml"] = "yaml.gitlab",
-    [".gitlab-ci.yaml"] = "yaml.gitlab",
-  },
-  pattern = {
-    [".*%.gitlab%-ci%.yml"] = { "yaml.gitlab", { priority = 1000 } },
-    [".*%.gitlab%-ci%.yaml"] = { "yaml.gitlab", { priority = 1000 } },
-    [".*/%.gitlab/ci/.*%.yml"] = { "yaml.gitlab", { priority = 1000 } },
-    [".*/%.gitlab/ci/.*%.yaml"] = { "yaml.gitlab", { priority = 1000 } },
-    [".*/gitlab/ci/.*%.yml"] = { "yaml.gitlab", { priority = 1000 } },
-    [".*/gitlab/ci/.*%.yaml"] = { "yaml.gitlab", { priority = 1000 } },
-  },
-})
+require("config.navigation").setup_highlight(group)
 
 vim.api.nvim_create_autocmd("TextYankPost", {
   group = group,
