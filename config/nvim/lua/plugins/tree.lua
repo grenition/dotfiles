@@ -79,6 +79,7 @@ return {
       mappings = {
         ["h"] = "close_node",
         ["l"] = "open",
+        ["e"] = "toggle_auto_expand_width",
         ["j"] = function()
           vim.cmd.normal({ args = { "j" }, bang = true })
         end,
