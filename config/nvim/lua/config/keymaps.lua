@@ -22,12 +22,6 @@ local function terminal()
   vim.cmd("startinsert")
 end
 
-local function close_buffer()
-  local buffer = vim.api.nvim_get_current_buf()
-  vim.cmd("bprevious")
-  vim.api.nvim_buf_delete(buffer, {})
-end
-
 local function organize_imports()
   vim.lsp.buf.code_action({
     apply = true,
@@ -59,8 +53,11 @@ map("n", "<Tab>", "<cmd>bnext<cr>", { desc = "Next buffer" })
 map("n", "<S-Tab>", "<cmd>bprevious<cr>", { desc = "Previous buffer" })
 map("x", "<Tab>", "<cmd>bnext<cr>", { desc = "Next buffer" })
 map("x", "<S-Tab>", "<cmd>bprevious<cr>", { desc = "Previous buffer" })
-map("n", "<leader>x", close_buffer, { desc = "Close buffer" })
+map("n", "<leader>x", require("config.buffers").close, { desc = "Close buffer" })
 map("n", "<leader>w", "<cmd>write<cr>", { desc = "Save" })
+map("n", "<leader>bb", "<cmd>BufferLinePick<cr>", { desc = "Pick buffer" })
+map("n", "<leader>b<", "<cmd>BufferLineMovePrev<cr>", { desc = "Move buffer left" })
+map("n", "<leader>b>", "<cmd>BufferLineMoveNext<cr>", { desc = "Move buffer right" })
 map("n", "<leader>bp", "<cmd>BufferLineTogglePin<cr>", { desc = "Pin buffer" })
 map("n", "<leader>bq", "<cmd>BufferLineCloseOthers<cr>", { desc = "Close other buffers" })
 map("n", "<leader>ba", close_unpinned_buffers, { desc = "Close unpinned buffers" })
