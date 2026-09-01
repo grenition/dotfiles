@@ -1,4 +1,4 @@
-local default_servers = { "lua_ls", "jsonls", "yamlls", "taplo" }
+local default_servers = { "lua_ls", "jsonls", "yamlls", "taplo", "marksman" }
 local installed_servers = vim.deepcopy(default_servers)
 
 if vim.fn.executable("dotnet") == 1 then

@@ -16,7 +16,21 @@ function M.apply_ui_highlights()
   vim.cmd("highlight BufferLineSeparator cterm=NONE ctermfg=8 ctermbg=NONE")
   vim.cmd("highlight BufferLineSeparatorSelected cterm=NONE ctermfg=8 ctermbg=NONE")
   vim.cmd("highlight BufferLineIndicatorSelected cterm=NONE ctermfg=6 ctermbg=NONE")
-  vim.api.nvim_set_hl(0, "NavigableTarget", { underline = true })
+  local light = vim.o.background == "light"
+  local function accent(source, fallback)
+    local highlight = vim.api.nvim_get_hl(0, { name = source, link = false })
+    return highlight.fg or fallback
+  end
+  vim.api.nvim_set_hl(0, "NavigableLink", {
+    fg = accent("DiagnosticInfo", light and 0x0451A5 or 0x75BEFF),
+    bold = true,
+    underline = true,
+  })
+  vim.api.nvim_set_hl(0, "NavigableDefinition", {
+    fg = accent("DiagnosticOk", light and 0x008000 or 0x89D185),
+    bold = true,
+    underline = true,
+  })
 
   if vim.g.colors_name == "vscode" and vim.o.background == "light" then
     -- Clear overrides from the earlier sidebar treatment. These groups are

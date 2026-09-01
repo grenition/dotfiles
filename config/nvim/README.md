@@ -52,6 +52,12 @@ paths are resolved relative to the current file and then the project root; a
 leading `/` also supports GitLab's project-root-relative include convention. If
 there is no file or URL under the cursor, `gd` falls back to LSP definition.
 Navigable URLs and paths are underlined while the cursor is on them.
+If a remote URL points back into the current repository, `gd` opens its local
+file. Links use a blue hover accent; after `updatetime`, symbols with an LSP
+definition use a green accent.
+
+Markdown uses Marksman for heading symbols, completion, hover, diagnostics,
+references, rename, and `gd` navigation through file links and heading anchors.
 
 The current `gitlab-ci-ls` release is useful for jobs, `extends`, `needs`, and
 stages, but it is not feature-equivalent to the JetBrains GitLab integration. In
