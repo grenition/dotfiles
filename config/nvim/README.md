@@ -84,11 +84,13 @@ particular, variable navigation inside `rules:if` and GitLab's built-in
 | `vscode.nvim` | Visual Studio Code Light+ and Dark+ theme |
 
 Terminals, the compact statusline, and buffer switching use built-in Neovim features.
-The bufferline keeps the active buffer's close button visible and reveals close
-buttons for other buffers on mouse hover. Middle-click also closes a buffer;
-`<Space>bb` labels buffers for quick selection, while `<Space>b<` and
-`<Space>b>` reorder them. Neovim's tabline is a single terminal row, so a long
-buffer list scrolls with visible overflow markers instead of wrapping.
+The bufferline keeps close buttons visible on every buffer. Middle-click also
+closes a buffer; `<Space>bb` labels buffers for quick selection, while
+`<Space>b<` and `<Space>b>` reorder them. Unnamed scratch buffers are omitted,
+and file icons inherit the tab background. `<Tab>` and `<Shift-Tab>` cycle
+through this visible left-to-right order, skipping omitted buffers. Neovim's
+tabline is a single terminal row, so a long buffer list scrolls with visible
+overflow markers instead of wrapping.
 
 Use `<Space>ud` and `<Space>un` to select persisted light and dark themes.
 Neovim applies the matching macOS appearance on startup and focus. The default

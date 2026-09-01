@@ -6,7 +6,6 @@ local opt = vim.opt
 opt.number = true
 opt.relativenumber = true
 opt.mouse = "a"
-opt.mousemoveevent = true
 opt.clipboard = "unnamedplus"
 opt.breakindent = true
 opt.undofile = true

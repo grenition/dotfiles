@@ -19,10 +19,18 @@ return {
         middle_mouse_command = function(buffer)
           require("config.buffers").close(buffer)
         end,
+        custom_filter = require("config.buffers").show_in_bufferline,
+        color_icons = false,
         get_element_icon = function(element)
-          if not element.directory and require("config.gitlab").is_ci_file(element.path) then
-            return require("nvim-web-devicons").get_icon(".gitlab-ci.yml")
-          end
+          local name = not element.directory
+              and require("config.gitlab").is_ci_file(element.path)
+              and ".gitlab-ci.yml"
+            or vim.fs.basename(element.path)
+          local icon = require("nvim-web-devicons").get_icon(name, element.extension, { default = true })
+
+          -- Returning no icon highlight makes it inherit the exact tab
+          -- background, including the transparent terminal theme.
+          return icon or ""
         end,
         diagnostics = "nvim_lsp",
         diagnostics_indicator = function(_, _, diagnostics)
@@ -41,17 +49,12 @@ return {
         show_buffer_close_icons = true,
         show_close_icon = false,
         separator_style = "thin",
-        indicator = { style = "underline" },
+        indicator = { style = "none" },
         tab_size = 12,
         max_name_length = 30,
         max_prefix_length = 18,
         sort_by = "insert_after_current",
         persist_buffer_sort = true,
-        hover = {
-          enabled = true,
-          delay = 120,
-          reveal = { "close" },
-        },
         offsets = {
           {
             filetype = "neo-tree",

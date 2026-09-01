@@ -12,10 +12,59 @@ function M.apply_ui_highlights()
   vim.cmd("highlight BufferLineFill cterm=NONE ctermfg=NONE ctermbg=NONE")
   vim.cmd("highlight BufferLineBackground cterm=NONE ctermfg=7 ctermbg=NONE")
   vim.cmd("highlight BufferLineBufferVisible cterm=NONE ctermfg=7 ctermbg=NONE")
-  vim.cmd("highlight BufferLineBufferSelected cterm=bold ctermfg=15 ctermbg=NONE")
   vim.cmd("highlight BufferLineSeparator cterm=NONE ctermfg=8 ctermbg=NONE")
-  vim.cmd("highlight BufferLineSeparatorSelected cterm=NONE ctermfg=8 ctermbg=NONE")
-  vim.cmd("highlight BufferLineIndicatorSelected cterm=NONE ctermfg=6 ctermbg=NONE")
+
+  local is_dark = vim.o.background == "dark"
+  local accent = is_dark and "#42B09A" or (vim.g.terminal_color_6 or "#00A7B5")
+  local accent_cterm = is_dark and 37 or 6
+  local accent_fg = is_dark and "#1F1F1F" or "#FFFFFF"
+  for _, group in ipairs({
+    "BufferLineTabSelected",
+    "BufferLineTabCloseSelected",
+    "BufferLineCloseButtonSelected",
+    "BufferLineBufferSelected",
+    "BufferLineNumbersSelected",
+    "BufferLineDiagnosticSelected",
+    "BufferLineHintSelected",
+    "BufferLineHintDiagnosticSelected",
+    "BufferLineInfoSelected",
+    "BufferLineInfoDiagnosticSelected",
+    "BufferLineWarningSelected",
+    "BufferLineWarningDiagnosticSelected",
+    "BufferLineErrorSelected",
+    "BufferLineErrorDiagnosticSelected",
+    "BufferLineModifiedSelected",
+    "BufferLineDuplicateSelected",
+    "BufferLinePickSelected",
+    "BufferLineSeparatorSelected",
+    "BufferLineIndicatorSelected",
+  }) do
+    local highlight = vim.api.nvim_get_hl(0, { name = group, link = false })
+    highlight.default = nil
+    highlight.bg = accent
+    highlight.ctermbg = accent_cterm
+    highlight.underline = false
+    vim.api.nvim_set_hl(0, group, highlight)
+  end
+
+  for _, group in ipairs({
+    "BufferLineTabSelected",
+    "BufferLineTabCloseSelected",
+    "BufferLineCloseButtonSelected",
+    "BufferLineBufferSelected",
+    "BufferLineNumbersSelected",
+    "BufferLineModifiedSelected",
+    "BufferLineDuplicateSelected",
+    "BufferLinePickSelected",
+  }) do
+    local highlight = vim.api.nvim_get_hl(0, { name = group, link = false })
+    highlight.default = nil
+    highlight.fg = accent_fg
+    highlight.ctermfg = 0
+    highlight.bold = true
+    vim.api.nvim_set_hl(0, group, highlight)
+  end
+
   vim.api.nvim_set_hl(0, "NavigableLink", { underline = true })
   vim.api.nvim_set_hl(0, "NavigableDefinition", { underline = true })
 
@@ -165,7 +214,11 @@ end
 local group = vim.api.nvim_create_augroup("terminal_ui_theme", { clear = true })
 vim.api.nvim_create_autocmd("ColorScheme", {
   group = group,
-  callback = M.apply_ui_highlights,
+  callback = function()
+    -- bufferline also refreshes generated groups on ColorScheme. Apply our
+    -- final UI treatment after every plugin has handled the event.
+    vim.schedule(M.apply_ui_highlights)
+  end,
 })
 
 vim.api.nvim_create_autocmd({ "VimEnter", "FocusGained" }, {

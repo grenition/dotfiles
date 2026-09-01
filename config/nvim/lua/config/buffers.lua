@@ -1,5 +1,9 @@
 local M = {}
 
+function M.show_in_bufferline(buffer)
+  return vim.api.nvim_buf_get_name(buffer) ~= ""
+end
+
 function M.close(buffer)
   buffer = buffer or vim.api.nvim_get_current_buf()
 
