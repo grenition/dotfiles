@@ -20,6 +20,8 @@ opt.splitright = true
 opt.splitbelow = true
 opt.scrolloff = 5
 opt.sidescrolloff = 8
+-- Hide the command/message line while it is idle; Neovim reveals it on demand.
+opt.cmdheight = 0
 opt.wrap = false
 opt.tabstop = 4
 opt.shiftwidth = 4
