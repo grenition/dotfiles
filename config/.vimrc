@@ -1,6 +1,9 @@
 let mapleader = " "
 let mapleaderlocal = " "
 
+" Space is only a leader prefix; never fall back to its default `l` motion.
+nnoremap <Space> <Nop>
+
 set number
 set relativenumber
 set tabstop=4

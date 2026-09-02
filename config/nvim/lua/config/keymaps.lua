@@ -3,6 +3,9 @@ local tools = require("config.tool_windows")
 
 tools.setup()
 
+-- Space is only a leader prefix; never fall back to its default `l` motion.
+map("n", "<Space>", "<Nop>", { silent = true })
+
 local function project_root()
   return vim.fs.root(0, { ".git", "Makefile", "package.json" }) or vim.fn.getcwd()
 end
