@@ -94,9 +94,10 @@ overflow markers instead of wrapping.
 
 Use `<Space>ud` and `<Space>un` to select persisted light and dark themes.
 Neovim applies the matching macOS appearance on startup and focus. The default
-is the Visual Studio Code-inspired `vscode` theme: it automatically selects
-Light+ or Dark+ from Neovim's `background` setting. `terminal` is a regular
-no-background theme in both selectors.
+is the Visual Studio Code-inspired theme. Its `vscode-light` (Light+) and
+`vscode-dark` (Dark+) variants are separate entries in both selectors, so live
+preview always shows the named variant. `terminal` is a regular no-background
+theme in both selectors.
 
 ## Development
 

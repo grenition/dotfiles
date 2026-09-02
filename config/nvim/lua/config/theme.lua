@@ -1,7 +1,7 @@
 local M = {}
 
 local theme_file = vim.fs.joinpath(vim.fn.stdpath("config"), "lua/config/theme_selection.lua")
-local selection = { light = "terminal", dark = "terminal" }
+local selection = { light = "vscode-light", dark = "vscode-dark" }
 local last_mode
 local selection_stamp
 
@@ -68,7 +68,7 @@ function M.apply_ui_highlights()
   vim.api.nvim_set_hl(0, "NavigableLink", { underline = true })
   vim.api.nvim_set_hl(0, "NavigableDefinition", { underline = true })
 
-  if vim.g.colors_name == "vscode" and vim.o.background == "light" then
+  if vim.g.colors_name == "vscode-light" then
     -- Clear overrides from the earlier sidebar treatment. These groups are
     -- intentionally empty in vscode.nvim, so neo-tree inherits the editor UI.
     for _, group in ipairs({
@@ -123,6 +123,15 @@ local function load_selection()
     selection.dark = saved
   else
     return nil
+  end
+
+  -- Split the old background-dependent vscode entry into deterministic
+  -- colorscheme aliases. This keeps existing preference files compatible.
+  if selection.light == "vscode" then
+    selection.light = "vscode-light"
+  end
+  if selection.dark == "vscode" then
+    selection.dark = "vscode-dark"
   end
 
   return before.light ~= selection.light or before.dark ~= selection.dark
@@ -196,6 +205,9 @@ end
 function M.pick(mode)
   require("fzf-lua").colorschemes({
     live_preview = true,
+    -- The raw entry chooses its variant from the ambient 'background' value,
+    -- which makes its preview ambiguous. Show only the explicit variants.
+    ignore_patterns = { "^vscode$" },
     actions = {
       ["enter"] = function(selected)
         if selected[1] then
@@ -228,7 +240,11 @@ vim.api.nvim_create_autocmd({ "VimEnter", "FocusGained" }, {
 
 load_selection()
 selection_stamp = selection_file_stamp()
-vim.schedule(M.refresh)
+-- Apply the initial theme before plugins snapshot colors into generated
+-- highlight groups. In particular, indent-blankline copies IblIndent during
+-- setup and otherwise can retain Normal's bright foreground until the next
+-- manual :colorscheme command.
+M.refresh()
 
 -- macOS does not expose appearance-change notifications to a terminal app.
 -- One low-frequency timer also picks up selections saved by another instance.

@@ -29,8 +29,17 @@ assert(plugins["nvim-lspconfig"]._.loaded, "LSP config did not load")
 assert(plugins["vscode.nvim"]._.loaded, "VS Code theme did not load")
 
 local theme = require("config.theme")
-vim.o.background = "light"
-theme.apply("vscode")
+local initial_indent = vim.api.nvim_get_hl(0, { name = "@ibl.indent.char.1", link = false })
+local configured_indent = vim.api.nvim_get_hl(0, { name = "IblIndent", link = false })
+assert(initial_indent.fg == configured_indent.fg, "indent guides captured a stale startup foreground")
+assert(
+  initial_indent.fg ~= vim.api.nvim_get_hl(0, { name = "Normal", link = false }).fg,
+  "indent guides use the bright editor foreground on startup"
+)
+
+theme.apply("vscode-light")
+assert(vim.o.background == "light", "VS Code Light+ alias did not select a light background")
+assert(vim.g.colors_name == "vscode-light", "VS Code Light+ alias lost its distinct name")
 local accent = tonumber(vim.g.terminal_color_6:sub(2), 16)
 for _, group in ipairs({
   "BufferLineBufferSelected",
@@ -57,8 +66,9 @@ assert(
   "VS Code Light+ neo-tree directory icon color did not load"
 )
 
-vim.o.background = "dark"
-theme.apply("vscode")
+theme.apply("vscode-dark")
+assert(vim.o.background == "dark", "VS Code Dark+ alias did not select a dark background")
+assert(vim.g.colors_name == "vscode-dark", "VS Code Dark+ alias lost its distinct name")
 assert(
   vim.api.nvim_get_hl(0, { name = "BufferLineBufferSelected", link = false }).bg == 0x42B09A,
   "VS Code Dark+ active buffer background is too bright"
