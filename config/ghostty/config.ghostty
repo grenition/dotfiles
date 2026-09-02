@@ -1,0 +1,6 @@
+# Send Option-key combinations as terminal Alt sequences instead of macOS
+# Unicode characters (for example, Option-j should not produce ∆).
+macos-option-as-alt = true
+
+# Match the vscode.nvim light/dark palette and follow the macOS appearance.
+theme = light:VSCode Light,dark:VSCode Dark
