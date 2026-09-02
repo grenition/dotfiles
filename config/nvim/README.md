@@ -9,7 +9,12 @@ On macOS, run `./install-deps-osx.sh` from the repo root to install `neovim`,
 also needed for Treesitter parsers (comes with Xcode Command Line Tools), along
 with `tree-sitter-cli` 0.26.1 or newer.
 
-Start Neovim once to let `lazy.nvim` install the declared plugins. Run `:Mason` to inspect language servers.
+Start Neovim once to let `lazy.nvim` install the declared plugins. A single managed-tool
+registry then installs the configured language servers, linters, and formatters through
+Mason. Run `:ToolingInfo` to see their readiness, `:MasonToolsInstall` to retry missing
+tools, and `:MasonLog` for installation details. Failed or incomplete install passes
+produce one aggregated warning; newly installed language servers become available in
+the same session.
 
 ## C#
 
@@ -32,9 +37,12 @@ Kubernetes YAML files in `k8s/`, `kubernetes/`, or `manifests/` (and files endin
 in `.k8s.yaml` or `.kubernetes.yaml`) receive Kubernetes schema completion and
 validation from `yaml-language-server`, including schemas for known CRDs.
 
-Mason installs `yamlfmt` and `kube-linter`. Use `<Space>oc` to format a manifest;
-after each save, `kube-linter` reports best-practice diagnostics for YAML documents
-that contain both `apiVersion` and `kind`. The statusline marks matched manifests
+The managed-tool registry installs `yamlfmt` and `kube-linter`. Use `<Space>oc`
+to format a manifest; after each save, `kube-linter` reports best-practice
+diagnostics for YAML documents
+that contain both `apiVersion` and `kind`. If the linter is still installing or its
+installation failed, saving reports its state and the retry command instead of raising
+an executable error. The statusline marks matched manifests
 as `K8S` and shows `E`/`W` diagnostic counts. Other YAML files retain their generic
 icon. SchemaStore detects conventional `.gitlab-ci.yml` files. Repositories made
 entirely of arbitrarily named GitLab templates can opt in with one

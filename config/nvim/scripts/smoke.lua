@@ -18,7 +18,7 @@ local modified_buffer = vim.api.nvim_create_buf(true, false)
 vim.api.nvim_buf_set_lines(modified_buffer, 0, -1, false, { "unsaved" })
 vim.bo[modified_buffer].modified = true
 local notify = vim.notify
-vim.notify = function() end
+vim.notify = function(...) end
 require("config.buffers").close(modified_buffer)
 vim.notify = notify
 assert(vim.api.nvim_buf_is_valid(modified_buffer), "modified buffer was closed without confirmation")
@@ -27,6 +27,18 @@ vim.api.nvim_buf_delete(modified_buffer, { force = true })
 local plugins = require("lazy.core.config").plugins
 assert(plugins["nvim-lspconfig"]._.loaded, "LSP config did not load")
 assert(plugins["vscode.nvim"]._.loaded, "VS Code theme did not load")
+assert(plugins["mason-tool-installer.nvim"]._.loaded, "managed tool installer did not load before VimEnter")
+assert(vim.fn.exists(":MasonToolsInstall") == 2, "managed tool install command is missing")
+assert(vim.fn.exists(":ToolingInfo") == 2, "managed tool status command is missing")
+
+local tooling = require("config.tooling")
+assert(
+  vim.deep_equal(plugins["mason-tool-installer.nvim"].opts.ensure_installed, tooling.mason_packages()),
+  "installer tools diverged from the managed registry"
+)
+assert(vim.tbl_contains(tooling.mason_packages(), "kube-linter"), "kube-linter is not managed")
+assert(vim.tbl_contains(tooling.mason_packages(), "yamlfmt"), "yamlfmt is not managed")
+assert(vim.tbl_contains(tooling.lsp_servers(), "yamlls"), "YAML LSP is not managed")
 
 local theme = require("config.theme")
 local initial_indent = vim.api.nvim_get_hl(0, { name = "@ibl.indent.char.1", link = false })
