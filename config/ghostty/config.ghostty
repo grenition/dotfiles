@@ -4,3 +4,7 @@ macos-option-as-alt = true
 
 # Match the vscode.nvim light/dark palette and follow the macOS appearance.
 theme = light:VSCode Light,dark:VSCode Dark
+
+# Detect plain URLs and show link previews.
+link-url = true
+link-previews = true
