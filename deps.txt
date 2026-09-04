@@ -13,3 +13,4 @@ tmux
 tree-sitter-cli:tree-sitter
 gopls
 goimports
+carapace

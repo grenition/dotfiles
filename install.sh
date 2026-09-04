@@ -27,5 +27,11 @@ if ! grep -q 'zsh/keybindings.zsh' "$ZSHRC"; then
     "$SRC" "$SRC" >> "$ZSHRC"
 fi
 
+# IDE-style command completion (idempotent).
+if ! grep -q 'zsh/completion.zsh' "$ZSHRC"; then
+  printf '\n# Command completion from the dotfiles repo\n[ -f "%s/zsh/completion.zsh" ] && source "%s/zsh/completion.zsh"\n' \
+    "$SRC" "$SRC" >> "$ZSHRC"
+fi
+
 echo "Symlinked dotfiles from $SRC"
 echo "Run ./install-deps-osx.sh to install required tools via Homebrew (see deps.txt)."

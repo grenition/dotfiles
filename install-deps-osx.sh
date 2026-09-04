@@ -24,6 +24,22 @@ else
   brew install alesbrelih/gitlab-ci-ls/gitlab-ci-ls
 fi
 
+# zsh completion plugins (no binaries; checked by their installed files).
+BREW_PREFIX="$(brew --prefix)"
+for pkg_path in \
+  "zsh-autocomplete:share/zsh-autocomplete/zsh-autocomplete.plugin.zsh" \
+  "zsh-autosuggestions:share/zsh-autosuggestions/zsh-autosuggestions.zsh" \
+  "zsh-completions:share/zsh-completions"
+do
+  pkg="${pkg_path%%:*}"
+  path_="$BREW_PREFIX/${pkg_path#*:}"
+  if [ -e "$path_" ]; then
+    echo "$pkg already installed, skipping"
+  else
+    brew install "$pkg"
+  fi
+done
+
 # macOS-only extras, not in deps.txt since they have no common cross-platform name.
 # Uncomment if you work on .NET projects (needed for the C# tooling in config/nvim).
 # brew install --cask dotnet-sdk
