@@ -73,8 +73,7 @@ leading `/` also supports GitLab's project-root-relative include convention. If
 there is no file or URL under the cursor, `gd` falls back to LSP definition.
 Navigable URLs and paths are underlined while the cursor is on them.
 If a remote URL points back into the current repository, `gd` opens its local
-file. Links and symbols with an LSP definition are underlined on hover without
-replacing their syntax colour.
+file.
 
 Markdown uses Marksman for heading symbols, completion, hover, diagnostics,
 references, rename, and `gd` navigation through file links and heading anchors.

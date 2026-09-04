@@ -66,7 +66,6 @@ function M.apply_ui_highlights()
   end
 
   vim.api.nvim_set_hl(0, "NavigableLink", { underline = true })
-  vim.api.nvim_set_hl(0, "NavigableDefinition", { underline = true })
 
   if vim.g.colors_name == "vscode-light" then
     -- Clear overrides from the earlier sidebar treatment. These groups are
