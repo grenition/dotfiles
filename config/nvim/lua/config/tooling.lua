@@ -27,6 +27,25 @@ local tools = {
     end,
   },
   {
+    package = "gopls",
+    executable = "gopls",
+    lsp = "gopls",
+    managed = false,
+    condition = function()
+      return vim.fn.executable("go") == 1
+    end,
+    recovery = "Install it with the platform dependency script; use :ToolingInfo to recheck.",
+  },
+  {
+    package = "goimports",
+    executable = "goimports",
+    managed = false,
+    condition = function()
+      return vim.fn.executable("go") == 1
+    end,
+    recovery = "Install it with the platform dependency script; use :ToolingInfo to recheck.",
+  },
+  {
     package = "gitlab-ci-ls",
     executable = "gitlab-ci-ls",
     managed = false,

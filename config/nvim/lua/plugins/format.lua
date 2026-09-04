@@ -8,6 +8,11 @@ if vim.fn.executable("dotnet") == 1 then
   formatters_by_ft.cs = { "csharpier" }
 end
 
+-- gofmt ships with the Go toolchain itself; goimports is declared in tooling.lua.
+if vim.fn.executable("go") == 1 then
+  formatters_by_ft.go = { "goimports", "gofmt", stop_after_first = true }
+end
+
 return {
   "stevearc/conform.nvim",
   event = { "BufWritePre" },

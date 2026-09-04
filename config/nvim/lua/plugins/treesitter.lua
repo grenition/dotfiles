@@ -1,4 +1,4 @@
-local parsers = { "bash", "json", "lua", "markdown", "toml", "vim", "yaml" }
+local parsers = { "bash", "go", "json", "lua", "markdown", "toml", "vim", "yaml" }
 
 if vim.fn.executable("dotnet") == 1 then
   table.insert(parsers, "c_sharp")

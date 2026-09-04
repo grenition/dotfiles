@@ -11,3 +11,5 @@ ripgrep:rg
 fzf
 tmux
 tree-sitter-cli:tree-sitter
+gopls
+goimports

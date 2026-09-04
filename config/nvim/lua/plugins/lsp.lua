@@ -93,6 +93,10 @@ return {
       elseif require("config.gitlab").is_ci_file(vim.api.nvim_buf_get_name(0)) then
         tooling.require("gitlab-ci-ls")
       end
+      -- gopls is installed outside Mason (deps.txt); automatic_enable skips it.
+      if tooling.available("gopls") then
+        vim.lsp.enable("gopls")
+      end
       if tooling.enabled("roslyn-language-server") then
         tooling.on_ready("roslyn-language-server", enable_roslyn)
       end

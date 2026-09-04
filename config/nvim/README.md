@@ -5,7 +5,8 @@ A small, modular Neovim configuration with no distribution and no general-purpos
 ## Requirements
 
 On macOS, run `./install-deps-osx.sh` from the repo root to install `neovim`,
-`git`, `rg`, `fzf`, and `tmux` via Homebrew (see `deps.txt`). A C compiler is
+`git`, `rg`, `fzf`, `tmux`, and the Go tools `gopls` and `goimports` via
+Homebrew (see `deps.txt`). A C compiler is
 also needed for Treesitter parsers (comes with Xcode Command Line Tools), along
 with `tree-sitter-cli` 0.26.1 or newer.
 
@@ -30,6 +31,17 @@ is optional: when the .NET SDK is absent, it is not installed or started; standa
 Use `<Space>uh` to choose whether LSP inlay hints are shown and `<Space>ul` to do
 the same for CodeLens reference counts. Both preferences are saved in the config and
 apply to every language server that supports the corresponding feature.
+
+## Go
+
+`gopls` and `goimports` are installed by the platform dependency script
+(Homebrew on macOS, see `deps.txt`) instead of Mason, alongside the Homebrew
+Go toolchain. Opening a Go file starts `gopls` for diagnostics, completion,
+navigation, refactors, and inlay hints. Use `<Space>oc` to format with
+`goimports` (falling back to the toolchain's `gofmt`) and `<Space>oi` to
+organize imports. The Go Treesitter parser is installed with the
+configuration. Go tooling is optional: when the Go toolchain is absent,
+nothing is installed or started; `.go` files retain syntax highlighting only.
 
 ## Kubernetes manifests
 
