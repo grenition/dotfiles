@@ -19,5 +19,13 @@ ln -sfn "$SRC/ghostty/config.ghostty" "$HOME/Library/Application Support/com.mit
 ln -sfn "$SRC/vscode/settings.json" "$HOME/Library/Application Support/Code/User/settings.json"
 ln -sfn "$SRC/vscode/keybindings.json" "$HOME/Library/Application Support/Code/User/keybindings.json"
 
+# macOS-style zsh keybindings (idempotent).
+ZSHRC="$HOME/.zshrc"
+touch "$ZSHRC"
+if ! grep -q 'zsh/keybindings.zsh' "$ZSHRC"; then
+  printf '\n# macOS-style editing keys from the dotfiles repo\n[ -f "%s/zsh/keybindings.zsh" ] && source "%s/zsh/keybindings.zsh"\n' \
+    "$SRC" "$SRC" >> "$ZSHRC"
+fi
+
 echo "Symlinked dotfiles from $SRC"
 echo "Run ./install-deps-osx.sh to install required tools via Homebrew (see deps.txt)."

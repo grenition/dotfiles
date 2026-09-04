@@ -5,6 +5,20 @@ macos-option-as-alt = true
 # Match the vscode.nvim light/dark palette and follow the macOS appearance.
 theme = light:VSCode Light,dark:VSCode Dark
 
+# Option+Left/Right: drop Ghostty's default readline-style Esc+b/Esc+f so the
+# standard Alt CSI sequences reach Neovim and zsh (<M-Left>/<M-Right>).
+keybind = alt+arrow_left=unbind
+keybind = alt+arrow_right=unbind
+
+# macOS-style line editing: Cmd+Left/Right and Cmd+Backspace reach the shell
+# and Neovim as Home/End and Ctrl+U.
+keybind = cmd+left=text:\x1b[H
+keybind = cmd+right=text:\x1b[F
+keybind = cmd+backspace=text:\x15
+# Cmd+Up/Down arrive as Ctrl+Up/Down (document begin/end in Neovim).
+keybind = cmd+up=text:\x1b[1;5A
+keybind = cmd+down=text:\x1b[1;5B
+
 # Detect plain URLs and show link previews.
 link-url = true
 link-previews = true

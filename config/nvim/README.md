@@ -43,6 +43,16 @@ organize imports. The Go Treesitter parser is installed with the
 configuration. Go tooling is optional: when the Go toolchain is absent,
 nothing is installed or started; `.go` files retain syntax highlighting only.
 
+## Clipboard and macOS editing keys
+
+Ctrl and Option plus arrows move by word, Cmd plus Left/Right arrive as
+Home/End and Cmd+Backspace as Ctrl+U (line deletion), Cmd+Up/Down jump to
+the first and last line, and Ctrl/Option+Backspace deletes the previous
+word — in Insert mode and in the shell (`config/zsh/keybindings.zsh`),
+matching native macOS text fields. Insert mode maps every common
+modifier+arrow combination so no key ever splits into a bare Esc that
+would switch back to Normal mode.
+
 ## Kubernetes manifests
 
 Kubernetes YAML files in `k8s/`, `kubernetes/`, or `manifests/` (and files ending

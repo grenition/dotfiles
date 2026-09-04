@@ -138,3 +138,29 @@ map("x", "P", '"_dP')
 -- macOS terminals send Option+Backspace as Meta+Backspace when configured to
 -- use Esc+.  Keep it a normal word deletion inside Insert mode.
 map("i", "<M-BS>", "<C-w>", { desc = "Delete previous word" })
+
+-- macOS-style cursor movement: Insert mode behaves like a plain editor.
+-- Ctrl+arrows already move by word natively in Insert mode; Option and Shift
+-- arrows are mapped to match. Every common modifier+arrow is mapped in
+-- Insert mode on purpose: an unmapped <M-key>/<S-key> would split into a
+-- bare Esc and kick Insert mode back to Normal. Cmd+Left/Right/Backspace
+-- arrive as Home/End/Ctrl+U through the Ghostty keybinds, Cmd+Up/Down as
+-- Ctrl+Up/Down.
+map("i", "<M-Left>", "<C-Left>", { desc = "Previous word" })
+map("i", "<M-Right>", "<C-Right>", { desc = "Next word" })
+map("i", "<S-Left>", "<C-Left>", { desc = "Previous word" })
+map("i", "<S-Right>", "<C-Right>", { desc = "Next word" })
+map("i", "<M-Up>", "<C-o>gk", { desc = "Display line up" })
+map("i", "<M-Down>", "<C-o>gj", { desc = "Display line down" })
+map("i", "<S-Up>", "<C-o>gk", { desc = "Display line up" })
+map("i", "<S-Down>", "<C-o>gj", { desc = "Display line down" })
+map({ "n", "x" }, "<M-Left>", "b", { desc = "Previous word" })
+map({ "n", "x" }, "<M-Right>", "w", { desc = "Next word" })
+map({ "n", "x" }, "<C-Left>", "b", { desc = "Previous word" })
+map({ "n", "x" }, "<C-Right>", "w", { desc = "Next word" })
+map("i", "<C-BS>", "<C-w>", { desc = "Delete previous word" })
+map("i", "<C-h>", "<C-w>", { desc = "Delete previous word" })
+map("n", "<C-Up>", "gg", { desc = "First line" })
+map("n", "<C-Down>", "G", { desc = "Last line" })
+map("i", "<C-Up>", "<C-o>gg", { desc = "First line" })
+map("i", "<C-Down>", "<C-o>G", { desc = "Last line" })
