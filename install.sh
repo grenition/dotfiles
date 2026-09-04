@@ -19,17 +19,12 @@ ln -sfn "$SRC/ghostty/config.ghostty" "$HOME/Library/Application Support/com.mit
 ln -sfn "$SRC/vscode/settings.json" "$HOME/Library/Application Support/Code/User/settings.json"
 ln -sfn "$SRC/vscode/keybindings.json" "$HOME/Library/Application Support/Code/User/keybindings.json"
 
-# macOS-style zsh keybindings (idempotent).
+# zsh config from the dotfiles repo (idempotent). Order matters: keybindings
+# bind reset (bindkey -e) must run before completion plugins wrap the widgets.
 ZSHRC="$HOME/.zshrc"
 touch "$ZSHRC"
-if ! grep -q 'zsh/keybindings.zsh' "$ZSHRC"; then
-  printf '\n# macOS-style editing keys from the dotfiles repo\n[ -f "%s/zsh/keybindings.zsh" ] && source "%s/zsh/keybindings.zsh"\n' \
-    "$SRC" "$SRC" >> "$ZSHRC"
-fi
-
-# IDE-style command completion (idempotent).
-if ! grep -q 'zsh/completion.zsh' "$ZSHRC"; then
-  printf '\n# Command completion from the dotfiles repo\n[ -f "%s/zsh/completion.zsh" ] && source "%s/zsh/completion.zsh"\n' \
+if ! grep -q 'dotfiles zsh' "$ZSHRC"; then
+  printf '\n# dotfiles zsh\nfor f in keybindings completion; do [ -f "%s/zsh/$f.zsh" ] && source "%s/zsh/$f.zsh"; done\n' \
     "$SRC" "$SRC" >> "$ZSHRC"
 fi
 
