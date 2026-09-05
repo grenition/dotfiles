@@ -5,10 +5,10 @@ macos-option-as-alt = true
 # Match the vscode.nvim light/dark palette and follow the macOS appearance.
 theme = light:VSCode Light,dark:VSCode Dark
 
-# Clipboard: Ctrl+C copies when the terminal has a selection and still
-# reaches the program as SIGINT otherwise; Ctrl+V always pastes.
-keybind = performable:ctrl+c=copy_to_clipboard
-keybind = ctrl+v=paste_from_clipboard
+# Option+Left/Right: drop Ghostty's default readline-style Esc+b/Esc+f so the
+# standard Alt CSI sequences reach Neovim and zsh (<M-Left>/<M-Right>).
+keybind = alt+arrow_left=unbind
+keybind = alt+arrow_right=unbind
 
 # Option+Left/Right: drop Ghostty's default readline-style Esc+b/Esc+f so the
 # standard Alt CSI sequences reach Neovim and zsh (<M-Left>/<M-Right>).
