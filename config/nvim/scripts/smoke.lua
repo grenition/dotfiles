@@ -42,6 +42,7 @@ assert(vim.tbl_contains(tooling.lsp_servers(), "yamlls"), "YAML LSP is not manag
 if vim.fn.executable("go") == 1 then
   assert(vim.tbl_contains(tooling.lsp_servers(), "gopls"), "Go LSP is not enabled when Go is installed")
 end
+assert(vim.o.clipboard == "unnamedplus", "`y`/`p` must sync with the system clipboard")
 
 local theme = require("config.theme")
 local initial_indent = vim.api.nvim_get_hl(0, { name = "@ibl.indent.char.1", link = false })

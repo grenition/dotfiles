@@ -139,6 +139,20 @@ map("x", "P", '"_dP')
 -- use Esc+.  Keep it a normal word deletion inside Insert mode.
 map("i", "<M-BS>", "<C-w>", { desc = "Delete previous word" })
 
+-- `y`/`p` sync with the system clipboard (`clipboard=unnamedplus`).
+-- Ctrl+C/Ctrl+V are explicit clipboard shortcuts on top: Ctrl+C copies the
+-- Visual-mode selection (or the current line in Normal mode), and Ctrl+V
+-- pastes in every mode. Ghostty binds Ctrl+C to copy-on-selection and Ctrl+V
+-- to paste at the terminal level, so they work in the shell and other TUIs.
+-- Ctrl+V no longer reaches Neovim there, so Ctrl+Q stays the visual block.
+map("n", "<C-c>", '"+yy', { desc = "Copy line to system clipboard" })
+map("x", "<C-c>", '"+y', { desc = "Copy to system clipboard" })
+map("n", "<C-v>", '"+p', { desc = "Paste from system clipboard" })
+map("x", "<C-v>", '"+p', { desc = "Paste from system clipboard" })
+map("i", "<C-v>", "<C-r><C-o>+", { desc = "Paste from system clipboard" })
+map("c", "<C-v>", "<C-r>+", { desc = "Paste from system clipboard" })
+map({ "n", "x" }, "<C-q>", "<C-v>", { desc = "Visual block mode" })
+
 -- macOS-style cursor movement: Insert mode behaves like a plain editor.
 -- Ctrl+arrows already move by word natively in Insert mode; Option and Shift
 -- arrows are mapped to match. Every common modifier+arrow is mapped in
@@ -148,12 +162,6 @@ map("i", "<M-BS>", "<C-w>", { desc = "Delete previous word" })
 -- Ctrl+Up/Down.
 map("i", "<M-Left>", "<C-Left>", { desc = "Previous word" })
 map("i", "<M-Right>", "<C-Right>", { desc = "Next word" })
-map("i", "<S-Left>", "<C-Left>", { desc = "Previous word" })
-map("i", "<S-Right>", "<C-Right>", { desc = "Next word" })
-map("i", "<M-Up>", "<C-o>gk", { desc = "Display line up" })
-map("i", "<M-Down>", "<C-o>gj", { desc = "Display line down" })
-map("i", "<S-Up>", "<C-o>gk", { desc = "Display line up" })
-map("i", "<S-Down>", "<C-o>gj", { desc = "Display line down" })
 map({ "n", "x" }, "<M-Left>", "b", { desc = "Previous word" })
 map({ "n", "x" }, "<M-Right>", "w", { desc = "Next word" })
 map({ "n", "x" }, "<C-Left>", "b", { desc = "Previous word" })

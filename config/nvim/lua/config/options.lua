@@ -6,6 +6,8 @@ local opt = vim.opt
 opt.number = true
 opt.relativenumber = true
 opt.mouse = "a"
+-- `y`/`p` sync with the system clipboard; Ctrl+C/Ctrl+V are explicit
+-- clipboard shortcuts (see lua/config/keymaps.lua).
 opt.clipboard = "unnamedplus"
 opt.breakindent = true
 opt.undofile = true
@@ -29,9 +31,6 @@ opt.expandtab = true
 opt.conceallevel = 0
 opt.fillchars:append({ eob = " " })
 opt.termguicolors = false
-opt.selectmode = ""
-opt.keymodel = ""
-
 vim.diagnostic.config({
   severity_sort = true,
   underline = true,

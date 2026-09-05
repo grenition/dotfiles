@@ -45,6 +45,15 @@ nothing is installed or started; `.go` files retain syntax highlighting only.
 
 ## Clipboard and macOS editing keys
 
+`y`, `p`, and the other register operations sync with the system clipboard
+(`clipboard=unnamedplus`), so yanked text is available everywhere. Ctrl+C
+and Ctrl+V are explicit clipboard shortcuts in every mode: Ctrl+C copies
+the Visual-mode selection (or the current line in Normal mode), and Ctrl+V
+pastes. `<C-q>` replaces the freed Ctrl+V as visual block mode. Ghostty
+additionally binds Ctrl+C to copy-on-selection and Ctrl+V to paste at the
+terminal level, so the same keys work in the shell and other TUIs;
+Cmd+C/Cmd+V keep their native roles.
+
 Ctrl and Option plus arrows move by word, Cmd plus Left/Right arrive as
 Home/End and Cmd+Backspace as Ctrl+U (line deletion), Cmd+Up/Down jump to
 the first and last line, and Ctrl/Option+Backspace deletes the previous
