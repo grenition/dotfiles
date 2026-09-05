@@ -60,7 +60,11 @@ the first and last line, and Ctrl/Option+Backspace deletes the previous
 word — in Insert mode and in the shell (`config/zsh/keybindings.zsh`),
 matching native macOS text fields. Insert mode maps every common
 modifier+arrow combination so no key ever splits into a bare Esc that
-would switch back to Normal mode.
+would switch back to Normal mode. Shift+arrows (and their Ctrl/Option/Cmd
+combos) start a native Select-mode selection via `keymodel=startsel`:
+typing or Backspace replaces it, and `<C-c>` copies it to the system
+clipboard. Inside neo-tree the Shift+arrows navigate the tree instead of
+selecting text.
 
 ## Kubernetes manifests
 

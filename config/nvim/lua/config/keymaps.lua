@@ -162,6 +162,13 @@ map({ "n", "x" }, "<C-q>", "<C-v>", { desc = "Visual block mode" })
 -- Ctrl+Up/Down.
 map("i", "<M-Left>", "<C-Left>", { desc = "Previous word" })
 map("i", "<M-Right>", "<C-Right>", { desc = "Next word" })
+-- Shift+arrows (and their Ctrl/Option/Cmd combos) start a native Select-mode
+-- selection through 'keymodel=startsel' + 'selectmode=key' (see options.lua):
+-- typing or Backspace replaces the selection like in a regular editor, and
+-- Ctrl+C copies it to the system clipboard.
+map("s", "<C-c>", '<C-o>"+y', { desc = "Copy selection to system clipboard" })
+map("i", "<M-Up>", "<C-o>gk", { desc = "Display line up" })
+map("i", "<M-Down>", "<C-o>gj", { desc = "Display line down" })
 map({ "n", "x" }, "<M-Left>", "b", { desc = "Previous word" })
 map({ "n", "x" }, "<M-Right>", "w", { desc = "Next word" })
 map({ "n", "x" }, "<C-Left>", "b", { desc = "Previous word" })

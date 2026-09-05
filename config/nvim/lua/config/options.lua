@@ -31,6 +31,11 @@ opt.expandtab = true
 opt.conceallevel = 0
 opt.fillchars:append({ eob = " " })
 opt.termguicolors = false
+-- Shift+arrows (with any modifier combo) start a native Select-mode
+-- selection that typing replaces, like in a regular editor.
+opt.keymodel = "startsel,stopsel"
+opt.selectmode = "key"
+
 vim.diagnostic.config({
   severity_sort = true,
   underline = true,

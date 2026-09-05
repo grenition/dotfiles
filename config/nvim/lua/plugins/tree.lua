@@ -19,6 +19,25 @@ return {
           -- JetBrains-style preview: entering the project tree starts a
           -- non-floating preview in the editor.
           vim.schedule(preview.show_selected)
+          -- Keep GUI-style Shift+arrow selection out of the tree buffer:
+          -- navigate like the tree's own h/j/k/l instead.
+          local tree_nav = {
+            ["<S-Up>"] = "k",
+            ["<C-S-Up>"] = "k",
+            ["<S-Down>"] = "j",
+            ["<C-S-Down>"] = "j",
+            ["<S-Left>"] = "h",
+            ["<C-S-Left>"] = "h",
+            ["<M-S-Left>"] = "h",
+            ["<S-Home>"] = "h",
+            ["<S-Right>"] = "l",
+            ["<C-S-Right>"] = "l",
+            ["<M-S-Right>"] = "l",
+            ["<S-End>"] = "l",
+          }
+          for lhs, rhs in pairs(tree_nav) do
+            vim.keymap.set("n", lhs, rhs, { buffer = 0, desc = "Navigate tree" })
+          end
         end,
       },
       {
