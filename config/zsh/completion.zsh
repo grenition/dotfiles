@@ -13,6 +13,9 @@ brew_prefix="${HOMEBREW_PREFIX:-/opt/homebrew}"
 [ -f "$brew_prefix/share/zsh-autocomplete/zsh-autocomplete.plugin.zsh" ] && \
   source "$brew_prefix/share/zsh-autocomplete/zsh-autocomplete.plugin.zsh"
 
+# Its recent-dirs feature writes to this dir on every cd, but nothing creates it.
+mkdir -p "${XDG_DATA_HOME:-$HOME/.local/share}/zsh"
+
 zstyle ':completion:*' menu select
 
 [ -f "$brew_prefix/share/zsh-autosuggestions/zsh-autosuggestions.zsh" ] && \
