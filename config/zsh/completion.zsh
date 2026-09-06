@@ -9,9 +9,15 @@ brew_prefix="${HOMEBREW_PREFIX:-/opt/homebrew}"
 # Must be in fpath before the completion system initializes.
 [ -d "$brew_prefix/share/zsh-completions" ] && fpath=("$brew_prefix/share/zsh-completions" $fpath)
 
+# Keep history selections identical to the original command line.
+zstyle ':autocomplete:*' add-semicolon no
+
 # zsh-autocomplete owns compinit and must be sourced before any compdef.
 [ -f "$brew_prefix/share/zsh-autocomplete/zsh-autocomplete.plugin.zsh" ] && \
   source "$brew_prefix/share/zsh-autocomplete/zsh-autocomplete.plugin.zsh"
+
+# Submit immediately instead of using Enter to leave the completion menu.
+bindkey -M menuselect '^M' .accept-line
 
 # Its recent-dirs feature writes to this dir on every cd, but nothing creates it.
 mkdir -p "${XDG_DATA_HOME:-$HOME/.local/share}/zsh"
