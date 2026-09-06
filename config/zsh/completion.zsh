@@ -18,6 +18,10 @@ mkdir -p "${XDG_DATA_HOME:-$HOME/.local/share}/zsh"
 
 zstyle ':completion:*' menu select
 
+# Gray ghost text: default fg=8 depends on the terminal palette mapping
+# bright black to the foreground color; a truecolor hex gray is stable.
+ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=#7f7f7f'
+
 [ -f "$brew_prefix/share/zsh-autosuggestions/zsh-autosuggestions.zsh" ] && \
   source "$brew_prefix/share/zsh-autosuggestions/zsh-autosuggestions.zsh"
 
