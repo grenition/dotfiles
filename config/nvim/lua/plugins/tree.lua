@@ -46,9 +46,7 @@ return {
       },
       {
         event = "neo_tree_buffer_leave",
-        handler = function()
-          preview.hide()
-        end,
+        handler = preview.leave,
       },
       {
         event = "file_opened",

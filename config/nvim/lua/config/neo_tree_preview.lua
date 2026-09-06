@@ -83,8 +83,23 @@ function M.show_selected()
   preview_buffer = owns_buffer and buffer or nil
 end
 
-function M.hide()
-  preview_api().hide()
+function M.leave()
+  local preview = preview_api()
+  -- Neo-tree emits buffer_leave after entering the destination buffer. Its
+  -- preview window marker is part of the locked-revision integration above.
+  if not preview.is_active() or vim.w.neo_tree_preview ~= 1 then
+    preview.hide()
+    return
+  end
+
+  local buffer = vim.api.nvim_get_current_buf()
+  local view = vim.fn.winsaveview()
+  -- Let Neo-tree restore window options and remove preview subscriptions,
+  -- then keep the file the user entered instead of the pre-preview buffer.
+  preview.hide()
+  vim.api.nvim_win_set_buf(0, buffer)
+  vim.fn.winrestview(view)
+  M.pin(vim.api.nvim_buf_get_name(buffer))
 end
 
 return M
