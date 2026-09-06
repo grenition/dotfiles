@@ -18,6 +18,8 @@ zstyle ':autocomplete:*' add-semicolon no
 
 # Submit immediately instead of using Enter to leave the completion menu.
 bindkey -M menuselect '^M' .accept-line
+# Accept the selected directory and continue completing with Tab.
+bindkey -M menuselect '^I' accept-and-infer-next-history
 
 # Its recent-dirs feature writes to this dir on every cd, but nothing creates it.
 mkdir -p "${XDG_DATA_HOME:-$HOME/.local/share}/zsh"
@@ -32,6 +34,13 @@ ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=#7f7f7f'
   source "$brew_prefix/share/zsh-autosuggestions/zsh-autosuggestions.zsh"
 
 command -v carapace >/dev/null 2>&1 && source <(carapace _carapace zsh)
+
+# Leave URL styling to the terminal; syntax highlighting should use color only.
+typeset -gA ZSH_HIGHLIGHT_STYLES
+ZSH_HIGHLIGHT_STYLES[path]=none
+ZSH_HIGHLIGHT_STYLES[suffix-alias]='fg=green'
+ZSH_HIGHLIGHT_STYLES[precommand]='fg=green'
+ZSH_HIGHLIGHT_STYLES[autodirectory]='fg=green'
 
 # Must be last: it wraps the widgets of the plugins above.
 [ -f "$brew_prefix/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" ] && \
