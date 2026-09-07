@@ -20,6 +20,10 @@ zstyle ':autocomplete:*' add-semicolon no
 bindkey -M menuselect '^M' .accept-line
 # Accept the selected directory and continue completing with Tab.
 bindkey -M menuselect '^I' accept-and-infer-next-history
+# Keep Left/Right editing the command line while the history/completion menu is
+# open. zsh-autocomplete otherwise uses them to move between menu choices.
+bindkey -M menuselect '^[[D' .backward-char '^[OD' .backward-char
+bindkey -M menuselect '^[[C' .forward-char  '^[OC' .forward-char
 
 # Its recent-dirs feature writes to this dir on every cd, but nothing creates it.
 mkdir -p "${XDG_DATA_HOME:-$HOME/.local/share}/zsh"
