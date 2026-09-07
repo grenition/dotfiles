@@ -21,6 +21,12 @@ keybind = shift+arrow_right=unbind
 keybind = shift+arrow_up=unbind
 keybind = shift+arrow_down=unbind
 
+# Linux-terminal clipboard convention: Ctrl+Shift+C/V copy and paste at the
+# terminal level. Plain Ctrl+C keeps sending SIGINT, and Neovim keys stay
+# reachable because Ghostty consumes only these Ctrl+Shift combos.
+keybind = ctrl+shift+c=copy_to_clipboard
+keybind = ctrl+shift+v=paste_from_clipboard
+
 # macOS-style line editing: Cmd+Left/Right and Cmd+Backspace reach the shell
 # and Neovim as Home/End and Ctrl+U. With Shift they select to the line edges
 # or the first/last line.

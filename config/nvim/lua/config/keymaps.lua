@@ -151,8 +151,11 @@ map("i", "<M-Right>", "<C-Right>", { desc = "Next word" })
 -- Shift+arrows (and their Ctrl/Option/Cmd combos) start a native Select-mode
 -- selection through 'keymodel=startsel' + 'selectmode=key' (see options.lua):
 -- typing or Backspace replaces the selection like in a regular editor, and
--- Ctrl+C copies it to the system clipboard.
+-- Ctrl+C copies it to the system clipboard. Visual mode shares the copy bind
+-- and Ctrl+V pastes the system clipboard in Insert mode.
 map("s", "<C-c>", '<C-o>"+y', { desc = "Copy selection to system clipboard" })
+map("x", "<C-c>", '"+y', { desc = "Copy selection to system clipboard" })
+map("i", "<C-v>", '<C-r><C-o>+', { desc = "Paste from system clipboard" })
 map("i", "<M-Up>", "<C-o>gk", { desc = "Display line up" })
 map("i", "<M-Down>", "<C-o>gj", { desc = "Display line down" })
 map({ "n", "x" }, "<M-Left>", "b", { desc = "Previous word" })
