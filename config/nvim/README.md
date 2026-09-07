@@ -54,11 +54,10 @@ modifier+arrow combination so no key ever splits into a bare Esc that
 would switch back to Normal mode. Shift+arrows (and their Ctrl/Option/Cmd
 combos) start a native Select-mode selection via `keymodel=startsel`:
 typing or Backspace replaces it, and `<C-c>` copies it to the system
-clipboard. `<C-c>` also yanks a Visual-mode selection, and `<C-v>` pastes
-the system clipboard in Insert mode (Normal-mode `<C-v>` stays visual
-block); both copies flash a brief tab-colored "Copied to clipboard"
-confirmation. Inside neo-tree the Shift+arrows navigate the tree instead of
-selecting text.
+clipboard. `<C-c>` also yanks a Visual-mode selection, `<C-x>` cuts it, and
+`<C-v>` pastes the system clipboard in Insert mode (Normal-mode `<C-v>`
+stays visual block). Inside neo-tree the Shift+arrows navigate the tree
+instead of selecting text.
 
 ## Kubernetes manifests
 

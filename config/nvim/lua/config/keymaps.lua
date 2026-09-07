@@ -151,20 +151,13 @@ map("i", "<M-Right>", "<C-Right>", { desc = "Next word" })
 -- Shift+arrows (and their Ctrl/Option/Cmd combos) start a native Select-mode
 -- selection through 'keymodel=startsel' + 'selectmode=key' (see options.lua):
 -- typing or Backspace replaces the selection like in a regular editor, and
--- Ctrl+C copies it to the system clipboard. Visual mode shares the copy bind
--- and Ctrl+V pastes the system clipboard in Insert mode.
--- Brief CopyFlash confirmation after copying, cleared after 500 ms to match
--- tmux display-time. Called via <Cmd> from the <C-c> maps, so it needs a _G
--- entry point like clean_statusline. gv is useless in a function-rhs mapping
--- (the '< '> marks are not updated yet), hence the string yank + <Cmd> flash.
-_G.copy_flash = function()
-  vim.api.nvim_echo({ { " Copied to clipboard ", "CopyFlash" } }, false, {})
-  vim.defer_fn(function()
-    vim.api.nvim_echo({ { "" } }, false, {})
-  end, 500)
-end
-map("s", "<C-c>", '<C-o>"+y<Cmd>lua _G.copy_flash()<CR>', { desc = "Copy selection to system clipboard" })
-map("x", "<C-c>", '"+y<Cmd>lua _G.copy_flash()<CR>', { desc = "Copy selection to system clipboard" })
+-- Ctrl+C copies it to the system clipboard. Visual mode shares the copy and
+-- cut binds, Ctrl+X cuts, and Ctrl+V pastes the system clipboard in Insert
+-- mode.
+map("s", "<C-c>", '<C-o>"+y', { desc = "Copy selection to system clipboard" })
+map("x", "<C-c>", '"+y', { desc = "Copy selection to system clipboard" })
+map("s", "<C-x>", '<C-o>"+x', { desc = "Cut selection to system clipboard" })
+map("x", "<C-x>", '"+x', { desc = "Cut selection to system clipboard" })
 map("i", "<C-v>", '<C-r><C-o>+', { desc = "Paste from system clipboard" })
 map("i", "<M-Up>", "<C-o>gk", { desc = "Display line up" })
 map("i", "<M-Down>", "<C-o>gj", { desc = "Display line down" })

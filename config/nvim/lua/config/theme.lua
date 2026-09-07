@@ -18,13 +18,6 @@ function M.apply_ui_highlights()
   local accent = is_dark and "#42B09A" or (vim.g.terminal_color_6 or "#00A7B5")
   local accent_cterm = is_dark and 37 or 6
   local accent_fg = is_dark and "#1F1F1F" or "#FFFFFF"
-  vim.api.nvim_set_hl(0, "CopyFlash", {
-    bold = true,
-    fg = accent_fg,
-    bg = accent,
-    ctermfg = 0,
-    ctermbg = accent_cterm,
-  })
   for _, group in ipairs({
     "BufferLineTabSelected",
     "BufferLineTabCloseSelected",
