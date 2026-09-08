@@ -159,6 +159,13 @@ map("x", "<C-c>", '"+y', { desc = "Copy selection to system clipboard" })
 map("s", "<C-x>", '<C-o>"+x', { desc = "Cut selection to system clipboard" })
 map("x", "<C-x>", '"+x', { desc = "Cut selection to system clipboard" })
 map("i", "<C-v>", '<C-r><C-o>+', { desc = "Paste from system clipboard" })
+-- Releasing the mouse after a drag yanks the selection to the system
+-- clipboard and leaves Visual mode right away, mirroring tmux's
+-- MouseDragEnd1Pane copy; TextYankPost gives the same on-yank flash as
+-- <C-c>. Plain clicks stay untouched: pressing the left button already
+-- stops Visual mode, so only real mouse selections (drag, double-click)
+-- reach this map.
+map("x", "<LeftRelease>", '"+y', { desc = "Copy mouse selection to system clipboard" })
 map("i", "<M-Up>", "<C-o>gk", { desc = "Display line up" })
 map("i", "<M-Down>", "<C-o>gj", { desc = "Display line down" })
 map({ "n", "x" }, "<M-Left>", "b", { desc = "Previous word" })

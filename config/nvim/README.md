@@ -56,7 +56,10 @@ combos) start a native Select-mode selection via `keymodel=startsel`:
 typing or Backspace replaces it, and `<C-c>` copies it to the system
 clipboard. `<C-c>` also yanks a Visual-mode selection, `<C-x>` cuts it, and
 `<C-v>` pastes the system clipboard in Insert mode (Normal-mode `<C-v>`
-stays visual block). Inside neo-tree the Shift+arrows navigate the tree
+stays visual block). Releasing the mouse after a drag selection (or
+double-clicking a word) yanks it to the system clipboard immediately and
+drops the Visual highlight, matching the tmux mouse-copy behavior. Inside
+neo-tree the Shift+arrows navigate the tree
 instead of selecting text.
 
 ## Kubernetes manifests
