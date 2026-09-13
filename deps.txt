@@ -15,7 +15,7 @@ tree-sitter-cli:tree-sitter
 gopls
 goimports
 carapace
-zsh-autocomplete:@share/zsh-autocomplete/zsh-autocomplete.plugin.zsh
+fzf-tab:@share/fzf-tab/fzf-tab.zsh
 zsh-autosuggestions:@share/zsh-autosuggestions/zsh-autosuggestions.zsh
 zsh-completions:@share/zsh-completions
 zsh-syntax-highlighting:@share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
