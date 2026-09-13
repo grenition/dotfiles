@@ -46,7 +46,7 @@ local function code_action_action(win)
       return
     end
     vim.api.nvim_set_current_win(win)
-    vim.lsp.buf.code_action()
+    require("config.code_actions_menu").open()
   end
 end
 

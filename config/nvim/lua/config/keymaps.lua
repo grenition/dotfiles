@@ -1,4 +1,5 @@
 local map = vim.keymap.set
+local code_actions = require("config.code_actions_menu")
 local tools = require("config.tool_windows")
 local undoredo = require("config.undoredo")
 
@@ -193,8 +194,8 @@ map("n", "<leader>k", hover_with_diagnostics, { desc = "Documentation and diagno
 map("n", "<leader>i", function() require("fzf-lua").lsp_implementations() end, { desc = "Implementations" })
 map("n", "<leader>ur", function() require("fzf-lua").lsp_references() end, { desc = "Usages" })
 map({ "n", "i" }, "<C-s>", vim.lsp.buf.signature_help, { desc = "Signature help" })
-map({ "n", "x" }, "<leader>a", vim.lsp.buf.code_action, { desc = "Code actions" })
-map({ "n", "x" }, "<leader>oe", vim.lsp.buf.code_action, { desc = "Code actions" })
+map({ "n", "x" }, "<leader>a", code_actions.open, { desc = "Code actions" })
+map({ "n", "x" }, "<leader>oe", code_actions.open, { desc = "Code actions" })
 map("n", "<leader>ol", vim.lsp.codelens.run, { desc = "Run code lens" })
 map("n", "<leader>oc", function() require("conform").format({ lsp_format = "fallback" }) end, { desc = "Format" })
 map("n", "<leader>oi", organize_imports, { desc = "Organize imports" })
