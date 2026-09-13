@@ -21,7 +21,7 @@ return {
   "stevearc/conform.nvim",
   event = { "BufWritePre" },
   opts = {
-    format_on_save = false,
+    format_on_save = { timeout_ms = 500, lsp_fallback = true },
     formatters = {
       csharpier = { env = require("config.dotnet").env },
     },

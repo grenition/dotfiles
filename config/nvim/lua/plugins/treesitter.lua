@@ -28,9 +28,11 @@ return {
         if args.match == "markdown" then
           return
         end
-        if pcall(vim.treesitter.start) then
-          vim.bo[args.buf].indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
-        end
+        -- Treesitter is used for highlighting only: its indentexpr drops
+        -- the inherited indentation on new lines in several grammars, so
+        -- indentation is handled by autoindent/smartindent/copyindent in
+        -- config/options.lua.
+        pcall(vim.treesitter.start)
       end,
     })
   end,

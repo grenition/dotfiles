@@ -49,3 +49,8 @@ keybind = cmd+shift+down=text:\x1b[1;6B
 # Detect plain URLs and show link previews.
 link-url = true
 link-previews = true
+
+# Steady cursor: terminal blinking has no interval control and looks janky
+# under tmux; disabling it also makes Ghostty ignore DEC-mode-12 blink
+# requests from programs.
+cursor-style-blink = false

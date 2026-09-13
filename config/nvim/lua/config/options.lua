@@ -27,9 +27,16 @@ opt.wrap = false
 opt.tabstop = 4
 opt.shiftwidth = 4
 opt.expandtab = true
+-- Keep the previous line's indentation on Enter/o/O (copyindent preserves
+-- literal tabs, e.g. in Makefiles) and add a level after { / drop it on }.
+opt.autoindent = true
+opt.smartindent = true
+opt.copyindent = true
 opt.conceallevel = 0
 opt.fillchars:append({ eob = " " })
 opt.termguicolors = false
+-- Never request a blinking cursor; the steady look is set in Ghostty.
+opt.guicursor:append("a:blinkon0")
 
 -- Shift+arrows (with any modifier combo) start a native Select-mode
 -- selection that typing replaces, like in a regular editor.
