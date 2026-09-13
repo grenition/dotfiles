@@ -7,11 +7,17 @@ SRC="$REPO_DIR/config"
 mkdir -p "$HOME/.config"
 mkdir -p "$HOME/.config/ghostty"
 mkdir -p "$HOME/Library/Application Support/com.mitchellh.ghostty"
+# macOS lazygit reads its config from app-support, not ~/.config (which is only
+# used when XDG_CONFIG_HOME is set). State files live there too, so only the
+# config file is symlinked.
+mkdir -p "$HOME/Library/Application Support/lazygit"
 
 ln -sfn "$SRC/.vimrc" "$HOME/.vimrc"
 ln -sfn "$SRC/tmux/tmux.conf" "$HOME/.tmux.conf"
 ln -sfn "$SRC/jetbrains/.ideavimrc" "$HOME/.ideavimrc"
 ln -sfn "$SRC/nvim" "$HOME/.config/nvim"
+ln -sfn "$SRC/lazygit" "$HOME/.config/lazygit"
+ln -sfn "$SRC/lazygit/config.yml" "$HOME/Library/Application Support/lazygit/config.yml"
 ln -sfn "$SRC/ghostty/config.ghostty" "$HOME/.config/ghostty/config.ghostty"
 ln -sfn "$SRC/ghostty/themes" "$HOME/.config/ghostty/themes"
 ln -sfn "$SRC/ghostty/config.ghostty" "$HOME/Library/Application Support/com.mitchellh.ghostty/config.ghostty"

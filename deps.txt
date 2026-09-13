@@ -11,6 +11,7 @@ git
 ripgrep:rg
 fzf
 tmux
+lazygit
 tree-sitter-cli:tree-sitter
 gopls
 goimports

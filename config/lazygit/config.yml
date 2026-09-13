@@ -1,0 +1,17 @@
+# lazygit config
+# Reference: https://github.com/jesseduffield/lazygit/blob/master/docs/Config.md
+
+# Esc at the top level (nothing to go back from) quits lazygit, closing the
+# tmux popup with it.
+quitOnTopLevelReturn: true
+
+gui:
+  # Panel border style: 'single' | 'double' | 'rounded' | 'hidden'.
+  border: single
+  # Keep the UI calm: no random tips, no command log panel.
+  showRandomTip: false
+  showCommandLog: false
+
+os:
+  # Use neovim when opening/editing files from lazygit.
+  editPreset: nvim
