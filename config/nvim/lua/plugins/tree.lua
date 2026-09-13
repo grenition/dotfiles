@@ -1,6 +1,6 @@
 local preview = require("config.neo_tree_preview")
 
-return {
+local tree = {
   "nvim-neo-tree/neo-tree.nvim",
   branch = "v3.x",
   lazy = false,
@@ -130,5 +130,16 @@ return {
         },
       },
     },
+  },
+}
+
+return {
+  tree,
+  {
+    "antosha417/nvim-lsp-file-operations",
+    dependencies = { "nvim-neo-tree/neo-tree.nvim" },
+    config = function()
+      require("lsp-file-operations").setup({ timeout_ms = 10000 })
+    end,
   },
 }

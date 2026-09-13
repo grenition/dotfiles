@@ -1,5 +1,6 @@
 local map = vim.keymap.set
 local tools = require("config.tool_windows")
+local undoredo = require("config.undoredo")
 
 tools.setup()
 
@@ -30,6 +31,92 @@ local function organize_imports()
     apply = true,
     context = { only = { "source.organizeImports" } },
   })
+end
+
+-- One float for <leader>k: any diagnostic at the cursor first, then the
+-- symbol's hover documentation below a separator.
+local function hover_with_diagnostics()
+  local cursor = vim.api.nvim_win_get_cursor(0)
+  local row, col = cursor[1], cursor[2]
+  local lines = {}
+  for _, diagnostic in ipairs(vim.diagnostic.get(0, { lnum = row - 1 })) do
+    if col >= diagnostic.col and col <= diagnostic.end_col then
+      local severity = vim.diagnostic.severity[diagnostic.severity] or "INFO"
+      table.insert(lines, severity .. ": " .. diagnostic.message)
+    end
+  end
+  local has_diagnostics = #lines > 0
+
+  local hover = {}
+  for _, client in ipairs(vim.lsp.get_clients({ bufnr = 0, method = "textDocument/hover" })) do
+    -- Clients disagree on offset encoding (pyright uses utf-16, ruff utf-8),
+    -- so each request must carry its own encoding.
+    local params = vim.lsp.util.make_position_params(0, client.offset_encoding)
+    local results = vim.lsp.buf_request_sync(0, "textDocument/hover", params, 1000, client.id)
+    local result = results and results[client.id]
+    local contents = result and result.result and result.result.contents
+    if contents then
+      for _, line in ipairs(vim.lsp.util.convert_input_to_markdown_lines(contents)) do
+        if line:match("%S") then
+          table.insert(hover, line)
+        end
+      end
+    end
+  end
+
+  -- Some servers answer an empty hover with a bare fenced-language marker
+  -- such as ```Python; a hover made only of fence lines is not documentation.
+  local has_hover = false
+  for _, line in ipairs(hover) do
+    if not line:match("^%s*```") then
+      has_hover = true
+    end
+  end
+  if has_hover then
+    if has_diagnostics then
+      table.insert(lines, "---")
+    end
+    for _, line in ipairs(hover) do
+      table.insert(lines, line)
+    end
+  end
+  if #lines == 0 then
+    vim.notify("No documentation or diagnostics at cursor", vim.log.levels.INFO)
+    return
+  end
+  -- Returns (bufnr, winnr); mind the order.
+  local buf, win = vim.lsp.util.open_floating_preview(lines, "markdown", {
+    border = "rounded",
+    wrap = true,
+    max_width = math.floor(vim.o.columns * 0.6),
+    max_height = math.floor(vim.o.lines * 0.6),
+  })
+  -- Disarm core's global WinClosed bookkeeping immediately: its callback
+  -- dereferences window-scoped vars of whatever window closes next and
+  -- crashes on windows torn down inside other close handlers (the minimap).
+  -- Losing it only leaves a stale lsp_floating_preview var, which the next
+  -- open already guards against.
+  pcall(vim.api.nvim_del_augroup_by_name, "nvim.closing_floating_preview")
+  -- The preview only auto-closes on cursor moves; Esc/q close it explicitly.
+  -- The float never receives focus (nvim_open_win enter=false), so Esc must
+  -- be mapped on the SOURCE buffer; it cleans itself up once the float is
+  -- gone through any other close path.
+  if win and vim.api.nvim_win_is_valid(win) and vim.api.nvim_buf_is_valid(buf) then
+    for _, key in ipairs({ "<Esc>", "q" }) do
+      vim.keymap.set("n", key, function()
+        pcall(vim.api.nvim_win_close, win, true)
+      end, { buffer = buf, nowait = true, silent = true })
+    end
+    local source = vim.api.nvim_get_current_buf()
+    if vim.api.nvim_buf_is_valid(source) and source ~= buf then
+      vim.keymap.set("n", "<Esc>", function()
+        if vim.api.nvim_win_is_valid(win) then
+          pcall(vim.api.nvim_win_close, win, true)
+        end
+        pcall(vim.keymap.del, "n", "<Esc>", { buffer = source })
+      end, { buffer = source, nowait = true, silent = true })
+    end
+  end
 end
 
 local function close_unpinned_buffers()
@@ -102,7 +189,7 @@ map("n", "gu", function() require("fzf-lua").lsp_references() end, { desc = "Usa
 map("n", "<BS>", "<C-o>", { desc = "Jump back" })
 map("n", "<S-BS>", "<C-i>", { desc = "Jump forward" })
 map("n", "<leader>rr", vim.lsp.buf.rename, { desc = "Rename symbol" })
-map("n", "<leader>k", vim.lsp.buf.hover, { desc = "Documentation" })
+map("n", "<leader>k", hover_with_diagnostics, { desc = "Documentation and diagnostics" })
 map("n", "<leader>i", function() require("fzf-lua").lsp_implementations() end, { desc = "Implementations" })
 map("n", "<leader>ur", function() require("fzf-lua").lsp_references() end, { desc = "Usages" })
 map({ "n", "i" }, "<C-s>", vim.lsp.buf.signature_help, { desc = "Signature help" })
@@ -117,7 +204,8 @@ map("n", "<leader>oa", function()
 end, { desc = "Format and organize imports" })
 
 -- Personal editing preferences
-map("n", "U", "<C-r>")
+map("n", "u", undoredo.undo, { desc = "Undo" })
+map("n", "U", undoredo.redo, { desc = "Redo" })
 for _, mode in ipairs({ "n", "x" }) do
   map(mode, "H", "20h")
   map(mode, "J", "10j")

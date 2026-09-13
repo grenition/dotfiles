@@ -10,7 +10,9 @@ Homebrew (see `deps.txt`). A C compiler is
 also needed for Treesitter parsers (comes with Xcode Command Line Tools), along
 with `tree-sitter-cli` 0.26.1 or newer.
 
-Start Neovim once to let `lazy.nvim` install the declared plugins. A single managed-tool
+Start Neovim once to let `lazy.nvim` install the declared plugins. Pressing
+`<Space>` opens a which-key menu that groups and describes every leader
+mapping (Search, Buffers, Code, UI, Git). A single managed-tool
 registry then installs the configured language servers, linters, and formatters through
 Mason. Run `:ToolingInfo` to see their readiness, `:MasonToolsInstall` to retry missing
 tools, and `:MasonLog` for installation details. Failed or incomplete install passes
@@ -37,11 +39,33 @@ apply to every language server that supports the corresponding feature.
 `gopls` and `goimports` are installed by the platform dependency script
 (Homebrew on macOS, see `deps.txt`) instead of Mason, alongside the Homebrew
 Go toolchain. Opening a Go file starts `gopls` for diagnostics, completion,
-navigation, refactors, and inlay hints. Use `<Space>oc` to format with
+navigation, refactors, and inlay hints. gopls's remaining code lenses (run
+tests, go generate) are wired up: run the lens at the cursor with `<Space>ol`
+and toggle lenses with `<Space>ul`. Since gopls v0.23 removed its references
+code lens, `N refs` counts above functions, methods, and types are computed
+from `gopls`'s references (`config/refcounts.lua`). Use `<Space>oc` to format with
 `goimports` (falling back to the toolchain's `gofmt`) and `<Space>oi` to
-organize imports. The Go Treesitter parser is installed with the
+organize imports. The statusline shows the current Go module as `go:<name>`.
+The Go Treesitter parser is installed with the
 configuration. Go tooling is optional: when the Go toolchain is absent,
 nothing is installed or started; `.go` files retain syntax highlighting only.
+
+## Python
+
+`pyright` and `ruff` are installed through Mason. `pyright` automatically uses
+the project's virtual environment — `.venv` or `venv` in the project root, or
+Poetry's cached virtualenv — and falls back to the system Python when the
+project has none. The statusline shows the active environment as `py:<name>`.
+Opening a Python file starts
+`pyright` for diagnostics, completion, navigation, refactors, and inlay hints,
+while `ruff` adds its own diagnostics and import actions. Since `pyright`
+has no code-lens provider, the configuration computes `N refs` counts from
+`pyright`'s references and shows them above classes, functions, and methods
+(`config/refcounts.lua`). Use `<Space>oc` to
+format with `ruff` and `<Space>oi` to organize imports. The Python Treesitter
+parser is installed with the configuration. Python tooling is optional: when
+no Python 3 interpreter is available, nothing is installed or started; `.py`
+files retain syntax highlighting only.
 
 ## Clipboard and macOS editing keys
 
@@ -61,6 +85,18 @@ double-clicking a word) yanks it to the system clipboard immediately and
 drops the Visual highlight, matching the tmux mouse-copy behavior. Inside
 neo-tree the Shift+arrows navigate the tree
 instead of selecting text.
+
+## Undo, redo, and hover
+
+`u`/`U` undo and redo the edit in every file touched by the last LSP
+rename or code action, not just the current buffer. Only text edits
+propagate: file creation, renaming, and deletion from workspace edits are
+not undoable. In the file tree `u`/`U` do nothing — file operations there
+are not undoable, and neo-tree's trash is the recovery path. The
+`<Space>k` documentation/diagnostic float closes with `Esc` or `q` in
+addition to moving the cursor away. The float renders highlighted Markdown
+(fenced code blocks use the source language's highlighting via Treesitter
+injections) and grows up to 60% of the screen instead of truncating.
 
 ## Kubernetes manifests
 
@@ -129,6 +165,7 @@ particular, variable navigation inside `rules:if` and GitLab's built-in
 | `bufferline.nvim` | Open-buffer tabs |
 | `which-key.nvim` | Keybinding hints |
 | `vscode.nvim` | Visual Studio Code Light+ and Dark+ theme |
+| `codewindow.nvim` | VS Code-style minimap, on by default (`<Space>um`) |
 
 Terminals, the compact statusline, and buffer switching use built-in Neovim features.
 The bufferline keeps close buttons visible on every buffer. Middle-click also
@@ -145,6 +182,12 @@ is the Visual Studio Code-inspired theme. Its `vscode-light` (Light+) and
 `vscode-dark` (Dark+) variants are separate entries in both selectors, so live
 preview always shows the named variant. `terminal` is a regular no-background
 theme in both selectors.
+
+The minimap is on by default and follows the active window. `<Space>um` toggles
+it for the current session. It auto-hides when the editor window is narrower
+than 80 columns and returns when space does. Click or drag the minimap to scroll
+the buffer. `<Space>uM` moves the cursor into and out of it, where `j` and `k`
+scroll the buffer. It is skipped for help, neo-tree, fzf, and quickfix windows.
 
 ## Development
 

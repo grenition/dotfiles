@@ -51,6 +51,22 @@ local tools = {
     managed = false,
     recovery = "Install it with the platform dependency script; use :ToolingInfo to recheck.",
   },
+  {
+    package = "pyright",
+    executable = "pyright",
+    lsp = "pyright",
+    condition = function()
+      return vim.fn.executable("python3") == 1
+    end,
+  },
+  {
+    package = "ruff",
+    executable = "ruff",
+    lsp = "ruff",
+    condition = function()
+      return vim.fn.executable("python3") == 1
+    end,
+  },
 }
 
 local by_package = {}

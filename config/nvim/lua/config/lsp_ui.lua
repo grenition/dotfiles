@@ -49,6 +49,12 @@ function M.apply_inlay_hints(bufnr)
 end
 
 function M.apply_code_lenses(bufnr)
+  if selection.code_lens then
+    -- enable() is a no-op when the buffer marker is already true even if the
+    -- provider never attached (the marker can be set before any client
+    -- exists), so reset first to make the enable path deterministic.
+    vim.lsp.codelens.enable(false, { bufnr = bufnr })
+  end
   vim.lsp.codelens.enable(selection.code_lens, { bufnr = bufnr })
 end
 

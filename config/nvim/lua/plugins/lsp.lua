@@ -14,6 +14,10 @@ return {
     },
     config = function()
       local capabilities = require("blink.cmp").get_lsp_capabilities()
+      local ok, file_operations = pcall(require, "lsp-file-operations")
+      if ok then
+        capabilities = vim.tbl_deep_extend("force", capabilities, file_operations.default_capabilities())
+      end
       local dotnet = require("config.dotnet")
       local lsp_ui = require("config.lsp_ui")
 
@@ -60,6 +64,22 @@ return {
           },
         },
       })
+      vim.lsp.config("pyright", {
+        -- Point pyright at the project's virtual environment (config.python).
+        before_init = function(_, config)
+          local settings = require("config.python").settings()
+          if not settings or not config.settings then
+            return
+          end
+
+          -- The client snapshots config.settings before before_init runs, so
+          -- merge into that table in place; a replaced table never reaches
+          -- the workspace/didChangeConfiguration payload.
+          for key, value in pairs(vim.tbl_deep_extend("force", config.settings, settings)) do
+            config.settings[key] = value
+          end
+        end,
+      })
       if tooling.available("gitlab-ci-ls") then
         local cache_dir = vim.fs.joinpath(vim.fn.stdpath("cache"), "gitlab-ci-ls")
         local log_dir = vim.fs.joinpath(cache_dir, "log")
@@ -101,11 +121,15 @@ return {
         tooling.on_ready("roslyn-language-server", enable_roslyn)
       end
 
+      -- Apply persisted LSP UI preferences whenever a capable client attaches.
+      -- Capability-scoped rather than server-scoped: a roslyn-only filter left
+      -- every other server (gopls) without code lenses; the calls below are
+      -- no-ops for clients lacking the capability.
       vim.api.nvim_create_autocmd("LspAttach", {
-        group = vim.api.nvim_create_augroup("roslyn_ide_features", { clear = true }),
+        group = vim.api.nvim_create_augroup("lsp_ui_attach", { clear = true }),
         callback = function(args)
           local client = vim.lsp.get_client_by_id(args.data.client_id)
-          if not client or client.name ~= "roslyn_ls" then
+          if not client then
             return
           end
 

@@ -13,6 +13,10 @@ if vim.fn.executable("go") == 1 then
   formatters_by_ft.go = { "goimports", "gofmt", stop_after_first = true }
 end
 
+if vim.fn.executable("python3") == 1 then
+  formatters_by_ft.python = { "ruff_organize_imports", "ruff_format" }
+end
+
 return {
   "stevearc/conform.nvim",
   event = { "BufWritePre" },
