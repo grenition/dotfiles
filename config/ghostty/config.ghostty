@@ -2,6 +2,11 @@
 # Unicode characters (for example, Option-j should not produce ∆).
 macos-option-as-alt = true
 
+# JetBrains Mono Nerd Font with a bold default face for a heavier look.
+# Bold text uses ExtraBold so emphasis stays distinguishable.
+font-family = JetBrainsMono Nerd Font
+font-style = medium
+
 # Match the vscode.nvim light/dark palette and follow the macOS appearance.
 theme = light:VSCode Light,dark:VSCode Dark
 
