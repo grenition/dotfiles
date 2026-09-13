@@ -9,6 +9,17 @@ return {
     "MunifTanjim/nui.nvim",
     "nvim-tree/nvim-web-devicons",
   },
+  config = function(_, opts)
+    -- Canonical devicons entries consumed by config.k8s for Kubernetes file
+    -- detection. Registered once before setup so the first render resolves them.
+    require("nvim-web-devicons").set_icon({
+      ["kustomization.yaml"] = { icon = "󰠳", color = "#326ce5", name = "Kustomization" },
+      ["k8s-manifest.yaml"] = { icon = "󰠳", color = "#326ce5", name = "Kubernetes" },
+      ["secret.sops.yaml"] = { icon = "󰌋", color = "#e0af68", name = "SopsSecret" },
+      ["helm.yaml"] = { icon = "󰠳", color = "#277a9f", name = "Helm" },
+    })
+    require("neo-tree").setup(opts)
+  end,
   opts = {
     log_to_file = false,
     close_if_last_window = true,
@@ -63,6 +74,12 @@ return {
           local name = node.type == "terminal" and "terminal" or node.name
           if node.type == "file" and require("config.gitlab").is_ci_file(node.path) then
             name = ".gitlab-ci.yml"
+          end
+          if node.type == "file" then
+            local k8s = require("config.k8s").icon_name(node.path, node.name)
+            if k8s then
+              name = k8s
+            end
           end
 
           local devicon, highlight = require("nvim-web-devicons").get_icon(name)

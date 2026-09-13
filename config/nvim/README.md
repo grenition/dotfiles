@@ -66,7 +66,13 @@ instead of selecting text.
 
 Kubernetes YAML files in `k8s/`, `kubernetes/`, or `manifests/` (and files ending
 in `.k8s.yaml` or `.kubernetes.yaml`) receive Kubernetes schema completion and
-validation from `yaml-language-server`, including schemas for known CRDs.
+validation from `yaml-language-server`, including schemas for known CRDs. In
+sops+Kustomize repositories (root `.sops.yaml` marker), the broad globs are
+replaced by an allow-list: only the named workload manifests under `k8s/apps/*/`
+and everything under `k8s/infrastructure/` keep the Kubernetes schema, and
+`kustomization.yaml` validates against the Kustomization schema, so
+sops-encrypted secrets, Helm values, and plain app configs are not validated
+as workloads.
 
 The managed-tool registry installs `yamlfmt` and `kube-linter`. Use `<Space>oc`
 to format a manifest; after each save, `kube-linter` reports best-practice
@@ -74,8 +80,11 @@ diagnostics for YAML documents
 that contain both `apiVersion` and `kind`. If the linter is still installing or its
 installation failed, saving reports its state and the retry command instead of raising
 an executable error. The statusline marks matched manifests
-as `K8S` and shows `E`/`W` diagnostic counts. Other YAML files retain their generic
-icon. SchemaStore detects conventional `.gitlab-ci.yml` files. Repositories made
+as `K8S` and shows `E`/`W` diagnostic counts. Other YAML files keep their generic
+icon, except sops-encrypted secrets (`*.sops.yaml`), `kustomization.yaml`,
+named workload manifests under `k8s/`, and Helm files (`values.yaml`,
+`*-values.yaml`, `Chart.yaml`), which show dedicated icons in neo-tree.
+SchemaStore detects conventional `.gitlab-ci.yml` files. Repositories made
 entirely of arbitrarily named GitLab templates can opt in with one
 `.gitlab-ci-ls.yml` project marker instead of maintaining filename patterns. In
 neo-tree, `+` means an untracked file (rather than an error).

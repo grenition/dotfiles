@@ -121,22 +121,45 @@ return {
       vim.lsp.config("yamlls", {
         on_init = function(client)
           local root = client.root_dir
-          if not root or not vim.uv.fs_stat(vim.fs.joinpath(root, ".gitlab-ci-ls.yml")) then
+          if not root then
             return
           end
 
-          -- Every YAML document in an explicitly marked template repository is
-          -- GitLab CI. Standard .gitlab-ci.yml files are detected by SchemaStore.
-          client.settings = vim.tbl_deep_extend("force", client.settings or {}, {
-            yaml = {
-              schemas = {
-                ["https://gitlab.com/gitlab-org/gitlab/-/raw/master/app/assets/javascripts/editor/schema/ci.json"] = {
-                  "**/*.yml",
-                  "**/*.yaml",
+          if vim.uv.fs_stat(vim.fs.joinpath(root, ".gitlab-ci-ls.yml")) then
+            -- Every YAML document in an explicitly marked template repository is
+            -- GitLab CI. Standard .gitlab-ci.yml files are detected by SchemaStore.
+            client.settings = vim.tbl_deep_extend("force", client.settings or {}, {
+              yaml = {
+                schemas = {
+                  ["https://gitlab.com/gitlab-org/gitlab/-/raw/master/app/assets/javascripts/editor/schema/ci.json"] = {
+                    "**/*.yml",
+                    "**/*.yaml",
+                  },
                 },
               },
-            },
-          })
+            })
+            return
+          end
+
+          if vim.uv.fs_stat(vim.fs.joinpath(root, ".sops.yaml")) then
+            -- sops+kustomize repositories: only named workload manifests get
+            -- the Kubernetes schema; kustomization, values, and sops files must not.
+            client.settings = vim.tbl_deep_extend("force", client.settings or {}, {
+              yaml = {
+                schemas = {
+                  kubernetes = {
+                    "k8s/apps/*/namespace.ya?ml",
+                    "k8s/apps/*/workload.ya?ml",
+                    "k8s/apps/*/workloads.ya?ml",
+                    "k8s/apps/*/route.ya?ml",
+                    "k8s/apps/*/network-polic*.ya?ml",
+                    "k8s/infrastructure/**/*.ya?ml",
+                  },
+                  ["https://json.schemastore.org/kustomization.json"] = { "kustomization.yaml" },
+                },
+              },
+            })
+          end
         end,
         settings = {
           yaml = {
