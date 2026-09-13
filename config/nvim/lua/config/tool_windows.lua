@@ -95,22 +95,6 @@ local function install_escape(buffer)
   })
 end
 
--- A terminal window drives Escape through the process it hosts: fzf-lua
--- forwards it to fzf so the picker actually closes.  Overwriting that mapping
--- leaves the window open with the focus somewhere else, so keep out of the way.
-local function owns_escape(buffer)
-  if vim.bo[buffer].buftype ~= "terminal" then
-    return false
-  end
-  for _, keymap in ipairs(vim.api.nvim_buf_get_keymap(buffer, "n")) do
-    local lhs = keymap.lhsraw or keymap.lhs or ""
-    if (lhs == "\27" or lhs:lower() == "<esc>") and keymap.desc ~= escape_desc then
-      return true
-    end
-  end
-  return false
-end
-
 function M.setup()
   -- Do not intercept Insert-mode Escape.  In a terminal Option+Backspace is
   -- commonly encoded as Escape followed by Backspace, so an Insert mapping
@@ -138,7 +122,7 @@ function M.setup()
     group = group,
     callback = function(event)
       local buffer = event.buf
-      if vim.api.nvim_buf_is_valid(buffer) and not owns_escape(buffer) then
+      if vim.api.nvim_buf_is_valid(buffer) then
         install_escape(buffer)
       end
     end,
