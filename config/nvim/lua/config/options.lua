@@ -9,6 +9,7 @@ opt.mouse = "a"
 opt.clipboard = "unnamedplus"
 opt.breakindent = true
 opt.undofile = true
+opt.swapfile = false
 opt.ignorecase = true
 opt.smartcase = true
 opt.incsearch = true
