@@ -185,9 +185,8 @@ theme in both selectors.
 
 The minimap is on by default and follows the active window. `<Space>um` toggles
 it for the current session. It auto-hides when the editor window is narrower
-than 80 columns and returns when space does. Click or drag the minimap to scroll
-the buffer. `<Space>uM` moves the cursor into and out of it, where `j` and `k`
-scroll the buffer. It is skipped for help, neo-tree, fzf, and quickfix windows.
+than 80 columns and returns when space does. It is skipped for help, neo-tree,
+fzf, and quickfix windows.
 
 ## Development
 

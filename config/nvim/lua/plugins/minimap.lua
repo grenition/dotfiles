@@ -25,13 +25,6 @@ return {
       end,
       desc = "Minimap",
     },
-    {
-      "<leader>uM",
-      function()
-        require("codewindow").toggle_focus()
-      end,
-      desc = "Minimap focus",
-    },
   },
   opts = {
     -- The config.minimap controller owns opening and closing; auto_enable
