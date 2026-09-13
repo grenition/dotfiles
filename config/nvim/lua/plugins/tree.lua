@@ -1,3 +1,4 @@
+local context_menu = require("config.neo_tree_context_menu")
 local preview = require("config.neo_tree_preview")
 
 local tree = {
@@ -107,6 +108,9 @@ local tree = {
       follow_current_file = { enabled = false },
       hijack_netrw_behavior = "open_default",
       use_libuv_file_watcher = vim.env.NVIM_CONFIG_CHECK ~= "1",
+      commands = {
+        context_menu = context_menu.open,
+      },
     },
     window = {
       width = 26,
@@ -128,6 +132,14 @@ local tree = {
           "toggle_preview",
           config = preview.options,
         },
+        ["m"] = {
+          "add",
+          config = {
+            show_path = "none",
+          },
+        },
+        ["M"] = "move",
+        ["a"] = "context_menu",
       },
     },
   },
