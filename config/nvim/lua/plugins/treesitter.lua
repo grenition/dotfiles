@@ -8,7 +8,6 @@ return {
   "nvim-treesitter/nvim-treesitter",
   branch = "main",
   lazy = false,
-  build = vim.fn.executable("tree-sitter") == 1 and ":TSUpdate" or nil,
   opts = {
     install_dir = vim.fn.stdpath("data") .. "/site",
     ensure_installed = parsers,
@@ -16,8 +15,43 @@ return {
   config = function(_, opts)
     local ts = require("nvim-treesitter")
     ts.setup({ install_dir = opts.install_dir })
+
+    -- Install only parsers whose .so is missing, never to sync revisions:
+    -- rewriting a .so under open sessions makes macOS kill any process that
+    -- dlopens it mid-copy (EXC_BAD_ACCESS, invalid code page), and concurrent
+    -- installs corrupt the file outright. Revision updates are left to an
+    -- explicit :TSUpdate. A cache lock keeps parallel nvim starts (tmux
+    -- session restore) from racing on the same parser files.
     if vim.env.NVIM_CONFIG_CHECK ~= "1" and vim.fn.executable("tree-sitter") == 1 then
-      ts.install(opts.ensure_installed)
+      local missing = {}
+      for _, lang in ipairs(opts.ensure_installed) do
+        if vim.uv.fs_stat(opts.install_dir .. "/parser/" .. lang .. ".so") == nil then
+          table.insert(missing, lang)
+        end
+      end
+
+      if #missing > 0 then
+        local lock = vim.fn.stdpath("cache") .. "/nvim-treesitter-install.lock"
+        local stolen = false
+        local handle = vim.uv.fs_open(lock, "wx", 438)
+        if not handle then
+          local stat = vim.uv.fs_stat(lock)
+          stolen = stat and (os.time() - stat.mtime.sec) > 600
+          if stolen then
+            os.remove(lock)
+            handle = vim.uv.fs_open(lock, "wx", 438)
+          end
+        end
+        if handle then
+          vim.uv.fs_close(handle)
+          vim.api.nvim_create_autocmd("VimLeavePre", {
+            callback = function()
+              os.remove(lock)
+            end,
+          })
+          ts.install(missing)
+        end
+      end
     end
 
     vim.api.nvim_create_autocmd("FileType", {
