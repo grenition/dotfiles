@@ -6,9 +6,6 @@ local last_mode
 local selection_stamp
 
 function M.apply_ui_highlights()
-  vim.cmd("highlight StatusLine cterm=NONE ctermfg=7 ctermbg=NONE")
-  vim.cmd("highlight StatusLineNC cterm=NONE ctermfg=8 ctermbg=NONE")
-  vim.cmd("highlight StatusLineMode cterm=bold ctermfg=6 ctermbg=NONE")
   vim.cmd("highlight BufferLineFill cterm=NONE ctermfg=NONE ctermbg=NONE")
   vim.cmd("highlight BufferLineBackground cterm=NONE ctermfg=7 ctermbg=NONE")
   vim.cmd("highlight BufferLineBufferVisible cterm=NONE ctermfg=7 ctermbg=NONE")
@@ -248,17 +245,5 @@ selection_stamp = selection_file_stamp()
 -- setup and otherwise can retain Normal's bright foreground until the next
 -- manual :colorscheme command.
 M.refresh()
-
--- macOS does not expose appearance-change notifications to a terminal app.
--- One low-frequency timer also picks up selections saved by another instance.
-local refresh_timer = vim.uv.new_timer()
-refresh_timer:start(5000, 5000, vim.schedule_wrap(M.refresh))
-vim.api.nvim_create_autocmd("VimLeavePre", {
-  group = group,
-  callback = function()
-    refresh_timer:stop()
-    refresh_timer:close()
-  end,
-})
 
 return M

@@ -151,9 +151,9 @@ particular, variable navigation inside `rules:if` and GitLab's built-in
 
 | Plugin | Responsibility |
 | --- | --- |
-| `neo-tree.nvim` | Project tree and file operations (`h/j/k/l`, `x`, `y`, `p`) |
+| `neo-tree.nvim` | Project tree and file operations (`h/j/k/l`, `x`, `y`, `p`); `a` opens the context menu |
 | `snacks.nvim` | In-terminal images in neo-tree previews and Markdown via the Kitty Graphics Protocol; PNG renders natively, other formats need optional ImageMagick |
-| `fzf-lua` | Files, grep, commands, diagnostics, and LSP lists |
+| `fzf-lua` | Files, grep, commands, diagnostics, LSP lists, and code actions (`<Space>a`, `<Space>oe`) |
 | `nvim-lspconfig` + Mason | Language servers |
 | `blink.cmp` | Completion |
 | `nvim-treesitter` | Syntax-aware highlighting and indenting |
@@ -164,12 +164,23 @@ particular, variable navigation inside `rules:if` and GitLab's built-in
 | `conform.nvim` | Formatting |
 | `nvim-lint` | Kubernetes manifest linting via `kube-linter` |
 | `bufferline.nvim` | Open-buffer tabs |
+| `lualine.nvim` | Global statusline: mode, branch, file, diagnostics, LSP clients, project environment, filetype, location |
 | `which-key.nvim` | Keybinding hints |
 | `vscode.nvim` | Visual Studio Code Light+ and Dark+ theme |
 | `codewindow.nvim` | VS Code-style minimap, on by default (`<Space>um`) |
 
-Terminals, the compact statusline, and buffer switching use built-in Neovim features.
-The bufferline keeps close buttons visible on every buffer. Middle-click also
+Pressing `a` in neo-tree opens a context menu (new file or directory, rename,
+move, delete, clipboard, path copies, open in split/vsplit/tab, reveal in
+Finder, and LSP code actions) rendered through `vim.ui.select`, which fzf-lua
+backs as its UI selector.
+
+Terminals and buffer switching use built-in Neovim features. The statusline is
+a single global `lualine.nvim` bar showing the mode, git branch, relative file
+path, diagnostics, attached language servers, the project environment, the
+filetype, and the cursor location; the `py:<name>`/`go:<name>` environment
+segment is cached per buffer and refreshes when project files such as
+`pyproject.toml` or `go.mod` are written. The bufferline keeps close buttons
+visible on every buffer. Middle-click also
 closes a buffer; `<Space>bb` labels buffers for quick selection, while
 `<Space>b<` and `<Space>b>` reorder them. Unnamed scratch buffers are omitted,
 and file icons inherit the tab background. `<Tab>` and `<Shift-Tab>` cycle

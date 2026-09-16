@@ -19,6 +19,8 @@ opt.updatetime = 250
 opt.timeoutlen = 100
 opt.splitright = true
 opt.splitbelow = true
+-- One statusline shared by every window; lualine's globalstatus builds on it.
+opt.laststatus = 3
 opt.scrolloff = 5
 opt.sidescrolloff = 8
 -- Hide the command/message line while it is idle; Neovim reveals it on demand.

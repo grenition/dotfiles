@@ -31,6 +31,11 @@ assert(plugins["mason-tool-installer.nvim"]._.loaded, "managed tool installer di
 assert(vim.fn.exists(":MasonToolsInstall") == 2, "managed tool install command is missing")
 assert(vim.fn.exists(":ToolingInfo") == 2, "managed tool status command is missing")
 
+-- VeryLazy plugins wait for a UI that a headless run never attaches; drive
+-- the event once so their loaders run, then verify the statusline came up.
+vim.api.nvim_exec_autocmds("User", { pattern = "VeryLazy" })
+assert(plugins["lualine.nvim"]._.loaded, "lualine statusline did not load")
+
 local tooling = require("config.tooling")
 assert(
   vim.deep_equal(plugins["mason-tool-installer.nvim"].opts.ensure_installed, tooling.mason_packages()),

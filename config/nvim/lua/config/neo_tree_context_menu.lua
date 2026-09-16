@@ -1,11 +1,5 @@
 local M = {}
 
-local WIDTH = 40
-
-local function menu_api()
-  return require("nui.menu")
-end
-
 local function command_action(state, name)
   return function()
     local command = state.commands and state.commands[name]
@@ -46,13 +40,13 @@ local function code_action_action(win)
       return
     end
     vim.api.nvim_set_current_win(win)
-    require("config.code_actions_menu").open()
+    require("fzf-lua").lsp_code_actions()
   end
 end
 
+-- Rendered through vim.ui.select, which plugins/picker.lua routes to the
+-- fzf-lua UI selector. Keep the entry order of the former nui.menu layout.
 function M.open(state)
-  local Menu = menu_api()
-
   local tree = state.tree
   if not tree then
     return
@@ -66,66 +60,40 @@ function M.open(state)
   local previous_win = vim.fn.win_getid(vim.fn.winnr("#"))
   local reveal_label = vim.fn.has("mac") == 1 and "Reveal in Finder" or "Reveal in File Manager"
 
-  local lines = {
-    Menu.item("New File", { run = command_action(state, "add") }),
-    Menu.item("New Directory", { run = command_action(state, "add_directory") }),
-    Menu.item("Rename", { run = command_action(state, "rename") }),
-    Menu.item("Move", { run = command_action(state, "move") }),
-    Menu.item("Delete", { run = command_action(state, "delete") }),
-    Menu.separator(),
-    Menu.item("Copy (neo-tree)", { run = command_action(state, "copy") }),
-    Menu.item("Cut", { run = command_action(state, "cut_to_clipboard") }),
-    Menu.item("Paste", { run = command_action(state, "paste_from_clipboard") }),
-    Menu.separator(),
-    Menu.item("Copy Absolute Path", { run = copy_action(path) }),
-    Menu.item("Copy Relative Path", { run = copy_action(vim.fn.fnamemodify(path, ":.")) }),
-    Menu.item("Copy Filename", { run = copy_action(vim.fn.fnamemodify(path, ":t")) }),
-    Menu.item("Copy Directory", { run = copy_action(vim.fn.fnamemodify(path, ":h")) }),
-    Menu.separator(),
+  local entries = {
+    { label = "New File", run = command_action(state, "add") },
+    { label = "New Directory", run = command_action(state, "add_directory") },
+    { label = "Rename", run = command_action(state, "rename") },
+    { label = "Move", run = command_action(state, "move") },
+    { label = "Delete", run = command_action(state, "delete") },
+    { label = "Copy (neo-tree)", run = command_action(state, "copy") },
+    { label = "Cut", run = command_action(state, "cut_to_clipboard") },
+    { label = "Paste", run = command_action(state, "paste_from_clipboard") },
+    { label = "Copy Absolute Path", run = copy_action(path) },
+    { label = "Copy Relative Path", run = copy_action(vim.fn.fnamemodify(path, ":.")) },
+    { label = "Copy Filename", run = copy_action(vim.fn.fnamemodify(path, ":t")) },
+    { label = "Copy Directory", run = copy_action(vim.fn.fnamemodify(path, ":h")) },
   }
 
   if node.type == "file" then
-    lines[#lines + 1] = Menu.item("Open in Split", { run = command_action(state, "open_split") })
-    lines[#lines + 1] = Menu.item("Open in Vertical Split", { run = command_action(state, "open_vsplit") })
-    lines[#lines + 1] = Menu.item("Open in Tab", { run = command_action(state, "open_tabnew") })
+    entries[#entries + 1] = { label = "Open in Split", run = command_action(state, "open_split") }
+    entries[#entries + 1] = { label = "Open in Vertical Split", run = command_action(state, "open_vsplit") }
+    entries[#entries + 1] = { label = "Open in Tab", run = command_action(state, "open_tabnew") }
   end
 
-  lines[#lines + 1] = Menu.item(reveal_label, { run = reveal_action(path) })
-  lines[#lines + 1] = Menu.separator()
-  lines[#lines + 1] = Menu.item("Code Actions (LSP)", { run = code_action_action(previous_win) })
+  entries[#entries + 1] = { label = reveal_label, run = reveal_action(path) }
+  entries[#entries + 1] = { label = "Code Actions (LSP)", run = code_action_action(previous_win) }
 
-  local menu = Menu({
-    position = { row = 1, col = 0 },
-    relative = "cursor",
-    border = {
-      style = "rounded",
-      text = {
-        top = " " .. vim.fn.fnamemodify(path, ":t") .. " ",
-        top_align = "center",
-      },
-    },
-    win_options = {
-      cursorline = true,
-      winhighlight = "Normal:Normal,FloatBorder:FloatBorder,CursorLine:Visual",
-    },
-  }, {
-    lines = lines,
-    min_width = WIDTH,
-    max_width = WIDTH,
-    keymap = {
-      close = { "<Esc>", "q" },
-      focus_next = { "j", "<Down>" },
-      focus_prev = { "k", "<Up>" },
-      submit = { "<CR>" },
-    },
-    on_submit = function(item)
-      if item and item.run then
-        item.run()
-      end
+  vim.ui.select(entries, {
+    prompt = vim.fn.fnamemodify(path, ":t") .. " ",
+    format_item = function(entry)
+      return entry.label
     end,
-  })
-
-  menu:mount()
+  }, function(choice)
+    if choice and choice.run then
+      choice.run()
+    end
+  end)
 end
 
 return M

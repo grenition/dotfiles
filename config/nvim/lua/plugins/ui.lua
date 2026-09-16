@@ -22,9 +22,7 @@ return {
         custom_filter = require("config.buffers").show_in_bufferline,
         color_icons = false,
         get_element_icon = function(element)
-          local name = not element.directory
-              and require("config.gitlab").is_ci_file(element.path)
-              and ".gitlab-ci.yml"
+          local name = not element.directory and require("config.gitlab").is_ci_file(element.path) and ".gitlab-ci.yml"
             or vim.fs.basename(element.path)
           local icon = require("nvim-web-devicons").get_icon(name, element.extension, { default = true })
 
@@ -76,5 +74,108 @@ return {
     opts = {
       delay = 400,
     },
+  },
+  {
+    "nvim-lualine/lualine.nvim",
+    event = "VeryLazy",
+    opts = function()
+      -- Project environment segment: "py:<venv>" or "go:<module>". Cached per
+      -- buffer; BufWritePost in autocmds.lua drops vim.b.env_status so the
+      -- segment follows project file changes.
+      local function go_module()
+        local root = vim.fs.root(0, { "go.mod" })
+        if not root then
+          return ""
+        end
+
+        local file = io.open(vim.fs.joinpath(root, "go.mod"), "r")
+        if not file then
+          return ""
+        end
+
+        local module
+        for line in file:lines() do
+          module = string.match(line, "^module%s+(%S+)")
+          if module then
+            break
+          end
+        end
+        file:close()
+        return module and vim.fs.basename(module) or ""
+      end
+
+      local function env_status()
+        local segment = vim.b.env_status
+        if segment == nil then
+          segment = ""
+          if vim.bo.filetype == "python" then
+            segment = "py:" .. require("config.python").name()
+          elseif vim.bo.filetype == "go" then
+            segment = "go:" .. go_module()
+          end
+          vim.b.env_status = segment
+        end
+        return segment
+      end
+
+      local function lsp_clients()
+        local names = {}
+        for _, client in ipairs(vim.lsp.get_clients({ bufnr = 0 })) do
+          names[#names + 1] = client.name
+        end
+        if #names == 0 then
+          return ""
+        end
+        table.sort(names)
+        return " " .. table.concat(names, ",")
+      end
+
+      -- Kubernetes manifest heuristic carried over from the hand-rolled
+      -- statusline: badge likely-manifest YAML buffers.
+      local function k8s_badge()
+        if vim.bo.filetype ~= "yaml" then
+          return nil
+        end
+
+        local path = vim.api.nvim_buf_get_name(0)
+        local manifest = path:find("/k8s/", 1, true) ~= nil
+          or path:find("/kubernetes/", 1, true) ~= nil
+          or path:find("/manifests/", 1, true) ~= nil
+          or path:match("%.k8s%.ya?ml$") ~= nil
+          or path:match("%.kubernetes%.ya?ml$") ~= nil
+        return manifest and "󱃾 K8S" or nil
+      end
+
+      return {
+        options = {
+          globalstatus = true,
+          theme = "auto",
+        },
+        sections = {
+          lualine_a = { "mode" },
+          lualine_b = { "branch" },
+          lualine_c = {
+            {
+              "filename",
+              path = 1,
+              symbols = { modified = " [+]", readonly = " [RO]", unnamed = "[No Name]" },
+            },
+          },
+          lualine_x = {
+            { env_status, color = "DiagnosticInfo" },
+            { lsp_clients, color = "DiagnosticInfo" },
+            { k8s_badge, color = "DiagnosticInfo" },
+            {
+              "diagnostics",
+              sources = { vim.diagnostic },
+              symbols = { error = "", warn = "" },
+              sections = { "error", "warn" },
+            },
+          },
+          lualine_y = { "filetype" },
+          lualine_z = { "location" },
+        },
+      }
+    end,
   },
 }
