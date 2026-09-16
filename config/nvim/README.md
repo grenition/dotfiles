@@ -173,26 +173,36 @@ move, delete, clipboard, path copies, open in split/vsplit/tab, reveal in
 Finder, and LSP code actions) rendered through `vim.ui.select`, which fzf-lua
 backs as its UI selector.
 
-Terminals and buffer switching use built-in Neovim features. The statusline is
+Terminals and buffer cycling use built-in Neovim features. The statusline is
 a single global `lualine.nvim` bar showing the mode, git branch, relative file
 path, diagnostics, attached language servers, the project environment, the
 filetype, and the cursor location; the `py:<name>`/`go:<name>` environment
 segment is cached per buffer and refreshes when project files such as
 `pyproject.toml` or `go.mod` are written. The bufferline keeps close buttons
 visible on every buffer. Middle-click also
-closes a buffer; `<Space>bb` labels buffers for quick selection, while
+closes a buffer. `<Space>x` closes the current buffer while always leaving its
+window open, showing another listed buffer or a fresh empty one in its place;
+`<Space>bb` labels buffers for quick selection, while
 `<Space>b<` and `<Space>b>` reorder them. Unnamed scratch buffers are omitted,
 and file icons inherit the tab background. `<Tab>` and `<Shift-Tab>` cycle
-through this visible left-to-right order, skipping omitted buffers. Neovim's
-tabline is a single terminal row, so a long buffer list scrolls with visible
-overflow markers instead of wrapping.
+through this visible left-to-right order, skipping omitted buffers, and
+`<Space><Space>` switches buffers through the fzf-lua picker. Neovim's tabline
+is a single terminal row, so a long buffer list scrolls with visible overflow
+markers instead of wrapping.
 
 Use `<Space>ud` and `<Space>un` to select persisted light and dark themes.
 Neovim applies the matching macOS appearance on startup and focus. The default
 is the Visual Studio Code-inspired theme. Its `vscode-light` (Light+) and
 `vscode-dark` (Dark+) variants are separate entries in both selectors, so live
 preview always shows the named variant. `terminal` is a regular no-background
-theme in both selectors.
+theme in both selectors. All UI overrides (bufferline accent, statusline
+theme, neo-tree sidebar, root folder, indent guides, and git status colors)
+derive from the vscode palette at apply time, so no color is hardcoded and
+both variants restyle together. The accent is `vscBlueGreen` — the same green
+as tmux `colour6` and ghostty's palette 6 — used by the selected bufferline
+tab and by the statusline's normal mode, whose `vscode-custom` lualine theme
+replaces the one vscode.nvim ships because the shipped light variant paints
+normal mode magenta.
 
 ## Development
 

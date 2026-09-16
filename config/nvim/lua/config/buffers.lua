@@ -18,6 +18,25 @@ function M.close(buffer)
     return
   end
 
+  local replacement
+  for _, listed in ipairs(vim.api.nvim_list_bufs()) do
+    if listed ~= buffer and vim.bo[listed].buflisted then
+      replacement = listed
+      break
+    end
+  end
+  if not replacement then
+    replacement = vim.api.nvim_create_buf(true, false)
+  end
+
+  for _, tabpage in ipairs(vim.api.nvim_list_tabpages()) do
+    for _, window in ipairs(vim.api.nvim_tabpage_list_wins(tabpage)) do
+      if vim.api.nvim_win_get_buf(window) == buffer then
+        vim.api.nvim_win_set_buf(window, replacement)
+      end
+    end
+  end
+
   local ok, err = pcall(vim.api.nvim_buf_delete, buffer, {})
   if ok then
     return
