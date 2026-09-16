@@ -10,10 +10,6 @@ function M.apply_ui_highlights()
   vim.cmd("highlight BufferLineBackground cterm=NONE ctermfg=7 ctermbg=NONE")
   vim.cmd("highlight BufferLineBufferVisible cterm=NONE ctermfg=7 ctermbg=NONE")
   vim.cmd("highlight BufferLineSeparator cterm=NONE ctermfg=8 ctermbg=NONE")
-  -- Minimap braille text and viewport bounds follow the same dim treatment as
-  -- separators instead of codewindow's bright defaults.
-  vim.cmd("highlight CodewindowBackground cterm=NONE ctermfg=8 ctermbg=NONE")
-  vim.cmd("highlight CodewindowUnderline cterm=NONE ctermfg=8 ctermbg=NONE")
 
   local is_dark = vim.o.background == "dark"
   local accent = is_dark and "#42B09A" or (vim.g.terminal_color_6 or "#00A7B5")

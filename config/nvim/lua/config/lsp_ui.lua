@@ -1,7 +1,7 @@
 local M = {}
 
 local selection_file = vim.fs.joinpath(vim.fn.stdpath("config"), "lua/config/lsp_ui_selection.lua")
-local selection = { inlay_hints = true, code_lens = true }
+local selection = { inlay_hints = false, code_lens = true }
 local selection_stamp
 
 local labels = {

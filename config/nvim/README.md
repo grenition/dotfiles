@@ -167,7 +167,6 @@ particular, variable navigation inside `rules:if` and GitLab's built-in
 | `lualine.nvim` | Global statusline: mode, branch, file, diagnostics, LSP clients, project environment, filetype, location |
 | `which-key.nvim` | Keybinding hints |
 | `vscode.nvim` | Visual Studio Code Light+ and Dark+ theme |
-| `codewindow.nvim` | VS Code-style minimap, on by default (`<Space>um`) |
 
 Pressing `a` in neo-tree opens a context menu (new file or directory, rename,
 move, delete, clipboard, path copies, open in split/vsplit/tab, reveal in
@@ -194,11 +193,6 @@ is the Visual Studio Code-inspired theme. Its `vscode-light` (Light+) and
 `vscode-dark` (Dark+) variants are separate entries in both selectors, so live
 preview always shows the named variant. `terminal` is a regular no-background
 theme in both selectors.
-
-The minimap is on by default and follows the active window. `<Space>um` toggles
-it for the current session. It auto-hides when the editor window is narrower
-than 80 columns and returns when space does. It is skipped for help, neo-tree,
-fzf, and quickfix windows.
 
 ## Development
 

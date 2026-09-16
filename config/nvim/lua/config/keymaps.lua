@@ -92,10 +92,10 @@ local function hover_with_diagnostics()
     max_height = math.floor(vim.o.lines * 0.6),
   })
   -- Disarm core's global WinClosed bookkeeping immediately: its callback
-  -- dereferences window-scoped vars of whatever window closes next and
-  -- crashes on windows torn down inside other close handlers (the minimap).
-  -- Losing it only leaves a stale lsp_floating_preview var, which the next
-  -- open already guards against.
+  -- dereferences window-scoped vars of whatever window closes next and can
+  -- crash on windows torn down inside other close handlers. Losing it only
+  -- leaves a stale lsp_floating_preview var, which the next open already
+  -- guards against.
   pcall(vim.api.nvim_del_augroup_by_name, "nvim.closing_floating_preview")
   -- The preview only auto-closes on cursor moves; Esc/q close it explicitly.
   -- The float never receives focus (nvim_open_win enter=false), so Esc must
