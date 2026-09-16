@@ -11,9 +11,16 @@ return {
     end,
     fzf_opts = {
       ["--header"] = "enter: select   ctrl-s/v/t: split/vsplit/tab   alt-q: quickfix   esc: cancel   j/k/J/K: nav   ctrl-j/k: preview",
-      ["--bind"] = "j:down,k:up,J:down+down+down+down+down+down+down+down+down+down,K:up+up+up+up+up+up+up+up+up+up",
     },
+    -- fzf-lua (rev 05e44d3) always rewrites fzf_opts["--bind"] from its
+    -- keymap tables (core.lua:651), so raw j/k/J/K nav binds go through
+    -- `fzf_cli_args` (documented string, config.lua:465), which core.lua:720-730
+    -- appends verbatim after fzf_opts; fzf accumulates repeated --bind flags.
+    fzf_cli_args = "--bind=j:down,k:up,J:down+down+down+down+down+down+down+down+down+down,K:up+up+up+up+up+up+up+up+up+up",
     winopts = {
+      -- fzf-lua.win:preview_scroll is internal (verified against locked rev 05e44d3):
+      -- the builtin previewer only scrolls 1 line per action with a fixed step,
+      -- so the tmap repeats the same funcref fzf-lua dispatches for keymap.builtin.
       on_create = function()
         local rhs = function(fnc)
           return ("<Cmd>lua require('fzf-lua.win').%s<CR>"):format(fnc):rep(10)
