@@ -11,6 +11,11 @@ local tree = {
     "nvim-tree/nvim-web-devicons",
   },
   config = function(_, opts)
+    -- devicons registers the default icon highlights and its ColorScheme
+    -- restorer only inside setup(); nothing else in this config calls it, so
+    -- without this call every DevIcon* group stays undefined and tree icons
+    -- render uncolored once a colorscheme switch wipes them.
+    require("nvim-web-devicons").setup()
     -- Canonical devicons entries consumed by config.k8s for Kubernetes file
     -- detection. Registered once before setup so the first render resolves them.
     require("nvim-web-devicons").set_icon({
@@ -66,6 +71,14 @@ local tree = {
       },
     },
     default_component_configs = {
+      -- VS Code-like 2-space guides with thin markers; colors come from the
+      -- palette-derived NeoTreeIndentMarker group in config.theme.
+      indent = {
+        indent_size = 2,
+        indent_marker = "│",
+        last_indent_marker = "└╴",
+        highlight = "NeoTreeIndentMarker",
+      },
       icon = {
         provider = function(icon, node)
           if node.type ~= "file" and node.type ~= "terminal" then

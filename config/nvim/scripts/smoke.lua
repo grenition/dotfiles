@@ -57,10 +57,25 @@ assert(
   "indent guides use the bright editor foreground on startup"
 )
 
+-- lualine must render with the palette-derived vscode-custom theme. Its
+-- loader executes the theme file uncached (dofile) on every ColorScheme, so
+-- both aliases re-evaluate get_colors() after a dark/light flip.
+local function assert_custom_lualine_theme()
+  local custom = require("lualine.utils.loader").load_theme("vscode-custom")
+  assert(type(custom) == "table" and type(custom.normal) == "table", "vscode-custom lualine theme did not resolve")
+  local accent = require("vscode.colors").get_colors().vscBlueGreen
+  assert(custom.normal.a.bg:lower() == accent:lower(), "vscode-custom lualine theme lost the palette accent")
+  assert(
+    vim.api.nvim_get_hl(0, { name = "lualine_a_normal", link = false }).bg == tonumber(accent:sub(2), 16),
+    "lualine did not render with the vscode-custom theme (" .. accent .. ")"
+  )
+end
+
 theme.apply("vscode-light")
 assert(vim.o.background == "light", "VS Code Light+ alias did not select a light background")
 assert(vim.g.colors_name == "vscode-light", "VS Code Light+ alias lost its distinct name")
-local accent = tonumber(vim.g.terminal_color_6:sub(2), 16)
+local palette = require("vscode.colors").get_colors()
+local accent = tonumber(palette.vscBlueGreen:sub(2), 16)
 for _, group in ipairs({
   "BufferLineBufferSelected",
   "BufferLineCloseButtonSelected",
@@ -70,29 +85,63 @@ for _, group in ipairs({
   assert(vim.api.nvim_get_hl(0, { name = group, link = false }).bg == accent, group .. " lost the active background")
 end
 assert(
-  vim.api.nvim_get_hl(0, { name = "NeoTreeNormal", link = false }).bg == nil,
-  "VS Code Light+ neo-tree background must match the editor"
+  vim.api.nvim_get_hl(0, { name = "NeoTreeNormal", link = false }).bg == tonumber(palette.vscLeftLight:sub(2), 16),
+  "VS Code Light+ neo-tree background must sit on the sidebar color"
 )
 assert(
-  next(vim.api.nvim_get_hl(0, { name = "NeoTreeIndentMarker", link = false })) == nil,
-  "VS Code Light+ neo-tree indentation must use the default style"
+  vim.api.nvim_get_hl(0, { name = "NeoTreeIndentMarker", link = false }).fg
+    == tonumber(palette.vscLineNumber:sub(2), 16),
+  "VS Code Light+ neo-tree indentation lost its palette guide color"
 )
 assert(
-  vim.api.nvim_get_hl(0, { name = "NeoTreeCursorLine", link = false }).bg == 0xE5E5E5,
-  "VS Code Light+ neo-tree cursor line did not reset"
+  vim.api.nvim_get_hl(0, { name = "NeoTreeCursorLine", link = false }).bg == tonumber(palette.vscLeftMid:sub(2), 16),
+  "VS Code Light+ neo-tree cursor line lost the selection gray"
 )
 assert(
-  vim.api.nvim_get_hl(0, { name = "NeoTreeDirectoryIcon", link = false }).fg == 0x8E8E90,
-  "VS Code Light+ neo-tree directory icon color did not load"
+  vim.api.nvim_get_hl(0, { name = "NeoTreeDirectoryIcon", link = false }).fg
+    == tonumber(palette.vscGitIgnored:sub(2), 16),
+  "VS Code Light+ neo-tree directory icon lost its muted gray"
 )
+assert_custom_lualine_theme()
 
 theme.apply("vscode-dark")
 assert(vim.o.background == "dark", "VS Code Dark+ alias did not select a dark background")
 assert(vim.g.colors_name == "vscode-dark", "VS Code Dark+ alias lost its distinct name")
+local dark_palette = require("vscode.colors").get_colors()
 assert(
-  vim.api.nvim_get_hl(0, { name = "BufferLineBufferSelected", link = false }).bg == 0x42B09A,
-  "VS Code Dark+ active buffer background is too bright"
+  vim.api.nvim_get_hl(0, { name = "BufferLineBufferSelected", link = false }).bg
+    == tonumber(dark_palette.vscBlueGreen:sub(2), 16),
+  "VS Code Dark+ active buffer lost the palette accent"
 )
+assert(
+  vim.api.nvim_get_hl(0, { name = "NeoTreeWinSeparator", link = false }).bg
+    == tonumber(dark_palette.vscLeftDark:sub(2), 16),
+  "VS Code Dark+ neo-tree separator must stay invisible against the sidebar"
+)
+assert(
+  vim.api.nvim_get_hl(0, { name = "NeoTreeGitModified", link = false }).fg
+    == tonumber(dark_palette.vscGitModified:sub(2), 16),
+  "VS Code Dark+ neo-tree git status lost its palette color"
+)
+assert_custom_lualine_theme()
+
+-- Regression: raw same-background colorscheme switches (no theme.apply
+-- helper) must not gray out lualine or devicons. terminal and vscode-dark
+-- both keep background=dark, and only devicons.setup() registers the
+-- ColorScheme restorer that re-creates DevIcon* groups after a switch.
+local switch_accent = tonumber(require("vscode.colors").get_colors().vscBlueGreen:sub(2), 16)
+vim.cmd.colorscheme("terminal")
+vim.cmd.colorscheme("vscode-dark")
+vim.wait(100) -- flush the scheduled lualine re-setup
+assert(
+  vim.api.nvim_get_hl(0, { name = "lualine_a_normal", link = false }).bg == switch_accent,
+  "same-background colorscheme switch left lualine without its palette accent"
+)
+assert(
+  vim.api.nvim_get_hl(0, { name = "DevIconLua", link = false }).fg ~= nil,
+  "same-background colorscheme switch grayed out devicons"
+)
+assert(vim.o.termguicolors, "returning from the terminal colorscheme did not restore termguicolors")
 
 local visiting = {}
 local visited = {}

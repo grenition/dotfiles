@@ -11,10 +11,14 @@ function M.apply_ui_highlights()
   vim.cmd("highlight BufferLineBufferVisible cterm=NONE ctermfg=7 ctermbg=NONE")
   vim.cmd("highlight BufferLineSeparator cterm=NONE ctermfg=8 ctermbg=NONE")
 
+  -- Derive every color from the vscode palette at call time: get_colors()
+  -- follows 'background', and this function re-runs on each ColorScheme, so
+  -- both variants stay correct without a single hardcoded hex value.
   local is_dark = vim.o.background == "dark"
-  local accent = is_dark and "#42B09A" or (vim.g.terminal_color_6 or "#00A7B5")
+  local c = require("vscode.colors").get_colors()
+  local accent = c.vscBlueGreen
   local accent_cterm = is_dark and 37 or 6
-  local accent_fg = is_dark and "#1F1F1F" or "#FFFFFF"
+  local accent_fg = c.vscBack
   for _, group in ipairs({
     "BufferLineTabSelected",
     "BufferLineTabCloseSelected",
@@ -64,22 +68,45 @@ function M.apply_ui_highlights()
 
   vim.api.nvim_set_hl(0, "NavigableLink", { underline = true })
 
-  if vim.g.colors_name == "vscode-light" then
-    -- Clear overrides from the earlier sidebar treatment. These groups are
-    -- intentionally empty in vscode.nvim, so neo-tree inherits the editor UI.
-    for _, group in ipairs({
-      "NeoTreeNormal",
-      "NeoTreeNormalNC",
-      "NeoTreeSignColumn",
-      "NeoTreeEndOfBuffer",
-      "NeoTreeWinSeparator",
-      "NeoTreeIndentMarker",
-      "NeoTreeExpander",
-    }) do
-      vim.api.nvim_set_hl(0, group, {})
-    end
-    vim.api.nvim_set_hl(0, "NeoTreeCursorLine", { bg = "#E5E5E5" })
-    vim.api.nvim_set_hl(0, "NeoTreeDirectoryIcon", { fg = "#8E8E90" })
+  local scheme = vim.g.colors_name or ""
+  if scheme:find("vscode", 1, true) ~= 1 then
+    return
+  end
+
+  -- VS Code draws its explorer on the sidebar background with no visible
+  -- separator. vscLeftDark is the dark sidebar; in light mode that role
+  -- belongs to vscLeftLight (vscLeftDark degrades to the activity-bar gray).
+  local sidebar_bg = is_dark and c.vscLeftDark or c.vscLeftLight
+  vim.api.nvim_set_hl(0, "NeoTreeNormal", { fg = c.vscFront, bg = sidebar_bg })
+  vim.api.nvim_set_hl(0, "NeoTreeNormalNC", { fg = c.vscFront, bg = sidebar_bg })
+  vim.api.nvim_set_hl(0, "NeoTreeRootFolder", { fg = c.vscFront, bold = true })
+  vim.api.nvim_set_hl(0, "NeoTreeEndOfBuffer", { bg = sidebar_bg })
+  vim.api.nvim_set_hl(0, "NeoTreeWinSeparator", { fg = sidebar_bg, bg = sidebar_bg })
+  vim.api.nvim_set_hl(0, "NeoTreeIndentMarker", { fg = c.vscLineNumber })
+
+  -- Git status colors, matching the group names neo-tree v3 renders.
+  local git_status = {
+    NeoTreeGitAdded = c.vscGitAdded,
+    NeoTreeGitStaged = c.vscGitAdded,
+    NeoTreeGitModified = c.vscGitModified,
+    NeoTreeGitUnstaged = c.vscGitModified,
+    NeoTreeGitDeleted = c.vscGitDeleted,
+    NeoTreeGitRenamed = c.vscGitRenamed,
+    NeoTreeGitUntracked = c.vscGitUntracked,
+    NeoTreeGitIgnored = c.vscGitIgnored,
+    NeoTreeGitConflict = c.vscGitConflicting,
+  }
+  for group, color in pairs(git_status) do
+    vim.api.nvim_set_hl(0, group, { fg = color })
+  end
+
+  if not is_dark then
+    -- vscode.nvim's light tree picks lose contrast against the sidebar
+    -- (selection reads as the bright vscSelection blue); its dark variants
+    -- are fine, so these gap fixes stay light-only. vscLeftMid is VS Code's
+    -- light selection gray and vscGitIgnored is its muted icon gray.
+    vim.api.nvim_set_hl(0, "NeoTreeCursorLine", { bg = c.vscLeftMid })
+    vim.api.nvim_set_hl(0, "NeoTreeDirectoryIcon", { fg = c.vscGitIgnored })
   end
 end
 
