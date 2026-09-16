@@ -2,7 +2,7 @@ local M = {}
 
 M.options = {
   use_float = false,
-  use_snacks_image = false,
+  use_snacks_image = true,
   use_image_nvim = false,
 }
 

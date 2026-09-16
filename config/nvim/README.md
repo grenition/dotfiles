@@ -152,6 +152,7 @@ particular, variable navigation inside `rules:if` and GitLab's built-in
 | Plugin | Responsibility |
 | --- | --- |
 | `neo-tree.nvim` | Project tree and file operations (`h/j/k/l`, `x`, `y`, `p`) |
+| `snacks.nvim` | In-terminal images in neo-tree previews and Markdown via the Kitty Graphics Protocol; PNG renders natively, other formats need optional ImageMagick |
 | `fzf-lua` | Files, grep, commands, diagnostics, and LSP lists |
 | `nvim-lspconfig` + Mason | Language servers |
 | `blink.cmp` | Completion |
