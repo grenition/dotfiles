@@ -181,23 +181,5 @@ return {
     "nvim-lualine/lualine.nvim",
     event = "VeryLazy",
     opts = lualine_opts,
-    -- Custom theme strings are not re-resolved by upstream on ColorScheme, and
-    -- re-running full setup would append duplicate reload autocmds (upstream
-    -- never clears its group), so refresh the groups directly instead via the
-    -- internal create_highlight_groups, verified against the locked revision.
-    config = function(_, opts)
-      require("lualine").setup(opts)
-      vim.api.nvim_create_augroup("user_lualine_refresh", { clear = true })
-      vim.api.nvim_create_autocmd("ColorScheme", {
-        group = "user_lualine_refresh",
-        callback = function()
-          vim.schedule(function()
-            require("lualine.highlight").create_highlight_groups(
-              require("lualine.utils.loader").load_theme(opts.options.theme)
-            )
-          end)
-        end,
-      })
-    end,
   },
 }

@@ -258,7 +258,13 @@ vim.api.nvim_create_autocmd("ColorScheme", {
 
 vim.api.nvim_create_autocmd({ "VimEnter", "FocusGained" }, {
   group = group,
-  callback = M.refresh,
+  callback = function()
+    -- Nested events (ColorScheme, OptionSet) are suppressed while an
+    -- autocmd callback runs, so a switch from here leaves the groups
+    -- that lualine/devicons/bufferline rebuild on ColorScheme wiped.
+    -- Scheduling hops out of that context and lets the events fire.
+    vim.schedule(M.refresh)
+  end,
 })
 
 load_selection()
