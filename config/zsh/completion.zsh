@@ -19,6 +19,17 @@ autoload -Uz compinit && compinit
   source "$brew_prefix/share/fzf-tab/fzf-tab.zsh"
 zstyle ':fzf-tab:*' fzf-flags --height=40% --layout=reverse --border
 
+# Vim-style nav, same muscle memory as the fzf-lua pickers in config/nvim:
+# j/k move one line, J/K ten. fzf (0.74) has no repeat-count for --bind
+# actions, so ten moves are chained with '+'; fzf-tab appends these on top of
+# its own defaults (tab:down, btab:up, ...). A bound key stops being typeable
+# into the filter query — the price of bare j/k.
+zstyle ':fzf-tab:*' fzf-bindings \
+  'j:down' \
+  'k:up' \
+  'J:down+down+down+down+down+down+down+down+down+down' \
+  'K:up+up+up+up+up+up+up+up+up+up'
+
 # The default query seeding ("input") puts the whole typed path into the fzf
 # search (e.g. "ls /some/dir/<Tab>" searches for "/some/dir/") while carapace
 # candidates are bare names, so the picker opens empty. Seed with the common
