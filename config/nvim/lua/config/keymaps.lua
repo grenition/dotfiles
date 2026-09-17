@@ -145,6 +145,7 @@ map("x", "<Tab>", "<cmd>BufferLineCycleNext<cr>", { desc = "Next visible buffer"
 map("x", "<S-Tab>", "<cmd>BufferLineCyclePrev<cr>", { desc = "Previous visible buffer" })
 map("n", "<leader>x", require("config.buffers").close, { desc = "Close buffer" })
 map("n", "<leader>w", "<cmd>write<cr>", { desc = "Save" })
+map("n", "<leader>W", "<cmd>wall<cr>", { desc = "Save all" })
 map("n", "<leader>bb", "<cmd>BufferLinePick<cr>", { desc = "Pick buffer" })
 map("n", "<leader>b<", "<cmd>BufferLineMovePrev<cr>", { desc = "Move buffer left" })
 map("n", "<leader>b>", "<cmd>BufferLineMoveNext<cr>", { desc = "Move buffer right" })

@@ -21,7 +21,7 @@ return {
   "stevearc/conform.nvim",
   event = { "BufWritePre" },
   opts = {
-    format_on_save = { timeout_ms = 500, lsp_fallback = true },
+    -- Formatting is manual only: <leader>oc / <leader>oa in keymaps.lua.
     formatters = {
       csharpier = { env = require("config.dotnet").env },
     },
