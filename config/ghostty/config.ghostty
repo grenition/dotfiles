@@ -5,15 +5,11 @@ macos-option-as-alt = true
 # JetBrains Mono Nerd Font with a bold default face for a heavier look.
 # Bold text uses ExtraBold so emphasis stays distinguishable.
 font-family = JetBrainsMono Nerd Font
-font-style = medium
+font-style = SemiBold
+font-style-bold = Bold
 
 # Match the vscode.nvim light/dark palette and follow the macOS appearance.
 theme = light:VSCode Light,dark:VSCode Dark
-
-# Option+Left/Right: drop Ghostty's default readline-style Esc+b/Esc+f so the
-# standard Alt CSI sequences reach Neovim and zsh (<M-Left>/<M-Right>).
-keybind = alt+arrow_left=unbind
-keybind = alt+arrow_right=unbind
 
 # Option+Left/Right: drop Ghostty's default readline-style Esc+b/Esc+f so the
 # standard Alt CSI sequences reach Neovim and zsh (<M-Left>/<M-Right>).

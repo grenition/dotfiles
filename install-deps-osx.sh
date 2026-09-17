@@ -12,7 +12,14 @@ while IFS=: read -r pkg spec; do
   [[ -z "$pkg" || "$pkg" == \#* ]] && continue
   spec="${spec:-$pkg}"
   if [[ "$spec" == @* ]]; then
-    present() { [ -e "$(brew --prefix)/${1#@}" ]; }
+    present() {
+      local p="${1#@}"
+      if [[ "$p" == \~* ]]; then
+        [ -e "$HOME${p#\~}" ]
+      else
+        [ -e "$(brew --prefix)/$p" ]
+      fi
+    }
   else
     present() { command -v "$1" >/dev/null 2>&1; }
   fi

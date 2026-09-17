@@ -1,8 +1,10 @@
 # Common external tools this dotfiles repo assumes are on PATH.
 # Names here should match package names across package managers where possible.
-# Format: "pkg" or "pkg:binary" when the installed binary name differs from
-# the package name (checked to skip installing what's already on PATH).
-# Use "pkg:@brew-path" for packages that install no binary (checked by file).
+# Format:
+#   "pkg"             — checked by binary on PATH
+#   "pkg:binary"      — installed binary name differs from the package name
+#   "pkg:@brew-path"  — no binary; checked by file under brew --prefix
+#   "pkg:@~/path"     — no binary; checked by file under $HOME (cask fonts etc.)
 # Platform-specific installers (install-deps-*.sh) read this file and then
 # handle anything special for that platform on top of it.
 
@@ -20,3 +22,4 @@ fzf-tab:@share/fzf-tab/fzf-tab.zsh
 zsh-autosuggestions:@share/zsh-autosuggestions/zsh-autosuggestions.zsh
 zsh-completions:@share/zsh-completions
 zsh-syntax-highlighting:@share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+font-jetbrains-mono-nerd-font:@~/Library/Fonts/JetBrainsMonoNerdFont-Regular.ttf
