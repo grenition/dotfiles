@@ -101,6 +101,13 @@ local tree = {
           icon.highlight = highlight or icon.highlight
         end,
       },
+      -- Detail columns (Size/Type/Modified) appear once the window is wide
+      -- enough (file_size needs >= 64 columns), which auto_expand_width
+      -- triggers in projects with long file names. Keep the tree clean
+      -- everywhere.
+      file_size = { enabled = false },
+      type = { enabled = false },
+      last_modified = { enabled = false },
       git_status = {
         symbols = {
           added = "+",
