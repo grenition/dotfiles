@@ -1,6 +1,38 @@
 local context_menu = require("config.neo_tree_context_menu")
 local preview = require("config.neo_tree_preview")
 
+-- The root header renders the full path (fnamemodify(path, ":~")), and
+-- auto_expand_width measures the pre-render width on the untruncated text,
+-- so a long root path alone widens the tree. Keep the header within
+-- MAX_ROOT_WIDTH columns, dropping leading path segments.
+local MAX_ROOT_WIDTH = 40
+
+local function shorten_root_path(path)
+  if vim.api.nvim_strwidth(path) <= MAX_ROOT_WIDTH then
+    return path
+  end
+  local parts = vim.split(path, "[\\/]")
+  local kept, width, last_seg = {}, 0, nil
+  for i = #parts, 1, -1 do
+    local seg = parts[i]
+    if seg ~= "" then
+      last_seg = last_seg or seg
+      local sep = #kept > 0 and 1 or 0
+      if width + sep + vim.api.nvim_strwidth(seg) + 2 > MAX_ROOT_WIDTH then
+        break
+      end
+      table.insert(kept, 1, seg)
+      width = width + sep + vim.api.nvim_strwidth(seg)
+    end
+  end
+  if #kept == 0 then
+    -- A single segment longer than the budget: cut its beginning.
+    local budget = math.max(1, MAX_ROOT_WIDTH - 2)
+    return "…" .. vim.fn.strcharpart(last_seg or "", math.max(0, vim.fn.strchars(last_seg or "") - budget))
+  end
+  return "…/" .. table.concat(kept, "/")
+end
+
 local tree = {
   "nvim-neo-tree/neo-tree.nvim",
   branch = "v3.x",
@@ -123,6 +155,15 @@ local tree = {
       },
     },
     filesystem = {
+      components = {
+        name = function(config, node, state)
+          local result = require("neo-tree.sources.common.components").name(config, node, state)
+          if node:get_depth() == 1 and node.type == "directory" and result and result.text then
+            result.text = shorten_root_path(result.text)
+          end
+          return result
+        end,
+      },
       -- Keep the tree cursor under user control. Files opened via search,
       -- buffer tabs, LSP jumps, etc. must not reveal themselves implicitly.
       follow_current_file = { enabled = false },
