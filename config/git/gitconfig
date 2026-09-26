@@ -1,0 +1,15 @@
+[init]
+    defaultBranch = master
+
+[core]
+    editor = vim
+    excludesFile = ~/.config/git/ignore
+
+[pull]
+    rebase = true
+
+[push]
+    autoSetupRemote = true
+
+[fetch]
+    prune = true
