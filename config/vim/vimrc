@@ -1,0 +1,109 @@
+let mapleader = " "
+let maplocalleader = " "
+
+" Space is only a leader prefix.
+nnoremap <Space> <Nop>
+
+" UI
+set number
+set relativenumber
+set scrolloff=8
+
+" Indentation
+set tabstop=4
+set shiftwidth=4
+set softtabstop=4
+set expandtab
+
+syntax on
+filetype plugin indent on
+
+augroup indentation
+    autocmd!
+    autocmd FileType javascript,javascriptreact,typescript,typescriptreact,json,jsonc setlocal expandtab tabstop=2 shiftwidth=2 softtabstop=2
+    autocmd FileType html,css,scss,sass,less,xml setlocal expandtab tabstop=2 shiftwidth=2 softtabstop=2
+    autocmd FileType yaml,ruby,sh,zsh,terraform,hcl,nix,markdown setlocal expandtab tabstop=2 shiftwidth=2 softtabstop=2
+    autocmd FileType python,c,cpp,objc,objcpp,java,kotlin,cs,rust,php,swift,lua,perl,sql setlocal expandtab tabstop=4 shiftwidth=4 softtabstop=4
+    autocmd FileType go setlocal noexpandtab tabstop=8 shiftwidth=4 softtabstop=0
+    autocmd FileType make setlocal noexpandtab tabstop=8 shiftwidth=8 softtabstop=0
+augroup END
+
+" Search
+set ignorecase
+set smartcase
+set incsearch
+
+" Mouse input
+set mouse=a
+xnoremap <LeftRelease> y
+
+" Undo / redo
+nnoremap U <C-r>
+
+" Windows
+set splitbelow
+set splitright
+
+" Window navigation
+nnoremap <C-h> <C-w>h
+nnoremap <C-j> <C-w>j
+nnoremap <C-k> <C-w>k
+nnoremap <C-l> <C-w>l
+
+" Window resizing
+nnoremap <C-=> <C-w>=
+nnoremap <C-+> <C-w>+
+nnoremap <C--> <C-w>-
+nnoremap <C->> <C-w>>
+nnoremap <C-<> <C-w><
+
+" Fast movement
+nnoremap H 20h
+nnoremap J 10j
+nnoremap K 10k
+nnoremap L 20l
+
+xnoremap H 20h
+xnoremap J 10j
+xnoremap K 10k
+xnoremap L 20l
+
+" Indent mappings
+nnoremap > >>
+nnoremap < <<
+
+xnoremap < <gv
+xnoremap > >gv
+
+" Fast delete motions
+nnoremap dH 20dh
+nnoremap dJ 10dj
+nnoremap dK 10dk
+nnoremap dL 20dl
+
+" Don't overwrite registers when deleting/changing
+nnoremap d "_d
+nnoremap D "_D
+nnoremap x "_x
+nnoremap X "_X
+nnoremap c "_c
+nnoremap C "_C
+
+xnoremap d "_d
+xnoremap D "_D
+xnoremap c "_c
+xnoremap C "_C
+
+" Preserve register when pasting over selection
+xnoremap p "_dP
+xnoremap P "_dP
+
+" Tabs
+nnoremap <Tab> :tabnext<CR>
+xnoremap <Tab> :tabnext<CR>
+
+nnoremap <S-Tab> :tabprevious<CR>
+xnoremap <S-Tab> :tabprevious<CR>
+
+" Clipboard
+set clipboard=unnamedplus
