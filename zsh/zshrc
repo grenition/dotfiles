@@ -1,3 +1,10 @@
+# Shared shell envs
+
+typeset -U path PATH
+source "$HOME/.config/sh/env.sh"
+
+# Local configs
+
 for file in "$HOME/.config/zsh/sources"/*.zsh(N); do
   source "$file"
 done
