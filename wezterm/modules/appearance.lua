@@ -17,7 +17,10 @@ local function scheme_for_appearance(appearance)
 end
 function module.apply(config)
     --colors
-    config.color_scheme = scheme_for_appearance(get_appearance())
+    local appearance = get_appearance()
+    local scheme = scheme_for_appearance(appearance)
+
+    config.color_scheme = scheme
     config.inactive_pane_hsb = {
       saturation = 0.9,
       brightness = 0.8,
@@ -43,7 +46,6 @@ function module.apply(config)
     config.hide_tab_bar_if_only_one_tab = true
     config.tab_bar_at_bottom = false
     config.window_frame = {
-
         font = wezterm.font('JetBrains Mono', {
             weight = 'Bold',
             stretch = 'Normal',
