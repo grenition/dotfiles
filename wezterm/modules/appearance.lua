@@ -2,23 +2,23 @@
 
 local wezterm = require('wezterm')
 local module = {}
-local function get_appearance()
+function module.get_appearance()
     if wezterm.gui then
         return wezterm.gui.get_appearance()
     end
     return 'Dark'
 end
-local function scheme_for_appearance(appearance)
+function module.scheme_for_appearance(appearance)
     if appearance:find 'Dark' then
         return 'Vs Code Dark+ (Gogh)'
     else
         return 'Vs Code Light+ (Gogh)'
     end
 end
-function module.apply(config)
+function module.apply_to_config(config)
     --colors
-    local appearance = get_appearance()
-    local scheme = scheme_for_appearance(appearance)
+    local appearance = module.get_appearance()
+    local scheme = module.scheme_for_appearance(appearance)
 
     config.color_scheme = scheme
     config.inactive_pane_hsb = {
@@ -54,5 +54,16 @@ function module.apply(config)
         font_size = 14.0,
     }
 end
+
+-- https://github.com/wez/wezterm/issues/6607
+wezterm.on('window-config-reloaded', function(window)
+    local scheme = module.scheme_for_appearance(window:get_appearance())
+    if window:effective_config().color_scheme == scheme then
+        return
+    end
+    local overrides = window:get_config_overrides() or {}
+    overrides.color_scheme = scheme
+    window:set_config_overrides(overrides)
+end)
 
 return module;

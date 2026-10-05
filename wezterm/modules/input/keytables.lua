@@ -4,7 +4,7 @@ local wezterm = require 'wezterm'
 local act = wezterm.action
 local module = {}
 
-function module.apply(config)
+function module.apply_to_config(config)
     -- Show which key table is active in the status area
     wezterm.on('update-right-status', function(window)
       local name = window:active_key_table()

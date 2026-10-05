@@ -3,7 +3,7 @@
 local wezterm = require('wezterm')
 local module = {}
 
-function module.apply(config)
+function module.apply_to_config(config)
    config.keys = {
       {
         key = 'y',

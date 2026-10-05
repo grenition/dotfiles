@@ -1,7 +1,7 @@
 -- https://wezterm.org/config/launch.html#the-launcher-menu
 
 local module = {}
-function module.apply(config)
+function module.apply_to_config(config)
     config.launch_menu = {
       {
         args = { 'top' },

@@ -4,7 +4,7 @@ local wezterm = require 'wezterm'
 local act = wezterm.action
 local module = {}
 
-function module.apply(config)
+function module.apply_to_config(config)
     config.mouse_bindings = {
       -- Right click sends "woot" to the terminal
       {
