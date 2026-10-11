@@ -1,7 +1,5 @@
 # Shared shell envs
 typeset -U path PATH
 
-source "${XDG_CONFIG_HOME:-$HOME/.config}/sh/env.sh"
-
 # fzf
 source <(fzf --zsh)
