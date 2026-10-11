@@ -1,10 +1,7 @@
 # Shared shell envs
-
 typeset -U path PATH
-source "$HOME/.config/sh/env.sh"
 
-# Local configs
+source "${XDG_CONFIG_HOME:-$HOME/.config}/sh/env.sh"
 
-for file in "$HOME/.config/zsh/sources"/*.zsh(N); do
-  source "$file"
-done
+# fzf
+source <(fzf --zsh)
