@@ -3,3 +3,4 @@ vim
 zsh
 tmux
 fzf
+zoxide
