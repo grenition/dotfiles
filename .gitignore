@@ -1,1 +1,7 @@
-/nvim.log
+# Local editor and operating-system artifacts
+.DS_Store
+.nvimlog
+*.log
+*.swp
+*.swo
+*~

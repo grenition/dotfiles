@@ -1,0 +1,5 @@
+# Shared shell envs
+typeset -U path PATH
+
+# fzf
+source <(fzf --zsh)
