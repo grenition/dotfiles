@@ -1,9 +1,4 @@
-if true then return {} end -- WARN: REMOVE THIS LINE TO ACTIVATE THIS FILE
-
--- AstroCore provides a central place to modify mappings, vim options, autocommands, and more!
--- Configuration documentation can be found with `:h astrocore`
--- NOTE: We highly recommend setting up the Lua Language Server (`:LspInstall lua_ls`)
---       as this provides autocomplete and documentation while editing
+-- Ported from vim/vimrc
 
 ---@type LazySpec
 return {
@@ -12,12 +7,12 @@ return {
   opts = {
     -- Configure core features of AstroNvim
     features = {
-      large_buf = { size = 1024 * 256, lines = 10000 }, -- set global limits for large files for disabling features like treesitter
-      autopairs = true, -- enable autopairs at start
-      cmp = true, -- enable completion at start
+      large_buf = { size = 1024 * 256, lines = 10000 },             -- set global limits for large files for disabling features like treesitter
+      autopairs = true,                                             -- enable autopairs at start
+      cmp = true,                                                   -- enable completion at start
       diagnostics = { virtual_text = true, virtual_lines = false }, -- diagnostic settings on startup
-      highlighturl = true, -- highlight URLs at start
-      notifications = true, -- enable notifications at start
+      highlighturl = true,                                          -- highlight URLs at start
+      notifications = true,                                         -- enable notifications at start
     },
     -- Diagnostics configuration (for vim.diagnostics.config({...})) when diagnostics are on
     diagnostics = {
@@ -27,29 +22,65 @@ return {
     -- passed to `vim.filetype.add`
     filetypes = {
       -- see `:h vim.filetype.add` for usage
-      extension = {
-        foo = "fooscript",
-      },
       filename = {
-        [".foorc"] = "fooscript",
+        [".gitlab-ci.yml"] = "yaml.gitlab",
       },
       pattern = {
-        [".*/etc/foo/.*"] = "fooscript",
+        [".*%.gitlab%-ci%.ya?ml"] = "yaml.gitlab",
+        [".*/%.gitlab/ci/.*%.ya?ml"] = "yaml.gitlab",
+        [".*/%.gitlab/workflows/.*%.ya?ml"] = "yaml.gitlab",
       },
     },
     -- vim options can be configured here
     options = {
-      opt = { -- vim.opt.<key>
+      opt = {                  -- vim.opt.<key>
         relativenumber = true, -- sets vim.opt.relativenumber
-        number = true, -- sets vim.opt.number
-        spell = false, -- sets vim.opt.spell
-        signcolumn = "yes", -- sets vim.opt.signcolumn to yes
-        wrap = false, -- sets vim.opt.wrap
+        number = true,         -- sets vim.opt.number
+        spell = false,         -- sets vim.opt.spell
+        signcolumn = "yes",    -- sets vim.opt.signcolumn to yes
+        wrap = false,          -- sets vim.opt.wrap
+        scrolloff = 8,
+        tabstop = 4,
+        shiftwidth = 4,
+        softtabstop = 4,
+        expandtab = true,
+        ignorecase = true,
+        smartcase = true,
+        incsearch = true,
+        mouse = "a",
+        splitbelow = true,
+        splitright = true,
+        clipboard = "unnamedplus",
       },
       g = { -- vim.g.<key>
         -- configure global vim variables (vim.g)
         -- NOTE: `mapleader` and `maplocalleader` must be set in the AstroNvim opts or before `lazy.setup`
         -- This can be found in the `lua/lazy_setup.lua` file
+      },
+    },
+    -- per-filetype indentation (from vimrc augroup)
+    autocmds = {
+      indent = {
+        {
+          event = "FileType",
+          pattern = { "javascript", "javascriptreact", "typescript", "typescriptreact", "json", "jsonc", "html", "css", "scss", "sass", "less", "xml", "yaml", "ruby", "sh", "zsh", "terraform", "hcl", "nix", "markdown" },
+          command = "setlocal expandtab tabstop=2 shiftwidth=2 softtabstop=2",
+        },
+        {
+          event = "FileType",
+          pattern = { "python", "c", "cpp", "objc", "objcpp", "java", "kotlin", "cs", "rust", "php", "swift", "lua", "perl", "sql" },
+          command = "setlocal expandtab tabstop=4 shiftwidth=4 softtabstop=4",
+        },
+        {
+          event = "FileType",
+          pattern = "go",
+          command = "setlocal noexpandtab tabstop=8 shiftwidth=4 softtabstop=0",
+        },
+        {
+          event = "FileType",
+          pattern = "make",
+          command = "setlocal noexpandtab tabstop=8 shiftwidth=8 softtabstop=0",
+        },
       },
     },
     -- Mappings can be configured through AstroCore as well.
@@ -60,8 +91,8 @@ return {
         -- second key is the lefthand side of the map
 
         -- navigate buffer tabs
-        ["]b"] = { function() require("astrocore.buffer").nav(vim.v.count1) end, desc = "Next buffer" },
-        ["[b"] = { function() require("astrocore.buffer").nav(-vim.v.count1) end, desc = "Previous buffer" },
+        ["<Tab>"] = { function() require("astrocore.buffer").nav(vim.v.count1) end, desc = "Next buffer" },
+        ["<S-Tab>"] = { function() require("astrocore.buffer").nav(-vim.v.count1) end, desc = "Previous buffer" },
 
         -- mappings seen under group name "Buffer"
         ["<Leader>bd"] = {
@@ -79,6 +110,54 @@ return {
 
         -- setting a mapping to false will disable it
         -- ["<C-S>"] = false,
+
+        -- from vimrc
+        ["<Space>"] = "<Nop>",
+        ["U"] = "<C-r>",
+        ["<C-h>"] = "<C-w>h",
+        ["<C-j>"] = "<C-w>j",
+        ["<C-k>"] = "<C-w>k",
+        ["<C-l>"] = "<C-w>l",
+        ["<C-=>"] = "<C-w>=",
+        ["<C-+>"] = "<C-w>+",
+        ["<C-->"] = "<C-w>-",
+        ["<C->>"] = "<C-w>>",
+        ["<C-<>"] = "<C-w><",
+        ["H"] = "20h",
+        ["J"] = "10j",
+        ["K"] = "10k",
+        ["L"] = "20l",
+        [">"] = ">>",
+        ["<"] = "<<",
+        ["dH"] = "20dh",
+        ["dJ"] = "10dj",
+        ["dK"] = "10dk",
+        ["dL"] = "20dl",
+        ["d"] = '"_d',
+        ["D"] = '"_D',
+        ["x"] = '"_x',
+        ["X"] = '"_X',
+        ["c"] = '"_c',
+        ["C"] = '"_C',
+      },
+      x = {
+        ["<Tab>"] = { function() require("astrocore.buffer").nav(vim.v.count1) end, desc = "Next buffer" },
+        ["<S-Tab>"] = { function() require("astrocore.buffer").nav(-vim.v.count1) end, desc = "Previous buffer" },
+
+        -- from vimrc
+        ["<LeftRelease>"] = "y",
+        ["H"] = "20h",
+        ["J"] = "10j",
+        ["K"] = "10k",
+        ["L"] = "20l",
+        ["<"] = "<gv",
+        [">"] = ">gv",
+        ["d"] = '"_d',
+        ["D"] = '"_D',
+        ["c"] = '"_c',
+        ["C"] = '"_C',
+        ["p"] = '"_dP',
+        ["P"] = '"_dP',
       },
     },
   },
