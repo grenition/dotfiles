@@ -8,6 +8,7 @@ function module.get_appearance()
     end
     return 'Dark'
 end
+
 function module.scheme_for_appearance(appearance)
     if appearance:find 'Dark' then
         return 'Vs Code Dark+ (Gogh)'
@@ -15,6 +16,7 @@ function module.scheme_for_appearance(appearance)
         return 'Vs Code Light+ (Gogh)'
     end
 end
+
 function module.apply_to_config(config)
     --colors
     local appearance = module.get_appearance()
@@ -22,23 +24,24 @@ function module.apply_to_config(config)
 
     config.color_scheme = scheme
     config.inactive_pane_hsb = {
-      saturation = 0.9,
-      brightness = 0.8,
+        saturation = 0.9,
+        brightness = 0.8,
     }
 
     -- window
     config.initial_cols = 120
     config.initial_rows = 28
     config.window_padding = {
-      left = 6,
-      right = 6,
-      top = 6,
-      bottom = 6,
+        left = 6,
+        right = 6,
+        top = 6,
+        bottom = 6,
     }
 
     -- font
     config.font = wezterm.font('JetBrains Mono')
     config.font_size = 18
+    config.line_height = 0.9
 
     -- tabs
     config.use_fancy_tab_bar = true
@@ -51,7 +54,7 @@ function module.apply_to_config(config)
             stretch = 'Normal',
             style = 'Normal'
         }),
-        font_size = 14.0,
+        font_size = 14.0
     }
 end
 
