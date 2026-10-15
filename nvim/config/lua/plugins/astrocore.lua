@@ -141,6 +141,14 @@ return {
         ["C"] = '"_C',
         ["<BS>"] = { "<C-o>", desc = "Jump back" },
         ["<S-BS>"] = { "<C-i>", desc = "Jump forward" },
+
+        -- macOS-style movement
+        ["<C-Up>"] = "gg",
+        ["<C-Down>"] = "G",
+        ["<M-Left>"] = "b",
+        ["<M-Right>"] = "w",
+        ["<C-Left>"] = "b",
+        ["<C-Right>"] = "w",
       },
       x = {
         ["<Tab>"] = { function() require("astrocore.buffer").nav(vim.v.count1) end, desc = "Next buffer" },
@@ -160,6 +168,26 @@ return {
         ["C"] = '"_C',
         ["p"] = '"_dP',
         ["P"] = '"_dP',
+
+        -- macOS-style movement
+        ["<M-Left>"] = "b",
+        ["<M-Right>"] = "w",
+        ["<C-Left>"] = "b",
+        ["<C-Right>"] = "w",
+      },
+      i = {
+        -- macOS-style editing
+        ["<M-BS>"] = { "<C-w>", desc = "Delete previous word" },
+        ["<C-BS>"] = { "<C-w>", desc = "Delete previous word" },
+        ["<C-h>"] = { "<C-w>", desc = "Delete previous word" },
+        ["<M-Left>"] = { "<C-Left>", desc = "Previous word" },
+        ["<M-b>"] = { "<C-Left>", desc = "Previous word" },
+        ["<M-Right>"] = { "<C-Right>", desc = "Next word" },
+        ["<M-f>"] = { "<C-Right>", desc = "Next word" },
+        ["<M-Up>"] = { "<C-o>gk", desc = "Display line up" },
+        ["<M-Down>"] = { "<C-o>gj", desc = "Display line down" },
+        ["<C-Up>"] = { "<C-o>gg", desc = "First line" },
+        ["<C-Down>"] = { "<C-o>G", desc = "Last line" },
       },
     },
   },
