@@ -139,6 +139,8 @@ return {
         ["X"] = '"_X',
         ["c"] = '"_c',
         ["C"] = '"_C',
+        ["<BS>"] = { "<C-o>", desc = "Jump back" },
+        ["<S-BS>"] = { "<C-i>", desc = "Jump forward" },
       },
       x = {
         ["<Tab>"] = { function() require("astrocore.buffer").nav(vim.v.count1) end, desc = "Next buffer" },
