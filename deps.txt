@@ -1,6 +1,0 @@
-git
-vim
-zsh
-tmux
-fzf
-zoxide
