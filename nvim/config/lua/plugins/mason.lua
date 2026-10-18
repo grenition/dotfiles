@@ -14,6 +14,10 @@ return {
         "yaml-language-server",
         "gitlab-ci-ls",
         "roslyn-language-server",
+        "terraform-ls",
+
+        -- install linters
+        "tflint",
 
         -- install formatters
         "csharpier",
