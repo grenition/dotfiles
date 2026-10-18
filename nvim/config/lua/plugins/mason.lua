@@ -15,9 +15,11 @@ return {
         "gitlab-ci-ls",
         "roslyn-language-server",
         "terraform-ls",
+        "ansible-language-server",
 
         -- install linters
         "tflint",
+        "ansible-lint",
 
         -- install formatters
         "csharpier",
