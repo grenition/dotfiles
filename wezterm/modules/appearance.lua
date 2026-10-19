@@ -41,7 +41,7 @@ function module.apply_to_config(config)
     -- font
     config.font = wezterm.font('JetBrains Mono')
     config.font_size = 18
-    config.line_height = 0.9
+    config.line_height = 0.8
     config.harfbuzz_features = { 'calt=0', 'liga=0', 'clig=0' }
 
     -- tabs
