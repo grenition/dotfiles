@@ -39,7 +39,12 @@ function module.apply_to_config(config)
     }
 
     -- font
-    config.font = wezterm.font('JetBrains Mono')
+    local font = wezterm.font('JetBrains Mono', {
+        weight = 'DemiBold',
+        stretch = 'Normal',
+        style = 'Normal'
+    })
+    config.font = font
     config.font_size = 18
     config.line_height = 0.8
     config.harfbuzz_features = { 'calt=0', 'liga=0', 'clig=0' }
@@ -50,11 +55,7 @@ function module.apply_to_config(config)
     config.hide_tab_bar_if_only_one_tab = true
     config.tab_bar_at_bottom = false
     config.window_frame = {
-        font = wezterm.font('JetBrains Mono', {
-            weight = 'Bold',
-            stretch = 'Normal',
-            style = 'Normal'
-        }),
+        font = font,
         font_size = 14.0
     }
 end
