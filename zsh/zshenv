@@ -2,8 +2,8 @@
 export PATH="$HOME/.local/bin:$PATH"
 
 # Editor 
-export EDITOR="vim"
-export VISUAL="vim"
+export EDITOR="nvim"
+export VISUAL="nvim"
 
 # XDG base directories
 export XDG_CONFIG_HOME="${XDG_CONFIG_HOME:-$HOME/.config}"

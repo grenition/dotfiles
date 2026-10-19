@@ -1,0 +1,8 @@
+brew "git"
+brew "vim"
+brew "zsh"
+brew "tmux"
+brew "fzf"
+brew "zoxide"
+brew "yazi"
+brew "neovim"

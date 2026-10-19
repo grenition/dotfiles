@@ -17,6 +17,9 @@ for file in "$DIR"/*.zsh "$DIR"/zshrc "$DIR"/zshenv; do
     ln -sfn "$file" "$target"
 done
 
+ln -sfn "$DIR/zshenv" "$CONFIG_DIR/.zshenv"
+ln -sfn "$DIR/zshrc" "$CONFIG_DIR/.zshrc"
+
 # Add source directive only if it doesn't exist
 add_source() {
     local root_file="$HOME/.$1"
