@@ -1,1 +1,3 @@
 # Aliases
+
+alias q="exit"
