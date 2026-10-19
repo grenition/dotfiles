@@ -1,5 +1,3 @@
-if true then return {} end -- WARN: REMOVE THIS LINE TO ACTIVATE THIS FILE
-
 -- AstroLSP allows you to customize the features in AstroNvim's LSP configuration engine
 -- Configuration documentation can be found with `:h astrolsp`
 -- NOTE: We highly recommend setting up the Lua Language Server (`:LspInstall lua_ls`)
@@ -25,7 +23,7 @@ return {
           -- "go",
         },
         ignore_filetypes = { -- disable format on save for specified filetypes
-          -- "python",
+          "cs",
         },
       },
       disabled = { -- disable formatting capabilities for the listed language servers
@@ -45,6 +43,29 @@ return {
     -- client specific configuration can also go in `lsp/` in your configuration root (see `:h lsp-config`)
     config = {
       -- ["*"] = { capabilities = {} }, -- modify default LSP client settings such as capabilities
+      gitlab_ci_ls = {
+        handlers = {
+          ["textDocument/publishDiagnostics"] = function(err, result, ctx)
+            if result and result.diagnostics then
+              result.diagnostics = vim.tbl_filter(function(d)
+                return not (d.message or ""):match("^Stage: .+ does not exist%.$")
+              end, result.diagnostics)
+            end
+
+            return vim.lsp.diagnostic.on_publish_diagnostics(err, result, ctx)
+          end,
+        },
+      },
+
+      yamlls = {
+        settings = {
+          yaml = {
+            customTags = {
+              "!reference sequence",
+            },
+          },
+        },
+      },
     },
     -- customize how language servers are attached
     handlers = {
