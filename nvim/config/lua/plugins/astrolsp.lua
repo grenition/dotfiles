@@ -101,11 +101,17 @@ return {
     mappings = {
       n = {
         -- a `cond` key can provided as the string of a server capability to be required to attach, or a function with `client` and `bufnr` parameters from the `on_attach` that returns a boolean
-        gD = {
-          function() vim.lsp.buf.declaration() end,
-          desc = "Declaration of current symbol",
-          cond = "textDocument/declaration",
+        gD = { function() vim.lsp.buf.type_definition() end, desc = "Type definition" },
+        gu = { function() require("snacks").picker.lsp_references() end, desc = "Usages" },
+
+        ["<Leader>r"] = { function() vim.lsp.buf.rename() end, desc = "Rename symbol" },
+        ["<Leader>a"] = { function() vim.lsp.buf.code_action() end, desc = "Code action" },
+
+        ["<Leader>lo"] = {
+          function() vim.lsp.buf.code_action { context = { only = { "source.organizeImports" } }, apply = true } end,
+          desc = "Organize imports",
         },
+
         ["<Leader>uY"] = {
           function() require("astrolsp.toggles").buffer_semantic_tokens() end,
           desc = "Toggle LSP semantic highlight (buffer)",
