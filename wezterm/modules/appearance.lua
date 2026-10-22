@@ -40,7 +40,7 @@ function module.apply_to_config(config)
 
     -- font
     local font = wezterm.font('JetBrains Mono', {
-        weight = 'DemiBold',
+        weight = 'Regular',
         stretch = 'Normal',
         style = 'Normal'
     })
