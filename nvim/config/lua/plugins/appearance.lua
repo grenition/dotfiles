@@ -1,7 +1,6 @@
 ---@type LazySpec
 
--- Visual Studio-inspired C# semantic colors, using AstroTheme's native highlight overrides.
--- AstroTheme owns the UI. auto-dark-mode.nvim owns light/dark switching.
+-- Visual Studio-inspired C# semantic colors, using Catppuccin's highlight overrides.
 local dark = {
   keyword = "#569CD6",
   control = "#C586C0",
@@ -139,19 +138,22 @@ end
 return {
   {
     "AstroNvim/astroui",
-    opts = { colorscheme = "astrotheme" },
+    opts = { colorscheme = "catppuccin-nvim" },
   },
   {
     "AstroNvim/astrotheme",
+    enabled = false,
+  },
+  {
+    "catppuccin/nvim",
+    name = "catppuccin",
+    priority = 1000,
     opts = {
-      background = { dark = "astrodark", light = "astrolight" },
-      palettes = {
-        astrodark = { syntax = { text = dark.text } },
-        astrolight = { syntax = { text = light.text } },
-      },
-      highlights = {
-        astrodark = visual_studio_highlights(dark),
-        astrolight = visual_studio_highlights(light),
+      flavour = "auto",
+      background = { dark = "mocha", light = "latte" },
+      highlight_overrides = {
+        mocha = function() return visual_studio_highlights(dark) end,
+        latte = function() return visual_studio_highlights(light) end,
       },
     },
   },
