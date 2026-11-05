@@ -10,3 +10,5 @@ sh "$DIR/scripts/link-agents-md.sh" "$CONFIG_DIR/AGENTS.md"
 if [[ "${INSTALL_NPM_SKILLS:-}" == "true" ]]; then
     sh "$DIR/scripts/install-npm-skills.sh" --agent codex
 fi
+
+echo "Codex configuration installed"

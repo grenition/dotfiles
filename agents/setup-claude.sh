@@ -10,3 +10,5 @@ sh "$DIR/scripts/link-agents-md.sh" "$CONFIG_DIR/CLAUDE.md"
 if [[ "${INSTALL_NPM_SKILLS:-}" == "true" ]]; then
     sh "$DIR/scripts/install-npm-skills.sh" --agent claude-code
 fi
+
+echo "Claude configuration installed"
