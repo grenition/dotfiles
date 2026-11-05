@@ -20,3 +20,4 @@ NEVER DO:
 # Codestyle
 
 - Write clean, minimal, self-explanatory code. Do not create README files, unnecessary documentation, or verbose comments; provide any required explanations or implementation notes in your final response instead of embedding them in the codebase.
+- Always implement changes in an architecturally sound, maintainable, and scalable way. Understand the existing design and address the root cause instead of applying local workarounds, hardcoded values, or quick fixes; prefer reusable, configurable solutions that integrate naturally with the system.
