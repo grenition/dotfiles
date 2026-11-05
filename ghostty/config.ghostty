@@ -1,0 +1,11 @@
+theme = dark:Catppuccin Mocha,light:Catppuccin Latte
+
+font-family = JetBrains Mono
+font-style = Regular
+font-size = 18
+font-feature = -calt
+font-feature = -liga
+font-feature = -clig
+adjust-cell-height = -20%
+
+macos-option-as-alt = true
