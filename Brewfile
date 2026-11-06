@@ -1,3 +1,4 @@
+# Editor tools
 brew "git"
 brew "vim"
 brew "zsh"
@@ -10,3 +11,6 @@ brew "lazygit"
 brew "lazydocker"
 brew "glances"
 brew "bat"
+
+# Project environment
+brew "mise"
