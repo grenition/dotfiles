@@ -10,7 +10,7 @@ mkdir -p "$HOME/.local/state/zsh"
 mkdir -p "$HOME/.cache/zsh"
 
 # Symlink all Zsh configuration files
-for file in "$DIR"/*.zsh "$DIR"/zshrc "$DIR"/zshenv; do
+for file in "$DIR"/*.zsh "$DIR"/*.toml "$DIR"/zshrc "$DIR"/zshenv; do
     [[ -f "$file" ]] || continue
 
     target="$CONFIG_DIR/$(basename "$file")"
