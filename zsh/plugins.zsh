@@ -9,6 +9,10 @@ function y() {
 	command rm -f -- "$tmp"
 }
 
+if (( $+commands[mise] )); then
+	eval "$(mise activate zsh)"
+fi
+
 source <(fzf --zsh)
 
 ZSH_PLUGIN_DIR="${HOMEBREW_PREFIX:-$(brew --prefix)}/share"
