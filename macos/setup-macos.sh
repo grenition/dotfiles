@@ -12,6 +12,7 @@ defaults write NSGlobalDomain com.apple.keyboard.fnState -bool true
 # Desktop
 defaults write com.apple.WindowManager EnableStandardClickToShowDesktop -bool false
 defaults write com.apple.WindowManager GloballyEnabled -bool false
+defaults write com.apple.dock mru-spaces -bool false
 
 # Finder
 defaults write NSGlobalDomain AppleShowAllExtensions -bool true
