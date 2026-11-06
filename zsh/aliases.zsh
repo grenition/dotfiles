@@ -1,5 +1,7 @@
 # Aliases
 
 alias q="exit"
-alias g="lazygit"
 alias c="clear"
+
+alias g="lazygit"
+alias d="lazydocker"
