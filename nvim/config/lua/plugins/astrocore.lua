@@ -104,7 +104,7 @@ return {
           desc = "Close buffer from tabline",
         },
 
-        ["<Leader><Leader>"] = { function() require("snacks").picker.recent() end, desc = "Recent files" },
+        ["<Leader><Leader>"] = { function() require("snacks").picker.buffers() end, desc = "Find buffers" },
 
         ["gp"] = {
           function() require("neo-tree.command").execute { action = "focus", reveal = true } end,
