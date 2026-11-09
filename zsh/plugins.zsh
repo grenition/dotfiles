@@ -10,7 +10,7 @@ function y() {
 }
 
 if (( $+commands[mise] )); then
-	eval "$(mise activate zsh)"
+	# eval "$(mise activate zsh)"
 fi
 
 source <(fzf --zsh)
