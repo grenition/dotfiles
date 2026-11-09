@@ -15,7 +15,8 @@ fi
 
 source <(fzf --zsh)
 
-ZSH_PLUGIN_DIR="${HOMEBREW_PREFIX:-$(brew --prefix)}/share"
+ZSH_PLUGIN_DIR=/usr/share
+(( $+commands[brew] )) && ZSH_PLUGIN_DIR="${HOMEBREW_PREFIX:-$(brew --prefix)}/share"
 if [[ -r "$ZSH_PLUGIN_DIR/zsh-autosuggestions/zsh-autosuggestions.zsh" ]]; then
 	source "$ZSH_PLUGIN_DIR/zsh-autosuggestions/zsh-autosuggestions.zsh"
 fi
