@@ -6,7 +6,7 @@ font-size = 18
 font-feature = -calt
 font-feature = -liga
 font-feature = -clig
-adjust-cell-height = -20%
+adjust-cell-height = -10%
 
 macos-option-as-alt = true
 
