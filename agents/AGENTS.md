@@ -25,5 +25,5 @@ NEVER DO:
 # Tooling
 
 - Prefer MCP tools over direct API calls (WebFetch, curl, raw SDK methods) whenever an MCP server covers the task: MCP handles authentication, so requests do not fail on auth barriers.
+- If MCP access fails with 401/403, do not try to bypass the restriction yourself (no alternate tokens, direct API calls, or credential hunting). Stop and ask the user to resolve the access problem manually.
 - Fall back to WebFetch/curl only when no MCP tool exists for the target service.
-
