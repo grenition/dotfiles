@@ -1,4 +1,8 @@
 add_newline = false
 
+# [character] is rendered by zsh in prompt.zsh (for the width-based line break)
 [line_break]
+disabled = true
+
+[character]
 disabled = true
