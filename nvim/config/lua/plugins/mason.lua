@@ -16,16 +16,19 @@ return {
         "roslyn-language-server",
         "terraform-ls",
         "ansible-language-server",
+        "pyright",
 
         -- install linters
         "tflint",
         "ansible-lint",
+        "ruff",
 
         -- install formatters
         "csharpier",
         "prettier",
 
         -- install debuggers
+        "debugpy",
         "netcoredbg",
       },
     },
