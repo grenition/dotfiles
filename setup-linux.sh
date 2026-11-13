@@ -8,5 +8,5 @@ for app in git vim nvim yazi zsh; do
 done
 
 mkdir -p "$HOME/.config/tmux"
-ln -sfn "$DIR/tmux/linux.conf" "$HOME/.tmux.conf"
-ln -sfn "$DIR/tmux/keymap.conf" "$HOME/.config/tmux/keymap.conf"
+ln -sfn "$DIR/tmux/linux.tmux.conf" "$HOME/.tmux.conf"
+ln -sfn "$DIR/tmux/include" "$HOME/.config/tmux/include"

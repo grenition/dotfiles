@@ -11,9 +11,7 @@ fi
 
 mkdir -p "$HOME/.config/tmux"
 
-ln -sfn "$DIR/tmux.conf" "$HOME/.tmux.conf"
-ln -sfn "$DIR/keymap.conf" "$HOME/.config/tmux/"
-ln -sfn "$DIR/meta.keymap.conf" "$HOME/.config/tmux/"
-ln -sfn "$DIR/plugins.conf" "$HOME/.config/tmux/"
+ln -sfn "$DIR/macos.tmux.conf" "$HOME/.tmux.conf"
+ln -sfn "$DIR/include" "$HOME/.config/tmux/include"
 
 echo "Tmux configuration installed"
