@@ -1,4 +1,4 @@
-theme = dark:datum (dark),light:datum (light)
+theme = dark:Catppuccin Mocha,light:Catppuccin Latte
 
 font-family = JetBrains Mono
 font-style = SemiBold
