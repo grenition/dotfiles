@@ -1,4 +1,6 @@
-theme = dark:Catppuccin Mocha,light:Catppuccin Latte
+theme = dark:workspace-dark,light:workspace-light
+background-opacity = 1
+unfocused-split-opacity = 1
 
 font-family = JetBrains Mono
 font-style = SemiBold
