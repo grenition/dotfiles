@@ -3,6 +3,7 @@ brew "zsh"
 brew "zsh-autosuggestions"
 brew "zsh-syntax-highlighting"
 brew "starship"
+brew "direnv"
 
 # Editor tools
 brew "git"

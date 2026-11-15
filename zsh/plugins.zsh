@@ -1,5 +1,3 @@
-# Plugins and tools
-
 # Yazi file manager
 function y() {
 	local tmp cwd; tmp="$(mktemp -t "yazi-cwd.XXXXXX")"
@@ -9,10 +7,12 @@ function y() {
 	command rm -f -- "$tmp"
 }
 
+# Mise
 if (( $+commands[mise] )); then
 	# eval "$(mise activate zsh)"
 fi
 
+# Fzf
 source <(fzf --zsh)
 
 ZSH_PLUGIN_DIR=/usr/share
@@ -23,3 +23,6 @@ fi
 if [[ -r "$ZSH_PLUGIN_DIR/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" ]]; then
 	source "$ZSH_PLUGIN_DIR/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
 fi
+
+# Direnv
+eval "$(direnv hook zsh)"
