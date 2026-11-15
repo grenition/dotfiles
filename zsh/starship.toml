@@ -6,3 +6,12 @@ disabled = true
 
 [character]
 disabled = true
+
+[directory]
+style = "bold blue"
+
+[git_branch]
+style = "bright-black"
+
+[git_status]
+style = "yellow"

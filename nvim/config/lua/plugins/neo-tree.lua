@@ -2,6 +2,15 @@
 return {
   "nvim-neo-tree/neo-tree.nvim",
   opts = {
+    source_selector = {
+      winbar = false,
+      separator = "",
+      sources = {
+        { source = "filesystem", display_name = "Files" },
+        { source = "buffers", display_name = "Buffers" },
+        { source = "git_status", display_name = "Git" },
+      },
+    },
     default_component_configs = {
       symlink_target = { enabled = true },
       file_size = { enabled = false },

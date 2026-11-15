@@ -20,6 +20,8 @@ local groups = {
   { { "CursorLineNr" }, { fg = c.fg, bg = c.panel } },
   { { "StatusLine", "StatusLineNC", "TabLine", "TabLineFill", "WinBar", "WinBarNC" }, { fg = c.muted, bg = c.panel } },
   { { "TabLineSel" }, { fg = c.accent, bg = c.bg } },
+  { { "NeoTreeTabInactive", "NeoTreeTabSeparatorInactive", "NeoTreeTabSeparatorActive" }, { fg = c.muted, bg = c.panel } },
+  { { "NeoTreeTabActive" }, { fg = c.accent, bg = c.bg, bold = true } },
   { { "WinSeparator" }, { fg = c.border, bg = c.bg } },
   { { "SnacksIndent" }, { fg = c.selection } },
   { { "SnacksIndentScope" }, { fg = c.accent } },

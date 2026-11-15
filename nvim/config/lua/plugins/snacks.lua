@@ -2,6 +2,11 @@
 return {
   "folke/snacks.nvim",
   opts = {
+    indent = {
+      enabled = true,
+      indent = { char = "·" },
+      scope = { char = "·" },
+    },
     picker = {
       win = {
         input = {

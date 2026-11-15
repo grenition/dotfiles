@@ -11,10 +11,10 @@ return {
     "TmuxNavigateRight",
   },
   keys = {
-    { "<M-h>", "<cmd>TmuxNavigateLeft<CR>" },
-    { "<M-j>", "<cmd>TmuxNavigateDown<CR>" },
-    { "<M-k>", "<cmd>TmuxNavigateUp<CR>" },
-    { "<M-l>", "<cmd>TmuxNavigateRight<CR>" },
+    { "<M-h>", function() vim.cmd.TmuxNavigateLeft() end },
+    { "<M-j>", function() vim.cmd.TmuxNavigateDown() end },
+    { "<M-k>", function() vim.cmd.TmuxNavigateUp() end },
+    { "<M-l>", function() vim.cmd.TmuxNavigateRight() end },
   },
 }
 
