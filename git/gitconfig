@@ -18,5 +18,23 @@
     prune = true
 
 [delta]
-    syntax-theme = Dracula
+    keep-plus-minus-markers = true
+    file-style = bold blue
+    file-decoration-style = none
+    hunk-header-style = syntax
+    hunk-header-decoration-style = none
+
+[delta "workspace-dark"]
+    syntax-theme = Visual Studio Dark+
+    minus-style = syntax "#38282B"
+    minus-emph-style = syntax "#61373D"
+    plus-style = syntax "#27352B"
+    plus-emph-style = syntax "#3D5740"
+
+[delta "workspace-light"]
+    syntax-theme = GitHub
+    minus-style = syntax "#F3E2E2"
+    minus-emph-style = syntax "#EABDBD"
+    plus-style = syntax "#E3ECDD"
+    plus-emph-style = syntax "#BCD8B6"
 

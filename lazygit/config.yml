@@ -1,3 +1,15 @@
+gui:
+  theme:
+    activeBorderColor: [blue, bold]
+    searchingActiveBorderColor: [blue, bold]
+  darkTheme:
+    inactiveBorderColor: ['#999999']
+    selectedLineBgColor: ['#3A3A3A']
+    inactiveViewSelectedLineBgColor: ['#2D2D2D']
+  lightTheme:
+    inactiveBorderColor: ['#636363']
+    selectedLineBgColor: ['#D3D3D3']
+    inactiveViewSelectedLineBgColor: ['#E3E3E3']
 git:
   diffRenderers:
-    - command: delta --{{colorScheme}} --paging=never
+    - command: delta --{{colorScheme}} --features=workspace-{{colorScheme}} --paging=never
