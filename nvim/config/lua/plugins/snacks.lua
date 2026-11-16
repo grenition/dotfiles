@@ -7,6 +7,13 @@ return {
       indent = { char = "·" },
       scope = { char = "·" },
     },
+    scroll = {
+      enabled = true,
+      animate = {
+        duration = { step = 10, total = 150 },
+        easing = "linear",
+      },
+    },
     picker = {
       win = {
         input = {

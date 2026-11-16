@@ -43,5 +43,18 @@ return {
     end,
   },
   { "AstroNvim/astrotheme", enabled = false },
-  { "nvim-mini/mini.nvim", lazy = false, priority = 1000 },
+  {
+    "nvim-mini/mini.nvim",
+    lazy = false,
+    priority = 1000,
+    config = function()
+      require("mini.animate").setup {
+        cursor = {
+          enable = true,
+          timing = function() return 12 end,
+        },
+        scroll = { enable = false },
+      }
+    end,
+  },
 }
