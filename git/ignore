@@ -1,4 +1,8 @@
+# os and editors
 .DS_Store
 *.swp
 *.swo
 *~
+
+# agents
+.*claude-docker.*
