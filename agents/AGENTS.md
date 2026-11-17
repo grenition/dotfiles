@@ -22,6 +22,14 @@ NEVER DO:
 - Write clean, minimal, self-explanatory code. Do not create README files, unnecessary documentation, or verbose comments; provide any required explanations or implementation notes in your final response instead of embedding them in the codebase.
 - Always implement changes in an architecturally sound, maintainable, and scalable way. Understand the existing design and address the root cause instead of applying local workarounds, hardcoded values, or quick fixes; prefer reusable, configurable solutions that integrate naturally with the system.
 
+# Delegation
+
+- Use `cheap_worker` for bounded searches, log analysis, checks, and straightforward edits when delegation saves main-agent context. Handle trivial tasks directly.
+- Give each worker a self-contained task, relevant paths, constraints, and acceptance criteria. Start with fresh context when supported; do not copy the full conversation.
+- Keep requirements, architecture, and final review with the main agent. Do not repeat the worker's exploration; inspect its findings and diff.
+- Run at most 3 workers concurrently, with no overlapping file ownership. Workers must not delegate further.
+- Use the model configured in the worker profile. If the harness cannot select the profile, handle the task directly instead of silently using the parent model.
+
 # Tooling
 
 - Prefer MCP tools over direct API calls (WebFetch, curl, raw SDK methods) whenever an MCP server covers the task: MCP handles authentication, so requests do not fail on auth barriers.

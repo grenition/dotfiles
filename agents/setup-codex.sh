@@ -6,6 +6,7 @@ CONFIG_DIR="${CODEX_HOME:-$HOME/.codex}"
 
 sh "$DIR/scripts/link-skills.sh" "$HOME/.agents/skills"
 sh "$DIR/scripts/link-agents-md.sh" "$CONFIG_DIR/AGENTS.md"
+sh "$DIR/scripts/link-subagents.sh" codex "$CONFIG_DIR/agents"
 
 if [[ "${INSTALL_NPM_SKILLS:-}" == "true" ]]; then
     sh "$DIR/scripts/install-npm-skills.sh" --agent codex

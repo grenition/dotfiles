@@ -6,6 +6,7 @@ CONFIG_DIR="${CLAUDE_CONFIG_DIR:-$HOME/.claude}"
 
 sh "$DIR/scripts/link-skills.sh" "$CONFIG_DIR/skills"
 sh "$DIR/scripts/link-agents-md.sh" "$CONFIG_DIR/CLAUDE.md"
+sh "$DIR/scripts/link-subagents.sh" claude "$CONFIG_DIR/agents"
 
 if [[ "${INSTALL_NPM_SKILLS:-}" == "true" ]]; then
     sh "$DIR/scripts/install-npm-skills.sh" --agent claude-code
