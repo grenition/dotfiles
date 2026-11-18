@@ -28,6 +28,7 @@ NEVER DO:
 - Give each worker a self-contained task, relevant paths, constraints, and acceptance criteria. Start with fresh context when supported; do not copy the full conversation.
 - Keep requirements, architecture, and final review with the main agent. Do not repeat the worker's exploration; inspect its findings and diff.
 - Run at most 3 workers concurrently, with no overlapping file ownership. Workers must not delegate further.
+- Agents must never create git commits or push to a remote repository on their own; both require the user's explicit permission or an explicit project-level allowance.
 - Use the model configured in the worker profile. If the harness cannot select the profile, handle the task directly instead of silently using the parent model.
 
 # Tooling
