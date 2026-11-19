@@ -103,6 +103,14 @@ return {
         -- a `cond` key can provided as the string of a server capability to be required to attach, or a function with `client` and `bufnr` parameters from the `on_attach` that returns a boolean
         gD = { function() vim.lsp.buf.type_definition() end, desc = "Type definition" },
         gu = { function() require("snacks").picker.lsp_references() end, desc = "Usages" },
+        gi = {
+          function() vim.lsp.buf.implementation() end,
+          desc = "Implementation of current symbol",
+          cond = "textDocument/implementation",
+        },
+
+        -- superseded by gi
+        gI = false,
 
         ["<Leader>r"] = { function() vim.lsp.buf.rename() end, desc = "Rename symbol" },
         ["<Leader>a"] = { function() vim.lsp.buf.code_action() end, desc = "Code action" },
