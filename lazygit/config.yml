@@ -1,4 +1,8 @@
+os:
+  editPreset: nvim
+promptToReturnFromSubprocess: false
 gui:
+  scrollHeight: 10
   theme:
     activeBorderColor: [blue, bold]
     searchingActiveBorderColor: [blue, bold]
@@ -13,3 +17,13 @@ gui:
 git:
   diffRenderers:
     - command: delta --{{colorScheme}} --features=workspace-{{colorScheme}} --paging=never
+keybinding:
+  universal:
+    # vim-style fast jumps, mirrors nvim HJKL
+    prevPage: 'K'
+    nextPage: 'J'
+    prevBlock-alt2: 'H'
+    nextBlock-alt2: 'L'
+    # free H/L from horizontal scroll
+    scrollLeft: ''
+    scrollRight: ''

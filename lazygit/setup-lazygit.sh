@@ -2,7 +2,7 @@
 set -euo pipefail
 
 DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-CONFIG_DIR="$HOME/.config/lazygit"
+CONFIG_DIR="${XDG_CONFIG_HOME:-$HOME/.config}/lazygit"
 
 mkdir -p "$CONFIG_DIR"
 for config in config dark light; do
