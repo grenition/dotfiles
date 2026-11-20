@@ -17,15 +17,18 @@ return {
         "terraform-ls",
         "ansible-language-server",
         "pyright",
+        "gopls",
 
         -- install linters
         "tflint",
         "ansible-lint",
         "ruff",
+        "ast-grep",
 
         -- install formatters
         "csharpier",
         "prettier",
+        "goimports",
 
         -- install debuggers
         "debugpy",
