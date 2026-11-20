@@ -21,3 +21,8 @@ brew "bat"
 
 # Project environment
 brew "mise"
+
+# SDKs
+brew "go"
+brew "python"
+cask "dotnet-sdk"
