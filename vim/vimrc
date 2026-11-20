@@ -105,5 +105,33 @@ xnoremap <Tab> :tabnext<CR>
 nnoremap <S-Tab> :tabprevious<CR>
 xnoremap <S-Tab> :tabprevious<CR>
 
+" Close buffer on q, Q keeps macro recording
+function! s:CloseBuffer() abort
+    if &modified && &buftype ==# ''
+        let l:choice = confirm('Save changes before closing buffer?', "&Yes\n&No\n&Cancel")
+        if l:choice == 0 || l:choice == 3
+            return
+        elseif l:choice == 1
+            try
+                write
+            catch
+                echohl ErrorMsg | echom v:exception | echohl None
+                return
+            endtry
+        endif
+    endif
+    " close the whole tab in a single-window tab, quit on the last buffer
+    if tabpagenr('$') > 1 && winnr('$') == 1
+        tabclose!
+    elseif winnr('$') == 1 && len(filter(getbufinfo(), 'v:val.listed')) <= 1
+        quit!
+    else
+        bdelete!
+    endif
+endfunction
+nnoremap <silent> q :call <SID>CloseBuffer()<CR>
+xnoremap q <Esc>
+nnoremap Q q
+
 " Clipboard
 set clipboard=unnamedplus

@@ -104,6 +104,28 @@ return {
           desc = "Close buffer from tabline",
         },
 
+        -- close buffer on q, Q keeps macro recording
+        ["q"] = {
+          function()
+            if vim.bo.modified and vim.bo.buftype == "" then
+              local choice = vim.fn.confirm("Save changes before closing buffer?", "&Yes\n&No\n&Cancel")
+              if choice == 0 or choice == 3 then return end
+              if choice == 1 then
+                local ok, err = pcall(vim.cmd.write)
+                if not ok then return vim.notify(err, vim.log.levels.ERROR) end
+              end
+            end
+            -- last buffer in tab: quit instead of leaving an untitled buffer
+            if #vim.t.bufs > 1 then
+              require("astrocore.buffer").close(0, true)
+            else
+              vim.cmd "quit!"
+            end
+          end,
+          desc = "Close buffer",
+        },
+        ["Q"] = "q",
+
         ["<Leader><Leader>"] = { function() require("snacks").picker.buffers() end, desc = "Find buffers" },
 
         ["gp"] = {
@@ -160,6 +182,9 @@ return {
       x = {
         ["<Tab>"] = { function() require("astrocore.buffer").nav(vim.v.count1) end, desc = "Next buffer" },
         ["<S-Tab>"] = { function() require("astrocore.buffer").nav(-vim.v.count1) end, desc = "Previous buffer" },
+
+        -- q works as Esc in visual mode
+        ["q"] = "<Esc>",
 
         -- from vimrc
         ["<LeftRelease>"] = "y",
