@@ -3,11 +3,12 @@ background-opacity = 1
 unfocused-split-opacity = 1
 
 font-family = JetBrains Mono
+font-style = Regular
 font-size = 18
 font-feature = -calt
 font-feature = -liga
 font-feature = -clig
-adjust-cell-height = -0%
+adjust-cell-height = -10%
 adjust-cell-width = -10%
 
 macos-option-as-alt = true
