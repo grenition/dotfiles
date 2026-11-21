@@ -74,7 +74,7 @@ return {
         {
           event = "FileType",
           pattern = "go",
-          command = "setlocal noexpandtab tabstop=8 shiftwidth=4 softtabstop=0",
+          command = "setlocal noexpandtab tabstop=4 shiftwidth=4 softtabstop=0",
         },
         {
           event = "FileType",
