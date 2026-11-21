@@ -101,7 +101,7 @@ return {
         -- superseded by gi
         gI = false,
 
-        ["<Leader>K"] = {
+        ["<Leader>k"] = {
           function() vim.lsp.buf.hover() end,
           desc = "Hover info",
           cond = "textDocument/hover",
