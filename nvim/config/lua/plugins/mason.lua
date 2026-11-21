@@ -26,6 +26,7 @@ return {
         "ast-grep",
 
         -- install formatters
+        "stylua",
         "csharpier",
         "prettier",
         "goimports",

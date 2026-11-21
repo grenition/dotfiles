@@ -14,26 +14,10 @@ return {
       inlay_hints = false, -- enable/disable inlay hints on start
       semantic_tokens = true, -- enable/disable semantic token highlighting
     },
-    -- customize lsp formatting options
+    -- formatting is handled by conform.nvim (plugins/conform.lua):
+    -- astrolsp format_on_save would call vim.lsp.buf.format a second time on save
     formatting = {
-      -- control auto formatting on save
-      format_on_save = {
-        enabled = true, -- enable or disable format on save globally
-        allow_filetypes = { -- enable format on save for specified filetypes only
-          -- "go",
-        },
-        ignore_filetypes = { -- disable format on save for specified filetypes
-          "cs",
-        },
-      },
-      disabled = { -- disable formatting capabilities for the listed language servers
-        -- disable lua_ls formatting capability if you want to use StyLua to format your lua code
-        -- "lua_ls",
-      },
-      timeout_ms = 3000, -- default format timeout (gopls misses 1000ms on cold start)
-      -- filter = function(client) -- fully override the default formatting function
-      --   return true
-      -- end
+      format_on_save = { enabled = false },
     },
     -- enable servers that you already have installed without mason
     servers = {
@@ -47,9 +31,10 @@ return {
         handlers = {
           ["textDocument/publishDiagnostics"] = function(err, result, ctx)
             if result and result.diagnostics then
-              result.diagnostics = vim.tbl_filter(function(d)
-                return not (d.message or ""):match("^Stage: .+ does not exist%.$")
-              end, result.diagnostics)
+              result.diagnostics = vim.tbl_filter(
+                function(d) return not (d.message or ""):match "^Stage: .+ does not exist%.$" end,
+                result.diagnostics
+              )
             end
 
             return vim.lsp.diagnostic.on_publish_diagnostics(err, result, ctx)
@@ -100,6 +85,10 @@ return {
     -- mappings to be set up on attaching of a language server
     mappings = {
       n = {
+        -- formatting is handled by conform.nvim; astrolsp sets this buffer-locally on LspAttach
+        -- and would shadow the conform mapping (<Leader>lf with lsp_fallback)
+        ["<Leader>lf"] = false,
+
         -- a `cond` key can provided as the string of a server capability to be required to attach, or a function with `client` and `bufnr` parameters from the `on_attach` that returns a boolean
         gD = { function() vim.lsp.buf.type_definition() end, desc = "Type definition" },
         gu = { function() require("snacks").picker.lsp_references() end, desc = "Usages" },
@@ -112,6 +101,11 @@ return {
         -- superseded by gi
         gI = false,
 
+        ["<Leader>K"] = {
+          function() vim.lsp.buf.hover() end,
+          desc = "Hover info",
+          cond = "textDocument/hover",
+        },
         ["<Leader>r"] = { function() vim.lsp.buf.rename() end, desc = "Rename symbol" },
         ["<Leader>a"] = { function() vim.lsp.buf.code_action() end, desc = "Code action" },
 
@@ -127,6 +121,9 @@ return {
             return client:supports_method "textDocument/semanticTokens/full" and vim.lsp.semantic_tokens ~= nil
           end,
         },
+      },
+      v = {
+        ["<Leader>lf"] = false, -- range formatting via conform (<Leader>lf in visual mode)
       },
     },
     -- A custom `on_attach` function to be run after the default `on_attach` function
