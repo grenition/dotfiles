@@ -8,7 +8,7 @@ return {
       scope = { char = "·" },
     },
     scroll = {
-      enabled = true,
+      enabled = false,
       animate = {
         duration = { step = 10, total = 150 },
         easing = "linear",
@@ -21,7 +21,7 @@ return {
             ["<Esc>"] = { "close", mode = { "i", "n" } },
             ["q"] = { "close", mode = { "i", "n" } },
             ["j"] = { "list_down", mode = { "i", "n" } },
-            ["k"] = { "list_up", mode = { "i", "n" } }
+            ["k"] = { "list_up", mode = { "i", "n" } },
           },
         },
       },
