@@ -27,3 +27,9 @@ bindkey '\e[1;2F' end-of-line
 # kills the line with the default binding.
 bindkey $'\e\x7f' backward-kill-word
 bindkey '^H' backward-kill-word
+
+# Esc Esc opens the current command line in $EDITOR; :wq puts it back on the
+# prompt (Enter to run), :cq discards the edits.
+autoload -Uz edit-command-line
+zle -N edit-command-line
+bindkey '\e\e' edit-command-line
