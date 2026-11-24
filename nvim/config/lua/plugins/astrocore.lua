@@ -82,6 +82,17 @@ return {
           command = "setlocal noexpandtab tabstop=8 shiftwidth=8 softtabstop=0",
         },
       },
+      tree_sidebar_close = {
+        {
+          event = "VimResized",
+          desc = "Close the file tree sidebar when the window is narrower than 120 columns",
+          callback = function()
+            if vim.o.columns >= 120 or not package.loaded["neo-tree"] then return end
+            local position = require("neo-tree").config.window.position
+            require("neo-tree.command").execute { action = "close", position = position }
+          end,
+        },
+      },
     },
     -- Mappings can be configured through AstroCore as well.
     -- NOTE: keycodes follow the casing in the vimdocs. For example, `<Leader>` must be capitalized
@@ -126,7 +137,16 @@ return {
         },
         ["Q"] = "q",
 
-        ["<Leader><Leader>"] = { function() require("snacks").picker.buffers() end, desc = "Find buffers" },
+        ["<Leader><Leader>"] = {
+          function()
+            local picker = require("snacks").picker
+            picker.explorer {
+              layout = { preset = picker.config.get().layout.preset, preview = true },
+              jump = { close = true },
+            }
+          end,
+          desc = "File tree (popup)",
+        },
 
         ["gp"] = {
           function() require("neo-tree.command").execute { action = "focus", reveal = true } end,

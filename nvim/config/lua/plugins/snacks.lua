@@ -8,7 +8,7 @@ return {
       scope = { char = "·" },
     },
     scroll = {
-      enabled = false,
+      enabled = true,
       animate = {
         duration = { step = 10, total = 150 },
         easing = "linear",
