@@ -30,7 +30,7 @@ local groups = {
   { { "Visual", "PmenuSel", "PmenuMatchSel", "NeoTreeCursorLine", "SnacksPickerListCursorLine" }, { fg = c.fg, bg = c.selection } },
   { { "Search" }, { fg = c.fg, bg = c.selection } },
   { { "CurSearch", "IncSearch" }, { fg = c.fg, bg = c.selection, underline = true } },
-  { { "Directory", "NeoTreeDirectoryName", "NeoTreeDirectoryIcon", "NeoTreeRootName" }, { fg = c.fg } },
+  { { "Directory", "NeoTreeDirectoryName", "NeoTreeDirectoryIcon", "NeoTreeRootName", "SnacksPickerDirectory" }, { fg = c.accent } },
   { { "NeoTreeIndentMarker", "NeoTreeExpander" }, { fg = c.border } },
   { { "SnacksPickerBorder", "SnacksPickerInputBorder", "SnacksPickerBoxBorder", "SnacksPickerPreviewBorder" }, { fg = c.border, bg = c.panel } },
   { { "SnacksPickerTitle", "SnacksPickerInputTitle", "SnacksPickerBoxTitle", "SnacksPickerPreviewTitle" }, { fg = c.fg, bg = c.panel } },

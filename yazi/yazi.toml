@@ -1,1 +1,3 @@
 # https://yazi-rs.github.io/docs/quick-start
+[mgr]
+show_hidden = true

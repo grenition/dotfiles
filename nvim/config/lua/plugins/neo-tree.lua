@@ -19,6 +19,9 @@ return {
       created = { enabled = false },
     },
     filesystem = {
+      filtered_items = {
+        hide_dotfiles = false,
+      },
       window = {
         mappings = {
           -- both spellings override the default "<esc>" = "cancel"

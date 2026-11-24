@@ -15,6 +15,9 @@ return {
       },
     },
     picker = {
+      sources = {
+        explorer = { hidden = true },
+      },
       win = {
         input = {
           keys = {
