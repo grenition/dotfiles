@@ -1,6 +1,4 @@
 theme = dark:workspace-dark,light:workspace-light
-background-opacity = 1
-unfocused-split-opacity = 1
 
 font-family = JetBrains Mono
 font-style = Regular
@@ -18,3 +16,7 @@ cursor-style-blink = true
 custom-shader = shaders/ripple_rectangle_cursor.glsl
 custom-shader = shaders/cursor_warp.glsl
 custom-shader-animation = true
+
+keybind = global:cmd+backquote=toggle_quick_terminal
+keybind = super+shift+o=toggle_background_opacity
+
