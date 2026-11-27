@@ -1,5 +1,7 @@
 -- Ported from vim/vimrc
 
+local selection = require "workspace.selection"
+
 local function selected_text()
   local lines = vim.fn.getregion(vim.fn.getpos "v", vim.fn.getpos ".", { type = vim.fn.mode() })
   return table.concat(lines, "\n")
@@ -113,6 +115,13 @@ return {
           event = "FileType",
           pattern = "make",
           command = "setlocal noexpandtab tabstop=8 shiftwidth=8 softtabstop=0",
+        },
+      },
+      word_selection = {
+        {
+          event = "ModeChanged",
+          pattern = "v:*",
+          callback = function() vim.w.selection_origin = nil end,
         },
       },
       tree_sidebar_close = {
@@ -233,6 +242,16 @@ return {
         ["<C-Right>"] = "w",
       },
       x = {
+        ["v"] = { selection.expand, desc = "Cycle selection size" },
+        ["h"] = selection.motion("h", "b"),
+        ["l"] = selection.motion("l", "w"),
+        ["j"] = selection.motion("j", "j"),
+        ["k"] = selection.motion("k", "k"),
+        ["<Left>"] = selection.motion("<Left>", "b"),
+        ["<Right>"] = selection.motion("<Right>", "w"),
+        ["<Down>"] = selection.motion("<Down>", "j"),
+        ["<Up>"] = selection.motion("<Up>", "k"),
+
         ["fw"] = { function() grep_selection(false) end, desc = "Find selected text in project" },
         ["fW"] = { function() grep_selection(true) end, desc = "Find selected text including ignored files" },
         ["ff"] = { find_selected_file, desc = "Find file by selected name" },
