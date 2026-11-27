@@ -122,6 +122,18 @@ return {
           end,
         },
       },
+      x = {
+        ["<Leader>r"] = {
+          "<Esc>`<<Cmd>lua vim.lsp.buf.rename()<CR>",
+          desc = "Rename selected symbol",
+          cond = "textDocument/rename",
+        },
+        ["<Leader>a"] = {
+          function() vim.lsp.buf.code_action() end,
+          desc = "Code action for selection",
+          cond = "textDocument/codeAction",
+        },
+      },
       v = {
         ["<Leader>lf"] = false, -- range formatting via conform (<Leader>lf in visual mode)
       },

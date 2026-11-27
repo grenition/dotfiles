@@ -1,5 +1,38 @@
 -- Ported from vim/vimrc
 
+local function selected_text()
+  local lines = vim.fn.getregion(vim.fn.getpos "v", vim.fn.getpos ".", { type = vim.fn.mode() })
+  return table.concat(lines, "\n")
+end
+
+local function grep_selection(all_files)
+  local text = selected_text()
+  if text == "" then return end
+  -- Escape hyphens too, since Snacks interprets " --" as ripgrep options.
+  local pattern = vim.fn.escape(text, [[\.^$|?*+()[]{}-]]):gsub("\n", [[\n]])
+  vim.cmd.normal { args = { vim.keycode "<Esc>" }, bang = true }
+  require("snacks").picker.grep {
+    search = pattern,
+    args = text:find("\n") and { "--multiline" } or nil,
+    hidden = all_files,
+    ignored = all_files,
+  }
+end
+
+local function find_selected_file()
+  local text = selected_text()
+  if text:find("\n") then return vim.notify("Select a file name on one line", vim.log.levels.INFO) end
+  vim.cmd.normal { args = { vim.keycode "<Esc>" }, bang = true }
+  require("snacks").picker.files { pattern = text, hidden = vim.fn.isdirectory ".git" == 1 }
+end
+
+local function replace_selection()
+  local text = selected_text()
+  if text == "" then return "<Esc>" end
+  vim.fn.setreg("/", [[\V\C]] .. vim.fn.escape(text, [[\]]):gsub("\n", [[\n]]))
+  return "<Esc>:%s///gc<Left><Left><Left>"
+end
+
 ---@type LazySpec
 return {
   "AstroNvim/astrocore",
@@ -200,6 +233,11 @@ return {
         ["<C-Right>"] = "w",
       },
       x = {
+        ["fw"] = { function() grep_selection(false) end, desc = "Find selected text in project" },
+        ["fW"] = { function() grep_selection(true) end, desc = "Find selected text including ignored files" },
+        ["ff"] = { find_selected_file, desc = "Find file by selected name" },
+        ["fr"] = { replace_selection, expr = true, desc = "Replace selected text in buffer" },
+
         ["<Tab>"] = { function() require("astrocore.buffer").nav(vim.v.count1) end, desc = "Next buffer" },
         ["<S-Tab>"] = { function() require("astrocore.buffer").nav(-vim.v.count1) end, desc = "Previous buffer" },
 
@@ -207,7 +245,7 @@ return {
         ["q"] = "<Esc>",
 
         -- from vimrc
-        ["<LeftRelease>"] = "y",
+        ["<LeftRelease>"] = "ygv",
         ["H"] = "20h",
         ["J"] = "10j",
         ["K"] = "10k",

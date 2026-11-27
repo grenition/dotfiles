@@ -33,9 +33,26 @@ set ignorecase
 set smartcase
 set incsearch
 
+function! s:SelectionSearch(command) abort
+    let lines = getregion(getpos('v'), getpos('.'), {'type': mode()})
+    let pattern = join(map(lines, {_, line -> escape(line, '\')}), '\n')
+    if empty(pattern)
+        return "\<Esc>"
+    endif
+    let @/ = '\V' . (a:command ==# 'replace' ? '\C' : '') . pattern
+    if a:command ==# 'replace'
+        return "\<Esc>:%s///gc\<Left>\<Left>\<Left>"
+    endif
+    return "\<Esc>`<" . v:count1 . a:command . "\<CR>"
+endfunction
+
+xnoremap <expr> * <SID>SelectionSearch('/')
+xnoremap <expr> # <SID>SelectionSearch('?')
+xnoremap <expr> fr <SID>SelectionSearch('replace')
+
 " Mouse input
 set mouse=a
-xnoremap <LeftRelease> y
+xnoremap <LeftRelease> ygv
 
 " Undo / redo
 nnoremap U <C-r>
