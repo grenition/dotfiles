@@ -20,8 +20,3 @@ palette = 12=#75A9D6
 palette = 13=#C586C0
 palette = 14=#4EC9B0
 palette = 15=#D4D4D4
-
-background-opacity = 0.5
-background-opacity-cells = true
-background-blur = macos-glass-regular
-unfocused-split-opacity = 1
